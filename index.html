@@ -109,15 +109,121 @@
         .send-btn:hover { background: var(--green-mid); }
         .send-btn svg { width: 18px; height: 18px; fill: #fff; }
         .disclaimer { text-align: center; font-size: 10.5px; color: #9CA3AF; padding: 7px 20px 9px; background: #fff; border-top: 1px solid #F3F4F6; flex-shrink: 0; }
+        /* Welcome screen */
+        .welcome-screen {
+            position: absolute; inset: 0;
+            background: var(--white);
+            border-radius: 20px;
+            display: flex; flex-direction: column;
+            z-index: 10; overflow: hidden;
+        }
+        .welcome-hero {
+            background: var(--green-dark);
+            padding: 36px 32px 28px;
+            display: flex; flex-direction: column; align-items: center;
+            text-align: center; gap: 14px;
+        }
+        .welcome-hero .hero-icon {
+            width: 64px; height: 64px;
+            background: var(--gold); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 30px;
+        }
+        .welcome-hero h1 { color: #fff; font-size: 22px; font-weight: 700; letter-spacing: -.3px; }
+        .welcome-hero p  { color: rgba(255,255,255,.72); font-size: 14px; line-height: 1.5; max-width: 380px; }
+        .welcome-body {
+            flex: 1; padding: 28px 32px;
+            display: flex; flex-direction: column; gap: 16px;
+            overflow-y: auto;
+        }
+        .welcome-body h2 { font-size: 16px; font-weight: 600; color: var(--text); }
+        .welcome-body p  { font-size: 13.5px; color: var(--gray); line-height: 1.55; }
+        .field-row { display: flex; gap: 12px; }
+        .field-group { display: flex; flex-direction: column; gap: 6px; flex: 1; }
+        .field-group label { font-size: 13px; font-weight: 600; color: var(--text); }
+        .field-group input {
+            padding: 11px 14px;
+            border: 1.5px solid #D1D5DB; border-radius: 10px;
+            font-size: 14px; font-family: inherit;
+            outline: none; transition: border-color .2s;
+        }
+        .field-group input:focus { border-color: var(--green-mid); }
+        .field-group input.error { border-color: #EF4444; }
+        .field-error { font-size: 12px; color: #EF4444; display: none; }
+        .field-error.show { display: block; }
+        .start-btn {
+            width: 100%; padding: 13px;
+            background: var(--green-dark); color: #fff;
+            border: none; border-radius: 10px;
+            font-size: 15px; font-weight: 600; cursor: pointer;
+            transition: background .2s; margin-top: 4px;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+        }
+        .start-btn:hover { background: var(--green-mid); }
+        .start-btn:disabled { opacity: .65; cursor: default; }
+        .welcome-footer {
+            text-align: center; font-size: 11px; color: #9CA3AF;
+            padding: 0 32px 16px;
+        }
+        .welcome-screen.fade-out {
+            animation: fadeOut .4s ease forwards;
+        }
+        @keyframes fadeOut {
+            to { opacity: 0; transform: translateY(-8px); pointer-events: none; }
+        }
+
         @media (max-width: 600px) {
             body { padding: 0; }
             .chat-wrap { height: 100vh; border-radius: 0; max-height: none; }
             .msg { max-width: 93%; }
+            .welcome-screen { border-radius: 0; }
+            .field-row { flex-direction: column; }
+            .welcome-hero { padding: 28px 20px 22px; }
+            .welcome-body { padding: 20px; }
         }
     </style>
 </head>
 <body>
-<div class="chat-wrap">
+<div class="chat-wrap" style="position:relative;">
+
+    <!-- Welcome / Lead Capture Screen -->
+    <div class="welcome-screen" id="welcomeScreen">
+        <div class="welcome-hero">
+            <div class="hero-icon">⚜</div>
+            <h1>Monetary Metals Gold Yield Advisor</h1>
+            <p>Get instant answers about earning a yield on gold and silver — paid in additional metal ounces, not dollars.</p>
+        </div>
+        <div class="welcome-body">
+            <h2>Enter your details to start chatting</h2>
+            <p>A Relationship Manager may follow up based on your questions.</p>
+            <div class="field-row">
+                <div class="field-group">
+                    <label for="fieldFirst">First Name <span style="color:#EF4444">*</span></label>
+                    <input type="text" id="fieldFirst" placeholder="Jane" autocomplete="given-name">
+                    <span class="field-error" id="errFirst">Please enter your first name.</span>
+                </div>
+                <div class="field-group">
+                    <label for="fieldLast">Last Name <span style="color:#EF4444">*</span></label>
+                    <input type="text" id="fieldLast" placeholder="Smith" autocomplete="family-name">
+                    <span class="field-error" id="errLast">Please enter your last name.</span>
+                </div>
+            </div>
+            <div class="field-group">
+                <label for="fieldEmail">Email Address <span style="color:#EF4444">*</span></label>
+                <input type="email" id="fieldEmail" placeholder="jane@example.com" autocomplete="email">
+                <span class="field-error" id="errEmail">Please enter a valid email address.</span>
+            </div>
+            <button class="start-btn" id="startBtn">
+                <span id="startBtnText">Start Chatting</span>
+                <span id="startBtnSpinner" style="display:none;">⏳</span>
+            </button>
+        </div>
+        <div class="welcome-footer">
+            Your information is kept private and will only be used by the Monetary Metals team.
+        </div>
+    </div>
+
+    <!-- Chat -->
     <div class="chat-header">
         <div class="hdr-icon">⚜</div>
         <div class="hdr-text">
@@ -136,6 +242,88 @@
     <div class="disclaimer">General information only — not investment advice. Past performance is not indicative of future results. Rates shown as of November 2025.</div>
 </div>
 <script>
+// =================================================================
+// CONFIGURATION — swap this URL to change webhook provider at any time
+// =================================================================
+const MAKE_WEBHOOK_URL = 'YOUR_MAKE_WEBHOOK_URL_HERE';
+
+// =================================================================
+// LEAD CAPTURE
+// =================================================================
+let visitorName  = '';
+let visitorFirst = '';
+let visitorEmail = '';
+
+function isValidEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e); }
+
+async function submitLead(first, last, email) {
+    if (!MAKE_WEBHOOK_URL || MAKE_WEBHOOK_URL === 'YOUR_MAKE_WEBHOOK_URL_HERE') return;
+    try {
+        await fetch(MAKE_WEBHOOK_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                first_name:  first,
+                last_name:   last,
+                full_name:   `${first} ${last}`,
+                email:       email,
+                source:      'Monetary Metals Chatbot',
+                timestamp:   new Date().toISOString(),
+                page_url:    window.location.href
+            })
+        });
+    } catch (e) {
+        console.warn('Webhook failed (non-blocking):', e);
+    }
+}
+
+document.getElementById('startBtn').addEventListener('click', async () => {
+    const first = document.getElementById('fieldFirst').value.trim();
+    const last  = document.getElementById('fieldLast').value.trim();
+    const email = document.getElementById('fieldEmail').value.trim();
+    let valid = true;
+
+    document.getElementById('fieldFirst').classList.toggle('error', !first);
+    document.getElementById('errFirst').classList.toggle('show', !first);
+    document.getElementById('fieldLast').classList.toggle('error', !last);
+    document.getElementById('errLast').classList.toggle('show', !last);
+    const badEmail = !isValidEmail(email);
+    document.getElementById('fieldEmail').classList.toggle('error', badEmail);
+    document.getElementById('errEmail').classList.toggle('show', badEmail);
+    if (!first || !last || badEmail) return;
+
+    // Show spinner
+    document.getElementById('startBtnText').textContent = 'Starting…';
+    document.getElementById('startBtnSpinner').style.display = 'inline';
+    document.getElementById('startBtn').disabled = true;
+
+    visitorFirst = first;
+    visitorName  = `${first} ${last}`;
+    visitorEmail = email;
+
+    await submitLead(first, last, email);
+
+    // Transition to chat
+    const ws = document.getElementById('welcomeScreen');
+    ws.classList.add('fade-out');
+    setTimeout(() => ws.remove(), 420);
+
+    // Personalised welcome
+    setTimeout(() => {
+        const w = KB.welcome;
+        const greeting = `Hi ${visitorFirst}! I'm the Monetary Metals Gold Yield Advisor. 👋<br><br>I can answer your questions about earning a yield on gold and silver — paid in <strong>additional metal ounces</strong>, not dollars.<br><br>What would you like to explore first?`;
+        const bub = addMsg(greeting, false);
+        addQRs(bub, w.qr);
+    }, 500);
+});
+
+// Allow Enter key on form fields
+['fieldFirst','fieldLast','fieldEmail'].forEach(id => {
+    document.getElementById(id).addEventListener('keydown', e => {
+        if (e.key === 'Enter') document.getElementById('startBtn').click();
+    });
+});
+
 // =================================================================
 // KNOWLEDGE BASE
 // Each entry has:
@@ -1029,12 +1217,7 @@ inp.addEventListener('input', () => {
     inp.style.height = inp.scrollHeight + 'px';
 });
 
-// Welcome
-setTimeout(() => {
-    const w = KB.welcome;
-    const bub = addMsg(w.text, false);
-    addQRs(bub, w.qr);
-}, 350);
+// Welcome message is triggered after lead form submission above
 </script>
 </body>
 </html>
