@@ -7,64 +7,43 @@
     <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.min.js"></script>
     <style>
         :root {
-            --green-dark:  #1B3628;
-            --green-mid:   #2C5641;
-            --green-light: #3D7A5A;
-            --gold:        #C9A227;
-            --gold-lt:     #f0d978;
-            --cream:       #F5F0E0;
-            --white:       #FFFFFF;
-            --gray:        #6B7280;
-            --text:        #1C1C1C;
+            --green-dark: #1B3628;
+            --green-mid:  #2C5641;
+            --gold:       #C9A227;
+            --cream:      #F5F0E0;
+            --white:      #FFFFFF;
+            --gray:       #6B7280;
+            --text:       #1C1C1C;
         }
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: var(--cream);
             min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
             padding: 20px;
         }
-
-        /* Container */
         .chat-wrap {
-            width: 100%;
-            max-width: 820px;
-            height: 90vh;
-            max-height: 860px;
-            background: var(--white);
-            border-radius: 20px;
+            width: 100%; max-width: 820px;
+            height: 90vh; max-height: 860px;
+            background: var(--white); border-radius: 20px;
             box-shadow: 0 24px 80px rgba(27,54,40,.20), 0 4px 16px rgba(0,0,0,.06);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
+            display: flex; flex-direction: column; overflow: hidden;
         }
-
-        /* Header */
         .chat-header {
             background: var(--green-dark);
             padding: 18px 24px;
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            flex-shrink: 0;
+            display: flex; align-items: center; gap: 14px; flex-shrink: 0;
         }
         .hdr-icon {
-            width: 46px; height: 46px;
-            background: var(--gold);
-            border-radius: 50%;
+            width: 46px; height: 46px; background: var(--gold); border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
             font-size: 22px; flex-shrink: 0;
         }
-        .hdr-text h1 { color: #fff; font-size: 17px; font-weight: 600; letter-spacing: -.2px; }
+        .hdr-text h1 { color: #fff; font-size: 17px; font-weight: 600; }
         .hdr-text p  { color: rgba(255,255,255,.65); font-size: 12.5px; margin-top: 2px; }
-        .hdr-status  { margin-left: auto; display: flex; align-items: center; gap: 6px;
-                       color: rgba(255,255,255,.55); font-size: 12px; }
+        .hdr-status  { margin-left: auto; display: flex; align-items: center; gap: 6px; color: rgba(255,255,255,.55); font-size: 12px; }
         .hdr-dot     { width: 8px; height: 8px; border-radius: 50%; background: #4ade80; }
-
-        /* Messages */
         .messages {
             flex: 1; overflow-y: auto;
             padding: 22px 20px;
@@ -73,10 +52,8 @@
         }
         .messages::-webkit-scrollbar { width: 4px; }
         .messages::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 2px; }
-
         .msg { display: flex; gap: 10px; max-width: 87%; }
         .msg.user { margin-left: auto; flex-direction: row-reverse; }
-
         .avatar {
             width: 34px; height: 34px; border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
@@ -84,74 +61,43 @@
         }
         .avatar.bot  { background: var(--green-dark); color: var(--gold); }
         .avatar.user { background: var(--gold); color: var(--green-dark); }
-
-        .bubble {
-            padding: 11px 15px;
-            border-radius: 16px;
-            font-size: 14px; line-height: 1.65;
-            color: var(--text);
-        }
+        .bubble { padding: 11px 15px; border-radius: 16px; font-size: 14px; line-height: 1.65; color: var(--text); }
         .msg.bot  .bubble { background: #fff; border: 1px solid #E5E7EB; border-bottom-left-radius: 4px; }
         .msg.user .bubble { background: var(--green-dark); color: #fff; border-bottom-right-radius: 4px; }
-
-        .bubble ul  { margin: 7px 0 7px 18px; }
+        .bubble ul, .bubble ol { margin: 7px 0 7px 18px; }
         .bubble li  { margin: 3px 0; }
-        .bubble ol  { margin: 7px 0 7px 18px; }
         .bubble p   { margin: 5px 0; }
         .bubble strong { font-weight: 600; }
         .bubble em { color: var(--gray); font-style: italic; }
-
-        /* Info boxes */
-        .box {
-            border-left: 3px solid var(--green-mid);
-            background: #F0F7F4;
-            padding: 9px 13px; border-radius: 0 8px 8px 0;
-            margin: 8px 0; font-size: 13.5px;
-        }
-        .box.gold   { background: #FDF8EC; border-left-color: var(--gold); }
-        .box.amber  { background: #FFFBEB; border-left-color: #F59E0B; }
-
-        /* Links inside bubbles */
+        .box { border-left: 3px solid var(--green-mid); background: #F0F7F4; padding: 9px 13px; border-radius: 0 8px 8px 0; margin: 8px 0; font-size: 13.5px; }
+        .box.gold  { background: #FDF8EC; border-left-color: var(--gold); }
+        .box.amber { background: #FFFBEB; border-left-color: #F59E0B; }
         .bubble a { color: var(--green-mid); text-decoration: none; font-weight: 500; }
         .bubble a:hover { color: var(--gold); text-decoration: underline; }
-
-        /* Quick replies */
         .qr-wrap { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 10px; }
         .qr-btn {
-            padding: 7px 13px;
-            background: #fff; border: 1.5px solid var(--green-mid);
-            color: var(--green-mid); border-radius: 20px;
-            cursor: pointer; font-size: 13px;
-            transition: all .18s;
+            padding: 7px 13px; background: #fff;
+            border: 1.5px solid var(--green-mid); color: var(--green-mid);
+            border-radius: 20px; cursor: pointer; font-size: 13px; transition: all .18s;
         }
         .qr-btn:hover { background: var(--green-mid); color: #fff; }
         .qr-btn:disabled { opacity: .45; cursor: default; }
-
-        /* Typing */
         .typing-dots { display: flex; gap: 4px; padding: 10px 14px; }
-        .dot { width: 8px; height: 8px; background: #9CA3AF; border-radius: 50%;
-               animation: bounce 1.4s infinite ease-in-out; }
+        .dot { width: 8px; height: 8px; background: #9CA3AF; border-radius: 50%; animation: bounce 1.4s infinite ease-in-out; }
         .dot:nth-child(2) { animation-delay: .2s; }
         .dot:nth-child(3) { animation-delay: .4s; }
         @keyframes bounce { 0%,60%,100% { transform: translateY(0); } 30% { transform: translateY(-7px); } }
-
-        /* Input */
         .input-bar {
-            padding: 14px 18px;
-            background: #fff;
+            padding: 14px 18px; background: #fff;
             border-top: 1px solid #E5E7EB;
-            display: flex; gap: 10px; align-items: flex-end;
-            flex-shrink: 0;
+            display: flex; gap: 10px; align-items: flex-end; flex-shrink: 0;
         }
         .input-bar textarea {
-            flex: 1;
-            padding: 11px 16px;
-            border: 1.5px solid #D1D5DB;
-            border-radius: 22px;
+            flex: 1; padding: 11px 16px;
+            border: 1.5px solid #D1D5DB; border-radius: 22px;
             font-size: 14px; font-family: inherit;
             resize: none; outline: none; line-height: 1.5;
-            max-height: 110px; overflow-y: auto;
-            transition: border-color .2s;
+            max-height: 110px; overflow-y: auto; transition: border-color .2s;
         }
         .input-bar textarea:focus { border-color: var(--green-mid); }
         .send-btn {
@@ -162,15 +108,7 @@
         }
         .send-btn:hover { background: var(--green-mid); }
         .send-btn svg { width: 18px; height: 18px; fill: #fff; }
-
-        /* Disclaimer */
-        .disclaimer {
-            text-align: center; font-size: 10.5px; color: #9CA3AF;
-            padding: 7px 20px 9px; background: #fff;
-            border-top: 1px solid #F3F4F6; flex-shrink: 0;
-        }
-
-        /* Responsive */
+        .disclaimer { text-align: center; font-size: 10.5px; color: #9CA3AF; padding: 7px 20px 9px; background: #fff; border-top: 1px solid #F3F4F6; flex-shrink: 0; }
         @media (max-width: 600px) {
             body { padding: 0; }
             .chat-wrap { height: 100vh; border-radius: 0; max-height: none; }
@@ -180,8 +118,6 @@
 </head>
 <body>
 <div class="chat-wrap">
-
-    <!-- Header -->
     <div class="chat-header">
         <div class="hdr-icon">⚜</div>
         <div class="hdr-text">
@@ -190,72 +126,93 @@
         </div>
         <div class="hdr-status"><div class="hdr-dot"></div> Online</div>
     </div>
-
-    <!-- Messages -->
     <div class="messages" id="msgs"></div>
-
-    <!-- Input -->
     <div class="input-bar">
         <textarea id="inp" placeholder="Ask about earning yield on gold…" rows="1"></textarea>
         <button class="send-btn" id="sendBtn">
             <svg viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg>
         </button>
     </div>
-    <div class="disclaimer">
-        General information only &mdash; not investment advice. Past performance is not indicative of future results. Rates shown as of November 2025.
-    </div>
+    <div class="disclaimer">General information only — not investment advice. Past performance is not indicative of future results. Rates shown as of November 2025.</div>
 </div>
-
 <script>
-// =============================================
+// =================================================================
 // KNOWLEDGE BASE
-// =============================================
+// Each entry has:
+//   phrases[] — multi-word triggers (substring match, scored by length)
+//   kw[]      — single keywords (each adds to score)
+//   text      — HTML response
+//   fup       — optional follow-up prompt
+//   qr[]      — optional quick reply buttons
+// =================================================================
 const KB = {
 
     welcome: {
-        text: `Hi there! I'm the Monetary Metals Gold Yield Advisor. 👋<br><br>
-I can answer your questions about earning a yield on gold and silver — paid in <strong>additional metal ounces</strong>, not dollars.<br><br>
-What would you like to explore first?`,
+        text: `Hi there! I'm the Monetary Metals Gold Yield Advisor. 👋<br><br>I can answer your questions about earning a yield on gold and silver — paid in <strong>additional metal ounces</strong>, not dollars.<br><br>What would you like to explore first?`,
         qr: ['How does Monetary Metals work?','What returns can I expect?','Is my gold safe?','How do I open an account?','What are the fees?']
     },
 
+    metals: {
+        phrases: ['what metals','which metals','what metal','other metals','different metals','can i invest in platinum','invest with platinum','invest with palladium','invest with rhodium','invest with copper','do you offer platinum','do you have platinum','is platinum available','gold and silver','gold or silver','only gold','only silver','just gold','just silver','types of metal','what precious metals','which precious metals','what can i invest in','platinum available','do you accept platinum','do you do platinum','what about platinum','can i use platinum','invest in platinum','palladium available','can i invest with','what do you invest in','what assets','what investments','what is available','what offerings'],
+        kw: ['platinum','palladium','rhodium','copper','bronze','titanium','metals','metal','commodities','assets','offerings'],
+        text: `<strong>Metals Available: Gold &amp; Silver</strong><br><br>
+Monetary Metals works exclusively with <strong>gold and silver</strong>. We do not currently offer programs for platinum, palladium, rhodium, copper, or any other metals.<br><br>
+<strong>Gold:</strong>
+<ul>
+  <li>Leases: 2–4% annually, paid monthly in gold ounces</li>
+  <li>Lease Yield Account: up to 4% while awaiting deployment</li>
+  <li>Bonds: 6–19% annually (accredited investors only)</li>
+</ul>
+<strong>Silver:</strong>
+<ul>
+  <li>Leases: available (silver leases are often 3–4x oversubscribed)</li>
+  <li>Does <em>not</em> earn Lease Yield Account interest while waiting</li>
+  <li>Bonds: available for accredited investors</li>
+</ul>
+<div class="box amber">If you hold platinum or other metals and are interested in Monetary Metals, speak with a Relationship Manager — they can discuss what options may be available.<br>📞 <strong>(480) 867-2100</strong></div>`,
+        fup: 'Want to know more about gold leases, silver leases, or how to get started?'
+    },
+
     businessModel: {
-        t: ['how does it work','what do you do','explain','business model','generate interest on gold','earn on gold','yield on gold','what is monetary metals','what does monetary metals do','overview','how do you work','tell me about monetary','what are you','gold yield marketplace'],
-        text: `<strong>Monetary Metals operates the Gold Yield Marketplace™</strong> — the world's first platform where individual investors can earn a yield on their gold and silver, paid in additional metal ounces.<br><br>
+        phrases: ['how does it work','what do you do','business model','how does monetary metals work','explain monetary metals','what is monetary metals','how do you generate interest','earn on gold','earn on silver','yield on gold','yield on silver','gold yield','what does mm do','what do you offer','how does this work','what are you','tell me about monetary','explain this','how does the program work','what exactly do you do','what is your service','how do you make money','how can gold earn','how can i earn on gold','earn interest on gold','earn interest on silver','interest on gold','make money on gold','gold income','passive income gold','what is the gold yield marketplace','gold yield marketplace','how do you profit','how does leasing work for investors','how do i earn','what is the basic idea'],
+        kw: ['overview','explain','concept','idea','service','basics','intro','introduction','describe'],
+        text: `<strong>Monetary Metals operates the Gold Yield Marketplace™</strong> — the world's first platform where you can earn a yield on your gold and silver, paid in additional metal ounces.<br><br>
 <strong>The Problem We Solve:</strong><br>
-Gold and silver sitting in vaults earn nothing and often incur storage fees. Meanwhile, jewelry stores, miners, and precious metals businesses need physical gold to run their operations.<br><br>
+Gold and silver sitting in vaults earn nothing and often incur storage fees. Meanwhile, jewelry stores, miners, and precious metals businesses need physical gold to operate.<br><br>
 <strong>We Connect Two Groups:</strong>
 <ul>
   <li><strong>Metal owners</strong> who want to earn yield without selling their gold</li>
-  <li><strong>Businesses</strong> that need physical gold or silver as inventory or working capital</li>
+  <li><strong>Businesses</strong> that need physical gold/silver as inventory or working capital</li>
 </ul>
 <strong>The Result:</strong><br>
-You earn 3–4% annually on leases, paid in ounces of metal — while your gold remains physically present throughout. Think of it like renting an apartment: the tenant uses it, but you retain ownership and collect rent.`,
-        fup: 'Would you like to learn how the lease process works, or what returns you can expect?'
+You earn 3–4% annually on gold leases (paid in ounces), while your metal remains physically present throughout — like renting an apartment. The tenant uses it; you retain ownership and collect "rent" in ounces.`,
+        fup: 'Want to know how the lease process works, or what returns to expect?'
     },
 
     leaseProgram: {
-        t: ['lease','leasing program','how does lease work','how do leases work','true lease','gold lease','jewelry store','lessee','lease process','lease program','how the lease','what is a lease'],
+        phrases: ['how does lease work','how do leases work','true lease','what is a lease','how does gold leasing work','explain the lease','lease program','lease process','lease structure','what happens to my gold','what do you do with my gold','jewelry store example','how does the jeweler','lessee','what is a lessee','how is gold used','what does the business do with the gold','how does the metal get used','lease explained','walk me through the lease','what is a true lease'],
+        kw: ['lease','leasing','lessee','lessor','rent','jewelry','jeweler'],
         text: `<strong>How a True Gold Lease Works</strong><br><br>
 Monetary Metals leases are <strong>true property leases</strong> — like leasing a car or apartment. Your gold is never sold; the ounce count stays constant.<br><br>
 <strong>Real-World Example — Jewelry Store:</strong>
 <ul>
   <li>A jeweler needs 1,000 oz of gold jewelry inventory</li>
-  <li>Instead of borrowing dollars, they lease gold directly from Monetary Metals</li>
-  <li>The leased metal becomes their working inventory</li>
+  <li>Instead of borrowing dollars to buy gold, they lease physical gold directly from Monetary Metals</li>
+  <li>The leased metal becomes their store inventory — rings, necklaces, bracelets</li>
   <li>They pay monthly interest in gold ounces for its use</li>
-  <li>When a necklace is sold, the jeweler immediately replaces that ounce — maintaining the count</li>
-  <li>A 10% buffer is required: 1,000 oz lease means 1,100 oz must always be present</li>
+  <li>When a necklace is sold, the jeweler immediately replaces that ounce before handing it over</li>
+  <li>A 10% buffer is required: 1,000 oz lease → 1,100 oz must always be present</li>
 </ul>
-<strong>Key Point:</strong> Your gold is always physically present — it may change form (bar → jewelry) or location, but the ounce count never falls. The metal is tracked in real time, insured at 110%, and held in secure institutional facilities.`,
-        fup: 'Want to know how we protect your metal, or how interest payments work?'
+<strong>Key Point:</strong> Your gold ounces are always physically present. The form may change (bar → jewelry), but the count never drops. The metal is tracked in real time, insured at 110%, and held in secure institutional facilities.`,
+        fup: 'Want to learn about our 5-layer protection system, or how interest payments work?'
     },
 
     returns: {
-        t: ['return','yield','earn','how much','rate','interest rate','performance','what percentage','what rate','what can i expect','annual return','how much will i earn','what is the yield','current rate','3%','4%','what do investors earn'],
+        phrases: ['what returns','what yield','what rate','current rate','what percentage','what interest rate','how much can i earn','how much will i earn','what can i expect','expected return','annual return','average return','what is the apy','what is the apr','current yield','current returns','typical return','range of returns','best return','worst return','minimum return','maximum return','what do investors earn','how much interest','how much do you pay','what do you pay','what are the rates','what is the rate','earn 3%','earn 4%','3 percent','4 percent','3-4 percent','rate of return','return on investment','roi','performance','historical performance','past returns','how has it performed'],
+        kw: ['return','yield','rate','interest','percent','percentage','earn','earning','apy','apr','income','gain','profit','ounces','growth'],
         text: `<strong>Current Return Expectations</strong> <em>(as of November 2025)</em><br><br>
 <div class="box gold"><strong>Gold / Silver Leases:</strong> 2–4% annually (averaging 3–4%)<br>Paid monthly in physical metal ounces</div>
-<div class="box gold"><strong>Lease Yield Account</strong> (while your metal awaits deployment):<br>Up to 4% annually on gold — you earn even while waiting for the next lease</div>
+<div class="box gold"><strong>Lease Yield Account</strong> (while your metal awaits deployment):<br>Up to 4% annually on gold — earned even while waiting for the next lease</div>
 <div class="box gold"><strong>Gold / Silver Bonds:</strong> 6–19% annually — <em>accredited investors only</em><br>Higher returns, higher risk, 2–5 year terms</div>
 <strong>Example — Conservative Investor:</strong>
 <ul>
@@ -266,14 +223,15 @@ Monetary Metals leases are <strong>true property leases</strong> — like leasin
 <strong>vs. Alternatives:</strong>
 <ul>
   <li>Traditional vault storage: −0.25 to −1% per year (you pay fees)</li>
-  <li>Gold ETFs: ~−0.40% (management fees, no yield, no physical ownership)</li>
+  <li>Gold ETFs: ~−0.40% (management fees, no yield)</li>
   <li>Monetary Metals: +3–4% yield + zero storage fees</li>
 </ul>`,
-        fup: 'Want details on bonds, the Lease Yield Account, or how returns are paid?'
+        fup: 'Want details on bonds, the Lease Yield Account, or how returns compound over time?'
     },
 
     risk: {
-        t: ['safe','risk','protect','lose','security','secure','what if','protection','insurance','vault security','how do i know','trust','guarantee','default','is it safe','can i lose my gold','what happens if'],
+        phrases: ['is it safe','is this safe','how safe','how secure','what are the risks','what is the risk','can i lose','will i lose','lose my gold','lose my metal','lose my money','how do you protect','how is my gold protected','what protections','risk management','what happens if the business fails','what if lessee defaults','what if they go bankrupt','what if they cant pay','what if company fails','how do i know i wont lose','how do you keep gold safe','what safeguards','what if something goes wrong','downside risk','worst case scenario','what could go wrong','is there risk','tell me about risk','explain the risks','how do you mitigate risk'],
+        kw: ['safe','safety','risk','secure','security','protect','protection','insurance','default','bankrupt','bankruptcy','lose','loss','safeguard','guarantee','worry','worried','nervous','concerned','trust'],
         text: `<strong>Our "Never Lose Client Gold" Philosophy</strong><br><br>
 Every decision flows through one principle: <em>above all else, we strive to lose no gold.</em><br><br>
 <strong>5-Layer Protection System:</strong><br><br>
@@ -285,7 +243,7 @@ Every decision flows through one principle: <em>above all else, we strive to los
 </ul>
 <strong>2. Legal Safeguards</strong>
 <ul>
-  <li>Delaware series LLC isolates each deal — fully "siloed"</li>
+  <li>Delaware series LLC isolates each deal — fully "siloed" from all other deals</li>
   <li>Your metal never appears on the lessee's balance sheet</li>
   <li>Protected from lessee creditors in bankruptcy</li>
 </ul>
@@ -303,15 +261,16 @@ Every decision flows through one principle: <em>above all else, we strive to los
 </ul>
 <strong>5. Portfolio Diversification</strong>
 <ul>
-  <li>Your metal is spread across multiple deals automatically</li>
+  <li>Your metal spread across multiple deals automatically</li>
   <li>Maximum ~20% of your holdings in any single deal</li>
 </ul>
-<strong>Track Record Since 2016:</strong> 70+ leases completed. <strong>Zero defaults. Zero losses. Zero late payments.</strong>`,
-        fup: 'Would you like to know more about our vault partners, or the legal structure that protects you?'
+<strong>Track Record Since 2016:</strong> 70+ leases. <strong>Zero defaults. Zero losses. Zero late payments.</strong>`,
+        fup: 'Would you like more detail on the legal structure, insurance, or vault security?'
     },
 
     accountOpening: {
-        t: ['get started','open account','how to start','sign up','account opening','requirements','eligibility','how do i open','what do i need','opening an account','new account','begin','start investing','how do i join','how to join'],
+        phrases: ['how do i open an account','how to open an account','how do i get started','how to get started','how do i sign up','how to sign up','how do i join','how to join','what do i need to open','requirements to open','account requirements','eligibility requirements','can i open an account','how do i start','how to start','what do i need to start','how do i become a client','how to become a client','opening process','account opening process','sign up process','how does opening work','what is required','what documents do i need','what id do i need','how do i apply','application process'],
+        kw: ['open','opening','signup','sign-up','register','registration','join','start','begin','apply','application','account','onboard'],
         text: `<strong>Opening a Monetary Metals Account</strong><br><br>
 <strong>Minimum Investment</strong> (choose any one):
 <ul>
@@ -337,7 +296,8 @@ No income requirements for the lease program. Accredited investor status is only
     },
 
     funding: {
-        t: ['fund','funding','deposit','send metal','wire transfer','ach','ship','transfer','coins','bars','how to fund','physical metal','send in gold','transfer metal','buy gold','purchase','how do i fund','fund my account','shipping gold','ship gold'],
+        phrases: ['how do i fund','how to fund','how do i deposit','how to deposit','how do i send metal','how to send metal','can i ship my gold','can i ship gold','shipping gold','ship my coins','ship my bars','wire transfer','ach transfer','can i wire','how do i wire','how do i transfer money','how to transfer funds','how to send money','send in my gold','transfer my gold','transfer my coins','send physical metal','fund with coins','fund with bars','buy gold through you','purchase gold through you','can you buy gold for me','buying gold','how to purchase','can i send my existing gold','use my existing gold','my coins','my bars','my bullion','fund my account','adding funds','depositing funds'],
+        kw: ['fund','funding','deposit','wire','ach','ship','shipping','transfer','coins','bars','bullion','purchase','buy','send'],
         text: `<strong>3 Ways to Fund Your Account</strong><br><br>
 <strong>Option 1 — Ship Physical Metal (Coins &amp; Bars)</strong>
 <ul>
@@ -346,29 +306,24 @@ No income requirements for the lease program. Accredited investor status is only
   <li>Processing: up to 2 weeks after arrival</li>
   <li>Minimum: 10 oz gold or 1,000 oz silver</li>
 </ul>
-<div class="box amber">📦 <strong>Packing tip:</strong> Double-box, use firm padding, reinforce with tape. Video-record yourself packing — required for insurance coverage if the box arrives empty.</div>
-<strong>Option 2 — Wire Transfer</strong>
-<ul>
-  <li>1–2 day processing; we purchase gold at current spreads</li>
-</ul>
-<strong>Option 3 — ACH Transfer</strong>
-<ul>
-  <li>2–4 day processing; same purchase process as wire</li>
-</ul>
-<strong>Trading Spreads (one-time at purchase/sale):</strong>
+<div class="box amber">📦 <strong>Packing:</strong> Double-box, firm padding, reinforced tape. Video-record your packing — required for insurance if box arrives empty.</div>
+<strong>Option 2 — Wire Transfer:</strong> 1–2 day processing; we purchase gold at current spreads.<br><br>
+<strong>Option 3 — ACH Transfer:</strong> 2–4 day processing; same purchase process.<br><br>
+<strong>Trading Spreads (one-time):</strong>
 <ul>
   <li>Under $250K → 0.75%</li>
   <li>$250K–$1M → 0.55%</li>
   <li>Over $1M → 0.40%</li>
 </ul>
-Already hold metal at a vault? We can arrange a direct transfer — speak with a Relationship Manager.`,
-        fup: 'Do you have questions about a specific funding method or vault transfer?'
+Already hold metal at a vault? We can often arrange a direct transfer — speak with a Relationship Manager.`,
+        fup: 'Questions about a specific funding method or vault transfer?'
     },
 
     fees: {
-        t: ['fee','fees','cost','costs','storage fee','how much does it cost','charges','expense','spread','what do you charge','pricing','is it free','no fees'],
+        phrases: ['what are the fees','what is the fee','are there fees','is there a fee','how much does it cost','what does it cost','what are the costs','any fees','no fees','storage fee','management fee','annual fee','monthly fee','ongoing fees','what are the charges','hidden fees','what is the catch','how do you charge','do you charge','what do you charge','is storage free','how much for storage','how much to store','cost to store','fee structure','pricing','what is the spread','explain the spread','trading spread','how does the spread work'],
+        kw: ['fee','fees','cost','costs','storage','charge','charges','price','pricing','spread','expense','free'],
         text: `<strong>Fees &amp; Costs</strong><br><br>
-<div class="box gold">🏅 <strong>Storage Fees: $0 per year</strong><br>We only make money when your metal is making money.</div>
+<div class="box gold">🏅 <strong>Storage Fees: $0 per year</strong><br>We only make money when your metal is making money — our interests are fully aligned.</div>
 <strong>Trading Spreads</strong> (one-time at purchase or sale):
 <ul>
   <li>Under $250K → 0.75%</li>
@@ -376,18 +331,19 @@ Already hold metal at a vault? We can arrange a direct transfer — speak with a
   <li>Over $1M → 0.40%</li>
 </ul>
 <strong>How We Generate Revenue:</strong><br>
-We earn the spread between what lessees pay (e.g., 5.5%) and what investors receive (e.g., 3%). That covers sourcing, structuring, and managing each deal.<br><br>
+We earn the spread between what lessees pay (e.g., 5.5%) and what investors receive (e.g., 3%). That 2.5% covers sourcing, structuring, and managing each deal.<br><br>
 <strong>Real Cost Comparison — 10 oz gold holding:</strong>
 <ul>
   <li>Traditional vault: $90–$350/year in fees</li>
   <li>Gold ETF: ~0.40% management fee annually</li>
-  <li>Monetary Metals: $0 fees + earn 3–4% = net gain of ~$1,000–$1,400/year</li>
+  <li>Monetary Metals: $0 fees + earn 3–4% = net ~$1,000–$1,400/year gain</li>
 </ul>`,
         fup: 'Any other questions about costs, or would you like to know about withdrawals?'
     },
 
     liquidity: {
-        t: ['withdraw','withdrawal','liquidity','get my money','cash out','exit','liquid','get out','sell','redeem','take out','access my gold','how do i withdraw','when can i','can i sell','how long to withdraw'],
+        phrases: ['can i withdraw','how do i withdraw','how to withdraw','how do i get my money out','how do i get my gold out','can i get my gold back','can i sell','how do i sell','how liquid is this','is it liquid','liquidity','how long to withdraw','how long to get money','when can i access','when can i sell','how do i cash out','cash out','how do i exit','exit the program','how long are funds locked','locked up','locked in','can i leave','how do i leave','how do i get out','am i locked in','what is the lock up','lock up period','can i access my gold','emergency access','early exit','early withdrawal'],
+        kw: ['withdraw','withdrawal','liquid','liquidity','sell','exit','cash','access','redeem','out','leave'],
         text: `<strong>Liquidity &amp; Withdrawals</strong><br><br>
 <strong>Metal NOT currently on lease:</strong>
 <ul>
@@ -398,8 +354,8 @@ We earn the spread between what lessees pay (e.g., 5.5%) and what investors rece
 <ul>
   <li>Standard lease term is 12 months</li>
   <li>Wait for the term to end, then opt out of renewal</li>
-  <li>Anniversary/opt-out dates are staggered throughout the year — providing periodic liquidity windows</li>
-  <li>Silver only: we may be able to find a replacement investor on a best-efforts basis (not guaranteed)</li>
+  <li>Anniversary/opt-out dates are staggered through the year — periodic liquidity windows</li>
+  <li>Silver only: replacement investor possible on best-efforts basis (not guaranteed)</li>
 </ul>
 <strong>Cash Withdrawal Process:</strong>
 <ol>
@@ -408,44 +364,110 @@ We earn the spread between what lessees pay (e.g., 5.5%) and what investors rece
   <li>Metal sold at 0.75% below spot</li>
   <li>Wire transfer in 1–2 weeks</li>
 </ol>
-<strong>Physical Metal Delivery:</strong>
-<ul>
-  <li>We exchange your pool for specific bars or coins</li>
-  <li>You pay market premium above spot + shipping</li>
-  <li>Example: 100 oz of 1 oz gold bars at 2.75% premium → 102.82 oz of pool needed</li>
-</ul>
-<div class="box amber">💡 Recommendation: Keep some physical metal at home for true emergency access. Monetary Metals is best suited for the <em>growth/income</em> portion of your precious metals portfolio.</div>`,
+<strong>Physical Metal Delivery:</strong> We exchange your pool for specific bars or coins. You pay market premium above spot + shipping. (Example: 100 oz of gold bars at 2.75% premium = 102.82 oz pool needed.)<br><br>
+<div class="box amber">💡 Keep some physical metal at home for true emergency access. Monetary Metals is best suited for the <em>growth/income</em> portion of your precious metals portfolio.</div>`,
         fup: 'Any specific questions about withdrawal timing or the process?'
     },
 
+    international: {
+        phrases: ['i am british','i\'m british','i am from the uk','i\'m from the uk','i live in the uk','based in the uk','i am from england','from england','from scotland','from ireland','from wales','from europe','i am european','i\'m european','based in europe','i live in europe','from canada','i am canadian','i\'m canadian','based in canada','from australia','i am australian','i\'m australian','from australia','from new zealand','from germany','from france','from spain','from italy','from the netherlands','from japan','from china','from india','from brazil','from mexico','from the middle east','from south africa','from singapore','from hong kong','from switzerland','from uae','from dubai','not american','not from the us','not from us','not from the united states','non american','non us','outside the us','outside us','outside the united states','outside america','live abroad','living abroad','overseas investor','international investor','foreign investor','foreign national','non us citizen','not a us citizen','not us citizen','do you accept international','can international investors','can foreigners','can non-us','invest from abroad','investing from overseas','not in the us','i live outside','resident of','citizen of'],
+        kw: ['british','britain','england','scotland','ireland','wales','uk','european','europe','canada','canadian','australia','australian','zealand','germany','german','france','french','spain','spanish','italy','italian','netherlands','dutch','japan','japanese','china','chinese','india','indian','brazil','brazilian','mexico','mexican','singapore','swiss','switzerland','uae','dubai','abroad','overseas','foreign','international','expat','expatriate'],
+        text: `<strong>International Investors</strong><br><br>
+Monetary Metals welcomes clients from <strong>nearly every country worldwide</strong>. Yes — if you're British, Canadian, Australian, European, or from anywhere else, you can invest!<br><br>
+<strong>Account Setup:</strong>
+<ul>
+  <li>Accounts available for citizens of almost any country</li>
+  <li>Simplified US tax reporting — Form 1042 filed on your behalf</li>
+  <li>No US tax return filing required</li>
+</ul>
+<strong>Funding Options for International Clients:</strong>
+<ul>
+  <li>Most international clients use <strong>Wise</strong> or <strong>Revolut</strong> to send USD</li>
+  <li>All purchases must be made in USD</li>
+  <li>Overseas physical metal shipments/transfers are possible — speak with a Relationship Manager</li>
+</ul>
+<strong>Our Vault Network is Global:</strong><br>
+Brinks in London, Zurich, Singapore, Sydney, Frankfurt, Hong Kong, and Toronto — your metal can be held near you.<br><br>
+<div class="box amber">For country-specific questions:<br>📞 <strong>(480) 867-2100</strong> &nbsp;|&nbsp; 📧 <a href="mailto:relationships@monetary-metals.com">relationships@monetary-metals.com</a></div>`,
+        fup: 'Any other questions about getting started as an international investor?'
+    },
+
+    minimums: {
+        phrases: ['what is the minimum','what is the minimum investment','minimum investment','how much to invest','how much do i need','how much to start','how little can i invest','how small','what is the smallest','minimum amount','minimum to invest','minimum ounces','how many ounces','10 oz','1000 oz','30000','$30,000','can i start small','how much is required','entry level','can i invest less than','how much to open','what is needed to start'],
+        kw: ['minimum','min','least','smallest','start','required','threshold','entry'],
+        text: `<strong>Minimum Investment Requirements</strong><br><br>
+<div class="box gold">You can start with any <strong>one</strong> of the following:
+<ul>
+  <li><strong>10 oz gold</strong></li>
+  <li><strong>1,000 oz silver</strong></li>
+  <li><strong>$30,000 USD</strong> (we purchase metal on your behalf)</li>
+</ul></div>
+At current approximate spot prices ($4,000/oz gold; $48/oz silver):
+<ul>
+  <li>10 oz gold minimum ≈ $40,000 value</li>
+  <li>1,000 oz silver minimum ≈ $48,000 value</li>
+  <li>Or start with $30,000 cash — we handle the purchase</li>
+</ul>
+No income requirements for the lease program. Accredited investor status is only needed for bond offerings.`,
+        fup: 'Would you like to know more about opening and funding your account?'
+    },
+
+    timelines: {
+        phrases: ['how long does it take','how long to open','how long to fund','how long until','how long before','how many days','processing time','how fast','how quickly','when will it be ready','time to process','how soon can i','turnaround time','what is the timeline','account opening time','funding time','how long to set up'],
+        kw: ['long','fast','quick','days','weeks','timeline','timing','time','soon','turnaround','processing','wait','waiting'],
+        text: `<strong>Key Timelines</strong><br><br>
+<strong>Account Opening:</strong>
+<ul>
+  <li>Online application: 10–15 minutes</li>
+  <li>Account approval: within 24 hours</li>
+</ul>
+<strong>Funding:</strong>
+<ul>
+  <li>Wire transfer: 1–2 business days</li>
+  <li>ACH transfer: 2–4 business days</li>
+  <li>Shipped gold: Overnight delivery + up to 2 weeks processing after arrival</li>
+  <li>Shipped silver: Ground shipping (2–5 days) + up to 2 weeks processing</li>
+</ul>
+<strong>Trade Execution:</strong> Funds received by 12pm NY time → same-day trade. After 12pm → next business day.<br><br>
+<strong>Withdrawals:</strong>
+<ul>
+  <li>Cash (sell to USD): 1–2 weeks</li>
+  <li>Physical metal delivery: 2–3 weeks until shipment initiated</li>
+</ul>
+<strong>Standard Lease Term:</strong> 12 months`,
+        fup: 'Do you have more questions about the process or next steps?'
+    },
+
     competitive: {
-        t: ['different','versus','compare','etf','competitor','alternative','why not','why monetary metals','advantage','better than','gold etf','mining stocks','traditional storage','how are you different','what makes you different'],
+        phrases: ['how are you different','what makes you different','why choose monetary metals','why not just buy gold','why not etf','why not a gold etf','versus etf','vs etf','compared to etf','compared to gold etf','gold etf vs','etf vs monetary metals','versus traditional storage','vs gold storage','versus vaulting','gold vs etf','why not mining stocks','versus mining stocks','vs mining stocks','what is the advantage','what are the advantages','what is your edge','why is this better','better than','alternatives to','how do you compare','comparison','what sets you apart','why should i choose you over','what is unique about','why monetary metals over'],
+        kw: ['different','versus','compare','comparison','etf','competitor','alternative','advantage','advantages','better','unique','edge'],
         text: `<strong>Monetary Metals vs. the Alternatives</strong><br><br>
 <strong>vs. Traditional Gold Storage / Vaults</strong>
 <ul>
-  <li>Traditional: Pay 0.25–1.0% annually just to store</li>
-  <li>Monetary Metals: $0 storage + earn 3–4% = ~4% annual swing in your favor</li>
+  <li>Traditional: Pay 0.25–1.0% annually just to store — your gold costs you money every year</li>
+  <li>Monetary Metals: $0 storage fees + earn 3–4% = ~4% annual swing in your favor</li>
 </ul>
 <strong>vs. Gold ETFs (GLD, IAU, etc.)</strong>
 <ul>
-  <li>ETFs: ~0.40% management fee, no physical ownership, no delivery option, counterparty risk</li>
-  <li>Monetary Metals: $0 fees, direct title to physical metal, yield generation, delivery option</li>
+  <li>ETFs: ~0.40% management fee, no physical ownership, no delivery option, counterparty risk, no yield</li>
+  <li>Monetary Metals: $0 fees, direct title to physical metal, yield generation, full delivery option</li>
 </ul>
 <strong>vs. Gold Mining Stocks</strong>
 <ul>
-  <li>Mining stocks: High volatility, operational risk, underperformed simple gold ownership over last 10 years</li>
-  <li>Monetary Metals: Direct gold price exposure + steady positive ounce growth</li>
+  <li>Mining stocks: High volatility, operational risk, have historically underperformed simple gold ownership</li>
+  <li>Monetary Metals: Direct gold price exposure + steady ounce growth each year</li>
 </ul>
 <strong>vs. Bank "Gold Leasing"</strong>
 <ul>
-  <li>Banks: Often sell the gold (creating counterparty risk) and call it leasing</li>
+  <li>Banks often sell the gold (creating counterparty risk) and call it leasing</li>
   <li>Monetary Metals: True property lease — you retain title at all times; gold is never sold</li>
 </ul>`,
         fup: 'Would you like to explore any of these comparisons in more depth?'
     },
 
     company: {
-        t: ['legitimate','regulated','who are you','who is behind','company','credentials','leadership','trustworthy','about monetary metals','history','founded','keith weiner','track record','real company','who runs','who founded','team','soc-2','sec'],
+        phrases: ['who is monetary metals','tell me about monetary metals','who are you','who runs monetary metals','who founded monetary metals','who is behind this','is monetary metals legitimate','is this a real company','is this legitimate','is this legit','is monetary metals real','company history','company background','about the company','about monetary metals','how long have you been around','when did you start','who is keith weiner','company credentials','who is the team','leadership team','management team','who manages','is this regulated','are you regulated','regulatory status','soc 2','soc-2','inc 5000','track record','company track record','how old is the company'],
+        kw: ['legitimate','legit','regulated','company','credentials','team','leadership','founder','founded','history','background','trustworthy','real','genuine'],
         text: `<strong>About Monetary Metals</strong><br><br>
 <strong>Leadership Team:</strong>
 <ul>
@@ -460,21 +482,21 @@ We earn the spread between what lessees pay (e.g., 5.5%) and what investors rece
   <li>100,000+ oz gold equivalent under management</li>
   <li>75 funded transactions across five continents</li>
   <li>SOC-2 certified for data security &amp; client protection</li>
+  <li>Named to the 2025 Inc. 5000 list</li>
   <li>$5.6M capital raise in 2024</li>
-  <li>Delaware series LLC legal structure</li>
 </ul>
 <strong>Industry Firsts:</strong>
 <ul>
   <li>First gold-denominated bonds in the US since 1933</li>
   <li>First silver-denominated bond in 200+ years</li>
-  <li>Pioneers in democratizing precious metals leasing for individual investors</li>
 </ul>
-<a href="https://www.monetary-metals.com/about-us/" target="_blank">📖 Learn more about our story →</a>`,
-        fup: 'Any questions about our regulatory structure or track record?'
+<a href="https://www.monetary-metals.com/about-us/" target="_blank">📖 Our story →</a>`,
+        fup: 'Any questions about our track record or regulatory structure?'
     },
 
     tax: {
-        t: ['tax','taxes','tax treatment','1099','irs','taxable','capital gains','ordinary income','international tax','tax implications','how is it taxed','tax reporting'],
+        phrases: ['how is it taxed','how are returns taxed','tax treatment','tax implications','what are the tax','tax on gold interest','is the interest taxable','how do i report','tax reporting','do i get a 1099','will i get a 1099','1099 int','ordinary income','capital gains','is it capital gains','what taxes do i pay','how much tax','tax on yield','tax on lease income','tax consequences','tax on gold','will this be taxed','how is income taxed','how are ounces taxed','how is metal income taxed'],
+        kw: ['tax','taxes','taxed','taxable','1099','irs','income','capital','gains','reporting','deductible'],
         text: `<strong>Tax Implications</strong><br><br>
 <div class="box amber">⚠️ This is general information — please consult your tax professional for guidance specific to your situation.</div>
 <strong>US Investors:</strong>
@@ -494,7 +516,8 @@ We earn the spread between what lessees pay (e.g., 5.5%) and what investors rece
     },
 
     bonds: {
-        t: ['bond','bonds','gold bond','silver bond','accredited','high yield','higher return','accredited investor','bond offering','19%','12%','what are bonds','tell me about bonds'],
+        phrases: ['what are bonds','tell me about bonds','gold bonds','silver bonds','what is a gold bond','how do bonds work','accredited investor','am i accredited','am i an accredited investor','how do i qualify as accredited','accredited investor requirements','bond offering','bond program','higher yield','high yield','can i get higher returns','higher returns','how do i get more than 4%','more than 4 percent','maximize returns','best possible return','top return'],
+        kw: ['bond','bonds','accredited','high-yield','higher','yield','6%','19%','12%','investor'],
         text: `<strong>Gold &amp; Silver Bonds</strong><br><br>
 <strong>Overview:</strong>
 <ul>
@@ -515,106 +538,64 @@ We earn the spread between what lessees pay (e.g., 5.5%) and what investors rece
   <li>Bonds: credit risk — gold not necessarily physically held as collateral</li>
   <li>Bonds = higher returns, higher risk</li>
 </ul>
-<div class="box amber">For specific bond opportunities, please speak with a Relationship Manager:<br>
-📞 <strong>(480) 867-2100</strong> &nbsp;|&nbsp; 📧 <a href="mailto:relationships@monetary-metals.com">relationships@monetary-metals.com</a></div>`,
+<div class="box amber">For specific bond opportunities, speak with a Relationship Manager:<br>📞 <strong>(480) 867-2100</strong> &nbsp;|&nbsp; 📧 <a href="mailto:relationships@monetary-metals.com">relationships@monetary-metals.com</a></div>`,
         fup: 'Any other questions about our investment offerings?'
     },
 
-    leaseYield: {
-        t: ['lease yield account','waiting period','earning while waiting','yield account','while waiting','not deployed yet','waiting for lease','earn while waiting'],
-        text: `<strong>The Lease Yield Account</strong><br><br>
-Your gold doesn't have to sit idle while waiting to be deployed into a specific lease.<br><br>
-<div class="box gold"><strong>Rate:</strong> Up to 4% annually on gold<br>
-<strong>Silver:</strong> 0% — does not earn Lease Yield Account interest while waiting</div>
-<strong>Your participation level determines your rate:</strong>
-<ul>
-  <li>Opt into 100% of available leases → earn 100% of the published rate (e.g., 4%)</li>
-  <li>Opt into 50% of available leases → earn 50% of the rate (e.g., 2%)</li>
-</ul>
-<strong>Why This Matters:</strong><br>
-Your gold is productive from day one — earning yield even before being formally deployed into a specific lease transaction.`,
-        fup: 'Would you like to know more about how the opt-out and allocation system works?'
-    },
-
-    optOut: {
-        t: ['opt out','opt-out','opt in','choose leases','select deals','allocation','automatic','diversification','pro rata','which leases','how does allocation work','can i choose'],
-        text: `<strong>The Lease Opt-Out System</strong><br><br>
-<strong>Philosophy:</strong> By default your metal is included in new opportunities — promoting diversification. But you retain full control to reject any deal you dislike.<br><br>
-<strong>How It Works:</strong>
-<ol>
-  <li>New deal announced — 1 week advance notice</li>
-  <li>5 business days to review the deal infosheet (company profile, rates, risk details, insurance)</li>
-  <li>If you take no action → you're automatically included (pro-rata allocation)</li>
-  <li>If you opt out → your metal is excluded from that deal</li>
-</ol>
-<strong>Pro-Rata Allocation:</strong>
-<ul>
-  <li>The more ounces you have on offer, the more you receive in each lease</li>
-  <li>Maximum ~20% of your holdings in any single deal</li>
-  <li>New clients get spread across all existing leases — not just new ones</li>
-</ul>
-<strong>Remember:</strong> The more leases you participate in, the higher your Lease Yield Account rate while awaiting deployment.`,
-        fup: 'Any other questions about how the program works?'
-    },
-
     pool: {
-        t: ['pool','allocated pool','what do i own','ownership','title','allocated','unallocated','fractional','pool metal','mm allocated pool','what exactly do i own'],
+        phrases: ['what do i own','what exactly do i own','do i own real gold','is it real gold','do i actually own gold','do i have title','what is pool metal','what is allocated pool','mm allocated pool','allocated vs unallocated','what is allocated','what is unallocated','do you fractionally lend','is there fractional lending','is my gold really there','is my gold actually there','is the gold really in the vault','is there actually gold','backed by real gold','is it backed by physical gold','how is it backed','what is the legal structure'],
+        kw: ['own','ownership','title','allocated','unallocated','pool','fractional','backed','physical','real','actual','legal','structure'],
         text: `<strong>What You Actually Own: MM Allocated Pool</strong><br><br>
-<strong>Short answer: You own physical precious metals.</strong><br><br>
+<strong>Short answer: You own real, physical precious metals.</strong><br><br>
 <div class="box"><strong>Allocated Pool =</strong> You hold an undivided interest in a specific portion of physical precious metals at a vault. Your metal can be redeemed in physical form at any time.</div>
 <strong>Key Legal Protections:</strong>
 <ul>
-  <li><strong>Allocated</strong> (not unallocated) — You have title; it's not a paper claim against a counterparty</li>
+  <li><strong>Allocated</strong> (not unallocated) — You have title; it's not just a paper claim</li>
   <li><strong>Bailment structure</strong> — Your metal is 100% physically present at the depository at all times</li>
   <li>Never on the vault's balance sheet</li>
   <li>Never hypothecated, leveraged, or traded on margin</li>
   <li>If the vault were to fail, your metal belongs to you — not their creditors</li>
 </ul>
 <strong>Always Backed 1:1:</strong><br>
-For every ounce you hold, at least one physical ounce exists in the vault. No fractional lending ever.<br><br>
-Metal is divisible to 1/1,000,000th of an ounce for precise monthly interest payments (6 decimal places).`,
+For every ounce you hold, at least one physical ounce exists in the vault. <strong>No fractional lending. Ever.</strong><br><br>
+Metal is divisible to 1/1,000,000th of an ounce for precise monthly interest payments.`,
         fup: 'Would you like to know more about our vault partner network?'
     },
 
     vaults: {
-        t: ['vault','vaults','brinks','where is my gold','where is gold','stored','storage location','depository','vault partners','loomis','delaware depository','where is it stored'],
+        phrases: ['where is my gold','where is my gold stored','where is my silver stored','where is the gold','where is it stored','what vault','which vault','vault partners','who stores the gold','who holds the gold','where is it held','can i visit the vault','can i audit','can i see my gold','is it in brinks','is it in a brinks vault','where are the vaults','vault locations','depository','where is the depository','what vault partners do you use','loomis vault','brinks vault','delaware depository','how is it stored','storage location','where do you store','who are your vault partners'],
+        kw: ['vault','vaults','brinks','loomis','depository','stored','storage','location','where','hold','audit','visit'],
         text: `<strong>Vault Partner Network</strong><br><br>
 Your metal is held in Class III institutional vaults with the highest available security ratings.<br><br>
 <strong>Our Partners Include:</strong>
 <ul>
   <li><strong>Brinks:</strong> Salt Lake City, New York, Las Vegas, Los Angeles, Toronto, London, Zurich, Singapore, Sydney, Frankfurt, Hong Kong</li>
   <li><strong>Loomis:</strong> Zurich, New York, Singapore</li>
-  <li><strong>CNT</strong> — Boston</li>
-  <li><strong>Delaware Depository / FideliTrade</strong> — Delaware</li>
-  <li><strong>IDS</strong> — Delaware &amp; Dallas</li>
-  <li><strong>Upstate Coin and Gold</strong> — Denver</li>
-  <li><strong>SWP</strong> — Cayman Islands</li>
+  <li><strong>CNT</strong> — Boston &nbsp;|&nbsp; <strong>Delaware Depository / FideliTrade</strong> — Delaware</li>
+  <li><strong>IDS</strong> — Delaware &amp; Dallas &nbsp;|&nbsp; <strong>SWP</strong> — Cayman Islands</li>
+  <li>Upstate Coin and Gold — Denver</li>
 </ul>
-<strong>All facilities offer:</strong>
-<ul>
-  <li>24-hour monitoring &amp; state-of-the-art security systems</li>
-  <li>Full insurance coverage</li>
-  <li>Regular third-party audits</li>
-</ul>
-If your metal is at a vault not on this list, speak with a Relationship Manager about transfer arrangements.`,
+All facilities: 24-hour monitoring, full insurance, regular third-party audits.`,
         fup: 'Any other questions about security or how your gold is held?'
     },
 
     misconceptions: {
-        t: ['scam','too good to be true','ponzi','stealing','fake','steal my gold','disappear','not real','suspicious','sounds like a scam','is this legitimate','how do i know you won\'t steal'],
+        phrases: ['is this a scam','is this a ponzi','this sounds like a scam','too good to be true','sounds too good','steal my gold','will you steal','steal my metal','my gold will disappear','gold will disappear','what if you disappear','what if monetary metals goes under','what if you go bankrupt','what if you close','what if mm fails','sounds fishy','sounds suspicious','i am skeptical','i am skeptical','seems sketchy','seems too good','this is too good to be true','is this like a bank','sounds like a bank','is it like a bank','sounds like fractional reserve','how do i know you wont steal','this seems risky'],
+        kw: ['scam','ponzi','scheme','steal','stealing','disappear','skeptical','suspicious','fishy','sketchy','risky','too good','fake'],
         text: `<strong>Addressing Common Concerns</strong><br><br>
 <strong>"My gold will disappear or get sold"</strong><br>
-Not possible. Your gold never gets sold for cash. It changes form and location but the ounce count stays constant — like renting a car. The car doesn't disappear; the renter can't sell it. Your gold is physically present throughout, fully insured, in vetted secure facilities.<br><br>
+Not possible. Your gold never gets sold for cash. It changes form and location but the ounce count stays constant — like renting a car. The renter can't sell it. Your gold is physically present throughout, fully insured, in vetted secure facilities.<br><br>
 <strong>"This sounds like a bank"</strong><br>
 Monetary Metals is a non-bank financial institution. Unlike a bank where you're an unsecured creditor, here you retain title to your metal. You're a lessor, not a lender. Your gold never goes on the borrower's balance sheet.<br><br>
 <strong>"This is too good to be true"</strong><br>
-Our returns (3–4%) are modest by design — they come from real businesses paying real interest for the use of physical metal. We've operated transparently since 2016. "Too good to be true" schemes promise much higher returns with "no risk" — we're clear about both our returns and our risks.<br><br>
+Our returns (3–4%) are modest by design — from real businesses paying real interest for use of physical metal. We've operated transparently since 2016 with zero defaults. True "too good to be true" schemes promise much higher returns with zero risk. We're honest about both our returns and our risks.<br><br>
 <strong>Track Record:</strong> 70+ leases. Zero defaults. Zero losses. Since 2016.`,
         fup: 'Would you like specific detail on how we legally protect your metal?'
     },
 
     rm: {
-        t: ['speak to someone','talk to someone','human','representative','contact','call','email','relationship manager','talk to a person','advisor','phone number','how do i contact','get in touch','connect'],
+        phrases: ['speak to someone','talk to someone','talk to a person','can i speak to a human','connect with someone','contact monetary metals','how do i contact','get in touch','reach out','how to reach you','contact details','phone number','email address','who do i call','can i call','relationship manager','schedule a call','book a call','can i meet someone','speak with an advisor','talk to an advisor'],
+        kw: ['contact','call','email','phone','human','person','advisor','representative','manager','speak','talk','reach'],
         text: `<strong>Connect with a Relationship Manager</strong><br><br>
 Our team would love to speak with you personally.<br><br>
 <ul>
@@ -628,81 +609,251 @@ A Relationship Manager can help with:
   <li>Specific lease or bond opportunities</li>
   <li>International accounts and physical metal shipments</li>
   <li>Large transactions ($1M+)</li>
-  <li>Any questions not covered here</li>
+  <li>Any question not covered here</li>
 </ul>`
     },
 
-    international: {
-        t: ['international','outside us','outside the us','not american','non-us','overseas','uk','europe','canada','australia','other country','my country','foreign country','international client','non us'],
-        text: `<strong>International Investors</strong><br><br>
-Monetary Metals welcomes clients from <strong>nearly every country worldwide</strong>.<br><br>
-<strong>Account Setup:</strong>
+    leaseYield: {
+        phrases: ['lease yield account','what is the lease yield account','earning while waiting','earn while waiting','earn while metal waits','yield while waiting','return while waiting','interest while waiting','while my gold waits','idle gold','gold sitting idle','gold not deployed yet','waiting to be deployed','not yet in a lease','earn before lease','earn right away','earn immediately','does idle gold earn'],
+        kw: ['waiting','idle','deployed','deployment','sitting'],
+        text: `<strong>The Lease Yield Account</strong><br><br>
+Your gold doesn't sit idle while waiting for the next lease deployment.<br><br>
+<div class="box gold"><strong>Rate:</strong> Up to 4% annually on gold<br><strong>Silver:</strong> 0% — does not earn Lease Yield Account interest while waiting</div>
+<strong>Your participation level determines your rate:</strong>
 <ul>
-  <li>Accounts available for citizens of almost any country</li>
-  <li>Simplified US tax reporting (Form 1042 filed on your behalf)</li>
-  <li>No US tax return filing required</li>
+  <li>Opt into 100% of available leases → earn 100% of published rate (e.g., 4%)</li>
+  <li>Opt into 50% of available leases → earn 50% of rate (e.g., 2%)</li>
 </ul>
-<strong>Funding Options for International Clients:</strong>
-<ul>
-  <li>Most use <strong>Wise</strong> or <strong>Revolut</strong> to send USD</li>
-  <li>All purchases must be made in USD</li>
-  <li>Overseas physical metal shipments/transfers are possible — speak with a Relationship Manager for specifics</li>
-</ul>
-<strong>Our Vault Network is Global:</strong><br>
-Brinks in London, Zurich, Singapore, Sydney, Frankfurt, Hong Kong, and Toronto.<br><br>
-<div class="box amber">For country-specific questions:<br>📞 <strong>(480) 867-2100</strong> &nbsp;|&nbsp; 📧 <a href="mailto:relationships@monetary-metals.com">relationships@monetary-metals.com</a></div>`,
-        fup: 'Any other questions about getting started internationally?'
+<strong>Why This Matters:</strong><br>
+Your gold is productive from day one — earning yield even before being formally deployed into a specific lease transaction.`,
+        fup: 'Would you like to know more about how the opt-out and allocation system works?'
     },
 
-    minimums: {
-        t: ['minimum','how much to start','minimum investment','how many ounces','smallest amount','how little','minimum amount','$30,000','10 ounces','1000 oz','minimum to invest','how much do i need'],
-        text: `<strong>Minimum Investment Requirements</strong><br><br>
-<div class="box gold">You can start with any <strong>one</strong> of the following:
+    optOut: {
+        phrases: ['opt out','opt-out','opt in','opt-in','how does allocation work','how are leases allocated','can i choose my leases','can i pick my leases','can i reject leases','can i decline a lease','automatic allocation','how do i get allocated','pro rata','pro-rata','diversification across leases','how does the program allocate','what if i dont like a deal','can i review deals','can i see the deals','deal infosheet','deal details','how many leases will i be in','how many deals','how is my gold spread'],
+        kw: ['opt','allocation','allocate','allocated','diversify','diversification','deals','choose','pick','select','reject','decline','automatic'],
+        text: `<strong>The Lease Opt-Out System</strong><br><br>
+<strong>Philosophy:</strong> By default your metal is included in new opportunities — promoting diversification. But you retain full control to reject any deal.<br><br>
+<strong>How It Works:</strong>
+<ol>
+  <li>New deal announced — 1 week advance notice</li>
+  <li>5 business days to review the deal infosheet (company profile, rates, risk details, insurance)</li>
+  <li>Take no action → automatically included (pro-rata allocation)</li>
+  <li>Opt out → your metal is excluded from that deal</li>
+</ol>
+<strong>Pro-Rata Allocation:</strong>
 <ul>
-  <li>10 oz gold</li>
-  <li>1,000 oz silver</li>
-  <li>$30,000 USD (we purchase metal on your behalf)</li>
-</ul></div>
-At current approximate spot prices ($4,000/oz gold; $48/oz silver):
-<ul>
-  <li>10 oz gold minimum ≈ $40,000</li>
-  <li>1,000 oz silver minimum ≈ $48,000</li>
-  <li>Or start with $30,000 cash — we handle the purchase</li>
+  <li>The more ounces you have on offer, the more you receive in each lease</li>
+  <li>Maximum ~20% of your holdings in any single deal</li>
+  <li>New clients are spread across all existing leases — not just new ones</li>
 </ul>
-No income requirements to participate in leases. Accredited investor status is only needed for bond offerings.`,
-        fup: 'Would you like to know more about opening and funding your account?'
+<strong>Remember:</strong> The more leases you participate in, the higher your Lease Yield Account rate.`,
+        fup: 'Any other questions about how the program works?'
     },
 
-    timelines: {
-        t: ['how long','timeline','when will','processing time','how soon','how quickly','how fast','how many days','time to process'],
-        text: `<strong>Key Timelines</strong><br><br>
-<strong>Account Opening:</strong>
+    ira: {
+        phrases: ['can i use an ira','ira account','self directed ira','sdira','401k','roth ira','traditional ira','retirement account','can i invest through my ira','ira eligible','is it ira eligible','retirement savings','can i use retirement funds','invest with retirement money','gold ira','silver ira','precious metals ira'],
+        kw: ['ira','401k','roth','retirement','sdira','pension'],
+        text: `<strong>IRA / Retirement Accounts</strong><br><br>
+Monetary Metals can work with certain self-directed IRA (SDIRA) structures, but this involves specific considerations.<br><br>
+<strong>Key Points:</strong>
 <ul>
-  <li>Online application: 10–15 minutes</li>
-  <li>Account approval: within 24 hours</li>
+  <li>A self-directed IRA custodian that allows precious metals investments would be required</li>
+  <li>The metal must be held in an IRS-approved depository (several of our vault partners qualify)</li>
+  <li>There are specific IRS rules around the purity and form of metals held in IRAs</li>
 </ul>
-<strong>Funding:</strong>
+<div class="box amber">This is a complex area with specific legal and tax requirements. Please speak with a Relationship Manager for guidance on your specific situation.<br><br>
+📞 <strong>(480) 867-2100</strong> &nbsp;|&nbsp; 📧 <a href="mailto:relationships@monetary-metals.com">relationships@monetary-metals.com</a></div>`,
+        fup: 'Any other questions about account structures?'
+    },
+
+    compounding: {
+        phrases: ['does it compound','compound interest','does interest compound','reinvest returns','automatically reinvest','are ounces reinvested','do ounces compound','do returns compound','compounding effect','compound growth','how does compounding work','compound over time','growth over time','long term growth','power of compounding'],
+        kw: ['compound','compounding','reinvest','reinvestment','compound interest','compound growth'],
+        text: `<strong>Compounding — How Growth Works</strong><br><br>
+Yes — your returns compound naturally in ounces over time.<br><br>
+<strong>How It Works:</strong>
 <ul>
-  <li>Wire transfer: 1–2 business days</li>
-  <li>ACH transfer: 2–4 business days</li>
-  <li>Shipped gold: Overnight delivery + up to 2 weeks processing after arrival</li>
-  <li>Shipped silver: Ground shipping (2–5 days) + up to 2 weeks processing</li>
+  <li>Each month, interest is paid in metal ounces directly to your account</li>
+  <li>Those new ounces are then automatically eligible to be deployed in future leases</li>
+  <li>More ounces on account → more ounces allocated to leases → more interest earned</li>
+  <li>This creates true compound growth in ounces</li>
 </ul>
-<strong>Trade Execution:</strong><br>
-Funds received by 12pm NY time → trade placed same business day. After 12pm → next business day.<br><br>
-<strong>Withdrawals:</strong>
+<strong>Example:</strong>
 <ul>
-  <li>Cash (sell to USD): 1–2 weeks</li>
-  <li>Physical metal delivery: 2–3 weeks until shipment initiated</li>
+  <li>100 oz gold at 3.5% annual → 103.5 oz after year 1</li>
+  <li>103.5 oz at 3.5% → 107.1 oz after year 2</li>
+  <li>After 10 years: ~141 oz gold</li>
+  <li>After 20 years: ~199 oz gold — nearly double your starting position</li>
 </ul>
-<strong>Lease Terms:</strong> Standard 12 months`,
-        fup: 'Do you have more questions about the process or next steps?'
+<div class="box gold">And if gold's dollar price rises while you're compounding ounces, your dollar-denominated wealth grows on two fronts simultaneously.</div>`,
+        fup: 'Want to see a comparison of how this stacks up against alternatives over time?'
+    },
+
+    silverSpecific: {
+        phrases: ['silver lease','silver leases','silver program','invest in silver','silver investment','how does silver work','silver yield','silver return','silver interest','silver bonds','tell me about silver','what about silver','how is silver different','silver vs gold','is silver available','can i do silver','silver oversubscribed','silver waitlist','silver demand','1000 oz silver','1000 ounces silver','minimum for silver'],
+        kw: ['silver','ag','silver-specific'],
+        text: `<strong>Silver at Monetary Metals</strong><br><br>
+<strong>Yes, silver is available!</strong> Here's what makes silver unique in our program:<br><br>
+<strong>Silver Leases:</strong>
+<ul>
+  <li>Available and highly popular — often <strong>3–4x oversubscribed</strong> with waiting lists</li>
+  <li>Returns are in the same range as gold leases (2–4% annually)</li>
+  <li>Interest paid monthly in silver ounces</li>
+</ul>
+<strong>Key Differences vs. Gold:</strong>
+<ul>
+  <li>Silver does <strong>not</strong> earn Lease Yield Account interest while waiting for deployment (0% while idle)</li>
+  <li>Silver ships ground (not overnight) when sending in physical metal</li>
+  <li>Minimum: 1,000 oz silver (vs. 10 oz gold)</li>
+  <li>High demand means silver is more likely to be deployed quickly</li>
+</ul>
+<strong>Silver Bonds:</strong> Available for accredited investors, with returns of 6–19% annually.<br><br>
+<strong>Current silver spot price:</strong> ~$48/oz (as of November 2025)`,
+        fup: 'Would you like to know how to get started with silver?'
+    },
+
+    portfolio: {
+        phrases: ['how much should i allocate','what percentage should i put in','how much of my portfolio','portfolio allocation','how much to put in gold','what percentage gold','gold allocation','how much of my net worth','how much to invest in gold','portfolio strategy','asset allocation','portfolio diversification','where does this fit','how does this fit in my portfolio','is this good for diversification','should i put all my gold in','what portion of my portfolio'],
+        kw: ['allocate','allocation','portfolio','percentage','portion','diversification','strategy','asset'],
+        text: `<strong>Portfolio Strategy &amp; Allocation</strong><br><br>
+Monetary Metals doesn't give specific investment advice, but here's some context:<br><br>
+<strong>How Clients Typically Think About It:</strong>
+<ul>
+  <li>If you already hold physical gold and silver, Monetary Metals is a way to make that <em>existing</em> allocation productive instead of sitting idle</li>
+  <li>Most clients use MM for the "yield-generating" portion of their precious metals holdings, keeping some physical metal at home for emergency access</li>
+  <li>The zero-storage-fee model means you're no longer penalized for holding gold — making larger allocations more attractive</li>
+</ul>
+<strong>The Math:</strong><br>
+If you held 10% of your portfolio in gold earning 0% (paying 0.5% in storage), it stands to reason that earning 3–4% on that gold changes the calculus. Many investors find it justifies a <em>higher</em> gold allocation.<br><br>
+<div class="box gold">Our white paper <em>"The Case for Gold Yield in an Investment Portfolio"</em> shows how gold-with-yield improves overall portfolio returns while lowering volatility.<br><a href="https://www.monetary-metals.com/gold-yield/" target="_blank">Read it here →</a></div>`,
+        fup: 'Would you like to speak with a Relationship Manager about your specific situation?'
+    },
+
+    spotPrice: {
+        phrases: ['what is the current gold price','what is gold price','current gold price','gold spot price','silver spot price','current silver price','what is the price of gold','what is the price of silver','gold price today','silver price today','how much is gold worth','how much is an ounce of gold','what is an ounce of gold worth','price per ounce','current spot price','what does gold cost','gold market price'],
+        kw: ['spot','price','pricing','worth','cost','ounce'],
+        text: `<strong>Current Spot Prices</strong> <em>(approximate, as of November 2025)</em><br><br>
+<div class="box gold">
+  <strong>Gold:</strong> ~$4,000 per troy ounce<br>
+  <strong>Silver:</strong> ~$48 per troy ounce
+</div>
+These are approximate reference prices — actual trading prices fluctuate continuously.<br><br>
+<strong>How Spreads Work When You Trade:</strong>
+<ul>
+  <li>Buying gold pool at MM: spot + 0.75% (under $250K)</li>
+  <li>Selling gold pool at MM: spot − 0.75%</li>
+</ul>
+For live spot prices, check <a href="https://www.kitco.com" target="_blank">Kitco.com</a> or <a href="https://www.gold.org" target="_blank">World Gold Council</a>.<br><br>
+<div class="box amber">Remember: with Monetary Metals, your returns are measured in <strong>ounces</strong>, not dollars. The dollar price of gold may go up or down — your ounce count grows either way.</div>`,
+        fup: 'Would you like to know more about how returns are calculated?'
+    },
+
+    jointAccount: {
+        phrases: ['joint account','can my spouse','can my wife','can my husband','can we both','joint ownership','account with my spouse','account with my partner','married couple','couples account','two names on account','two people','me and my spouse','me and my wife','me and my husband','can two people','husband and wife'],
+        kw: ['joint','spouse','wife','husband','couple','married','together','both','two people'],
+        text: `<strong>Joint Accounts &amp; Couples</strong><br><br>
+Yes — Monetary Metals can accommodate joint account ownership for married couples and partners.<br><br>
+<strong>For specific details on setting up a joint account</strong>, please speak with a Relationship Manager who can walk you through the documentation requirements:<br><br>
+<ul>
+  <li>📞 <strong>(480) 867-2100</strong></li>
+  <li>📅 <a href="https://www.monetary-metals.com/contact-us/" target="_blank">Schedule a call →</a></li>
+  <li>📧 <a href="mailto:relationships@monetary-metals.com">relationships@monetary-metals.com</a></li>
+</ul>
+<div class="box">Note: When making cash withdrawals, the destination bank account owner generally needs to match the Monetary Metals account owner — something to consider when setting up your account structure.</div>`,
+        fup: 'Any other questions about account structures?'
+    },
+
+    trustCorpAccount: {
+        phrases: ['trust account','can i use a trust','llc account','corporate account','company account','business account','account in the name of my trust','account in my llc','account for my company','entity account','self directed','account through an entity','invest through my trust','invest through my llc','family trust','revocable trust','irrevocable trust'],
+        kw: ['trust','llc','corporation','corporate','entity','business','company'],
+        text: `<strong>Trust, LLC &amp; Corporate Accounts</strong><br><br>
+Yes — Monetary Metals can open accounts in the name of a Trust or company (LLC, corporation, etc.).<br><br>
+These account structures have some additional documentation requirements and nuances, so we recommend speaking with a Relationship Manager directly to ensure a smooth setup:<br><br>
+<ul>
+  <li>📞 <strong>(480) 867-2100</strong></li>
+  <li>📅 <a href="https://www.monetary-metals.com/contact-us/" target="_blank">Schedule a call →</a></li>
+  <li>📧 <a href="mailto:relationships@monetary-metals.com">relationships@monetary-metals.com</a></li>
+</ul>`,
+        fup: 'Any other questions about account structures or getting started?'
+    },
+
+    estate: {
+        phrases: ['what happens when i die','what happens to my gold if i die','inheritance','beneficiary','estate planning','can i name a beneficiary','transfer to heirs','estate','pass on my gold','leave gold to my children','death','when i pass away','what happens to my account','can i leave it to my kids'],
+        kw: ['estate','beneficiary','inheritance','inherit','heirs','death','die','passing','children','kids'],
+        text: `<strong>Estate Planning &amp; Beneficiaries</strong><br><br>
+Your Monetary Metals account is an asset that can be passed on to heirs as part of your estate.<br><br>
+For detailed guidance on beneficiary designations, estate planning considerations, and account transfer processes, please speak with a Relationship Manager:<br><br>
+<ul>
+  <li>📞 <strong>(480) 867-2100</strong></li>
+  <li>📅 <a href="https://www.monetary-metals.com/contact-us/" target="_blank">Schedule a call →</a></li>
+  <li>📧 <a href="mailto:relationships@monetary-metals.com">relationships@monetary-metals.com</a></li>
+</ul>
+<div class="box amber">⚠️ For estate and inheritance matters, we also recommend consulting your estate attorney to ensure your precious metals holdings are properly included in your estate plan.</div>`,
+        fup: 'Any other questions about account structures?'
+    },
+
+    largeInvestment: {
+        phrases: ['i want to invest over a million','investing more than a million','large investment','large account','high net worth','invest millions','invest 1 million','invest $1 million','invest 5 million','institutional investor','large sum','significant amount','multi million','family office','big investment'],
+        kw: ['million','millions','large','institutional','family office','significant','substantial'],
+        text: `<strong>Large Investments ($1M+)</strong><br><br>
+Monetary Metals regularly works with high-net-worth individuals, family offices, and institutional investors.<br><br>
+<strong>Benefits at Scale:</strong>
+<ul>
+  <li>Tightest spreads: 0.40% for transactions over $1M (vs. 0.75% standard)</li>
+  <li>Greater pro-rata allocation across leases — more ounces deployed faster</li>
+  <li>Access to the full range of bond offerings</li>
+  <li>Dedicated Relationship Manager support</li>
+</ul>
+<div class="box gold">For investments over $1M, we strongly recommend a direct conversation with our team to discuss your specific goals, timing, and options.<br><br>
+📞 <strong>(480) 867-2100</strong> &nbsp;|&nbsp; 📧 <a href="mailto:relationships@monetary-metals.com">relationships@monetary-metals.com</a></div>`,
+        fup: 'Would you like to schedule a call with a Relationship Manager?'
+    },
+
+    howInterestPaid: {
+        phrases: ['how is interest paid','how do i receive interest','how do i get paid','when is interest paid','when do i receive interest','when do i get paid','how often is interest paid','monthly interest','how does payment work','how are ounces credited','interest payment schedule','payment schedule','how do i receive the ounces','where do the ounces go','do the ounces go to my account','how do i see my interest'],
+        kw: ['paid','payment','receive','credited','deposited','interest','ounces','monthly','schedule'],
+        text: `<strong>How Interest Is Paid</strong><br><br>
+<div class="box gold">Interest is paid <strong>monthly, in physical metal ounces</strong> — directly credited to your Monetary Metals account.</div>
+<strong>How It Works:</strong>
+<ul>
+  <li>Lessees pay interest each month in gold or silver ounces</li>
+  <li>Those ounces are credited to your account automatically</li>
+  <li>The payment is valued at the London PM fix price on the payment date</li>
+  <li>Metal is divisible to 1/1,000,000th of an ounce for precision</li>
+  <li>You can view your balance and interest history in your online account</li>
+</ul>
+<strong>What Happens to Those New Ounces?</strong><br>
+The new ounces go into your Lease Yield Account (gold) or pool (silver) and are automatically eligible for redeployment into future leases — compounding your ounce growth.`,
+        fup: 'Would you like to know more about the compounding effect over time?'
+    },
+
+    insurance: {
+        phrases: ['is it insured','is the gold insured','insurance coverage','how is it insured','what insurance','lloyds of london','what if the vault is robbed','what if gold is stolen','theft protection','what if there is a fire','natural disaster','what if the vault burns','is there insurance on my gold','what protects against theft','fdic','sipc','is it fdic insured','fdic insured'],
+        kw: ['insured','insurance','fdic','sipc','theft','stolen','robbery','fire','disaster','coverage','lloyds'],
+        text: `<strong>Insurance Coverage</strong><br><br>
+<div class="box">⚠️ Monetary Metals accounts are <strong>not</strong> FDIC or SIPC insured — those programs cover bank deposits and brokerage accounts respectively. Your account is protected differently, and arguably more directly.</div>
+<strong>What Actually Protects Your Metal:</strong><br><br>
+<strong>While in Vault (not on lease):</strong>
+<ul>
+  <li>Institutional vault insurance from Brinks, Loomis, Delaware Depository, etc.</li>
+  <li>These Class III facilities carry extensive all-risk insurance as a condition of operation</li>
+</ul>
+<strong>While on Lease:</strong>
+<ul>
+  <li>Lessee must maintain <strong>110% insurance coverage</strong> on the leased metal</li>
+  <li>Monetary Metals holds a supplemental <strong>Lloyd's of London "All Risks"</strong> policy</li>
+  <li>Up to <strong>$20M coverage per lessee</strong></li>
+  <li>Covers theft, fraud, mysterious disappearance, business failures</li>
+  <li>Full replacement cost plus 10% buffer for price fluctuations</li>
+</ul>`,
+        fup: 'Would you like to know more about our overall 5-layer risk protection system?'
     },
 
     resources: {
-        t: ['resources','materials','learn more','white paper','whitepaper','report','video','presentation','document','reading','more information'],
+        phrases: ['any resources','learning resources','educational materials','where can i learn more','do you have a white paper','white paper','report','can you share a video','helpful links','more information','any videos','any reading','any materials','any guides','documentation','any pdfs','faq','frequently asked questions','where can i read more','any articles'],
+        kw: ['resources','materials','learn','whitepaper','white-paper','report','video','pdf','guide','faq','articles','reading'],
         text: `<strong>Helpful Resources</strong><br><br>
-Here are some materials you may find valuable:<br><br>
 📄 <a href="https://www.monetary-metals.com/gold-leases/" target="_blank">The True Gold Lease Program →</a><br>
 📄 <a href="https://www.monetary-metals.com/gold-yield/" target="_blank">The New Way to Hold Gold (report) →</a><br>
 📄 <a href="https://www.monetary-metals.com/gold-yield/" target="_blank">White Paper: The Case for Gold Yield in an Investment Portfolio →</a><br>
@@ -711,59 +862,71 @@ Here are some materials you may find valuable:<br><br>
 🎥 <a href="https://www.monetary-metals.com/about-us/" target="_blank">The Origin Story of Monetary Metals (video) →</a><br>
 🎥 <a href="https://www.monetary-metals.com/gold-bonds/" target="_blank">Introduction to Gold Bonds (video) →</a><br>
 📄 <a href="https://www.monetary-metals.com/insights/articles/taxing-gold-and-silver-yield/" target="_blank">Taxing Gold and Silver Yield →</a><br>
-❓ <a href="https://www.monetary-metals.com/faq/" target="_blank">Full FAQ →</a>`,
+❓ <a href="https://www.monetary-metals.com/faq/" target="_blank">Full FAQ →</a><br>
+📊 <a href="https://www.monetary-metals.com/funded-deals/" target="_blank">All Funded Deals →</a>`,
         fup: 'What else can I help you with?'
     },
 
     fallback: {
-        text: `I want to make sure I give you accurate information — could you rephrase your question, or pick from one of these topics?<br><br>
+        text: `I want to make sure I give you accurate information — could you rephrase that, or pick from one of these topics?<br><br>
 Or connect directly with a Relationship Manager:<br>
 📞 <strong>(480) 867-2100</strong> &nbsp;|&nbsp; 📧 <a href="mailto:relationships@monetary-metals.com">relationships@monetary-metals.com</a>`,
-        qr: ['How does Monetary Metals work?','What are the returns?','How is my gold protected?','How do I open an account?','What are the fees?','Talk to a Relationship Manager']
+        qr: ['How does Monetary Metals work?','What are the returns?','How is my gold protected?','What metals do you support?','How do I open an account?','Talk to a Relationship Manager']
     }
 };
 
-// =============================================
-// FUZZY SEARCH SETUP
-// =============================================
+// =================================================================
+// SCORING-BASED INTENT DETECTION
+// Phrase matches are weighted by word count (longer = more specific)
+// Keyword matches add a base score
+// =================================================================
 const searchItems = Object.entries(KB)
     .filter(([k]) => !['welcome','fallback'].includes(k))
     .map(([key, val]) => ({
         key,
-        triggers: (val.t || []).join(' '),
-        text: (val.text || '').replace(/<[^>]+>/g, ' ')
+        triggers: [...(val.phrases||[]), ...(val.kw||[])].join(' '),
+        text: (val.text||'').replace(/<[^>]+>/g,' ')
     }));
 
 const fuse = new Fuse(searchItems, {
     keys: ['triggers','text'],
-    threshold: 0.38,
+    threshold: 0.35,
     includeScore: true
 });
 
-// =============================================
-// INTENT DETECTION
-// =============================================
 function getIntent(raw) {
     const msg = raw.toLowerCase().trim();
 
     // Escalation
-    if (/complaint|complain|upset|problem with my account|technical issue|bug|broken|not working|urgent|emergency/.test(msg)) {
-        return 'escalate';
-    }
+    if (/complaint|complain|urgent|technical issue|not working|broken|bug in/.test(msg)) return 'escalate';
 
-    // Exact trigger scan
+    let bestKey = null;
+    let bestScore = 0;
+
     for (const [key, val] of Object.entries(KB)) {
-        if (!val.t) continue;
-        for (const trigger of val.t) {
-            if (msg.includes(trigger)) return key;
+        if (!val.phrases && !val.kw) continue;
+        let score = 0;
+
+        // Phrase match — weighted by phrase length (specificity)
+        for (const phrase of (val.phrases || [])) {
+            if (msg.includes(phrase)) {
+                score += phrase.split(' ').length * 4;
+            }
         }
+
+        // Keyword match — individual words
+        for (const kw of (val.kw || [])) {
+            if (msg.includes(kw)) score += 2;
+        }
+
+        if (score > bestScore) { bestScore = score; bestKey = key; }
     }
 
-    // Fuse fallback
+    if (bestKey && bestScore >= 2) return bestKey;
+
+    // Fuse.js fuzzy fallback
     const results = fuse.search(msg);
-    if (results.length > 0 && results[0].score < 0.45) {
-        return results[0].item.key;
-    }
+    if (results.length > 0 && results[0].score < 0.45) return results[0].item.key;
 
     return 'fallback';
 }
@@ -771,27 +934,22 @@ function getIntent(raw) {
 function buildReply(intent) {
     if (intent === 'escalate') {
         return {
-            text: `I'm sorry to hear you're experiencing an issue. For complaints or urgent account problems, please reach our team directly:<br><br>
+            text: `I'm sorry to hear you're having an issue. For complaints or urgent account matters, please reach our team directly:<br><br>
 <ul>
   <li>📞 <strong>(480) 867-2100</strong></li>
   <li>📧 <a href="mailto:relationships@monetary-metals.com">relationships@monetary-metals.com</a></li>
   <li>📅 <a href="https://www.monetary-metals.com/contact-us/" target="_blank">Schedule a call →</a></li>
-</ul>
-A team member will be happy to assist you promptly.`,
+</ul>`,
             fup: null, qr: []
         };
     }
     const r = KB[intent] || KB.fallback;
-    return {
-        text: r.text,
-        fup: r.fup || null,
-        qr: r.qr || []
-    };
+    return { text: r.text, fup: r.fup || null, qr: r.qr || [] };
 }
 
-// =============================================
+// =================================================================
 // UI
-// =============================================
+// =================================================================
 const msgsEl = document.getElementById('msgs');
 const inp    = document.getElementById('inp');
 const btn    = document.getElementById('sendBtn');
@@ -801,15 +959,12 @@ function scrollBottom() { msgsEl.scrollTop = msgsEl.scrollHeight; }
 function addMsg(html, isUser) {
     const wrap = document.createElement('div');
     wrap.className = 'msg ' + (isUser ? 'user' : 'bot');
-
     const av = document.createElement('div');
     av.className = 'avatar ' + (isUser ? 'user' : 'bot');
     av.textContent = isUser ? '👤' : '⚜';
-
     const bub = document.createElement('div');
     bub.className = 'bubble';
     bub.innerHTML = html;
-
     wrap.appendChild(av);
     wrap.appendChild(bub);
     msgsEl.appendChild(wrap);
@@ -837,8 +992,7 @@ function addQRs(bub, replies) {
 
 function showTyping() {
     const wrap = document.createElement('div');
-    wrap.className = 'msg bot';
-    wrap.id = 'typing';
+    wrap.className = 'msg bot'; wrap.id = 'typing';
     wrap.innerHTML = `<div class="avatar bot">⚜</div>
         <div class="bubble"><div class="typing-dots">
             <div class="dot"></div><div class="dot"></div><div class="dot"></div>
@@ -851,25 +1005,19 @@ function showTyping() {
 function send(text) {
     const msg = text || inp.value.trim();
     if (!msg) return;
-
     addMsg(msg, true);
     if (!text) { inp.value = ''; inp.style.height = 'auto'; }
-    scrollBottom();
-
     const typing = showTyping();
     setTimeout(() => {
         typing.remove();
         const intent = getIntent(msg);
         const reply  = buildReply(intent);
-        const fullText = reply.fup
-            ? reply.text + `<br><br><em>${reply.fup}</em>`
-            : reply.text;
-        const bub = addMsg(fullText, false);
+        const full = reply.fup ? reply.text + `<br><br><em>${reply.fup}</em>` : reply.text;
+        const bub = addMsg(full, false);
         addQRs(bub, reply.qr);
     }, 700 + Math.random() * 500);
 }
 
-// Events
 btn.addEventListener('click', () => send());
 inp.addEventListener('keydown', e => {
     if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); }
@@ -879,7 +1027,7 @@ inp.addEventListener('input', () => {
     inp.style.height = inp.scrollHeight + 'px';
 });
 
-// Welcome message on load
+// Welcome
 setTimeout(() => {
     const w = KB.welcome;
     const bub = addMsg(w.text, false);
