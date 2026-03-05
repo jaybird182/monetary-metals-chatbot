@@ -248,34 +248,68 @@
 const MAKE_WEBHOOK_URL = 'YOUR_MAKE_WEBHOOK_URL_HERE';
 
 // =================================================================
-// LEAD CAPTURE
+// LEAD CAPTURE & CONVERSATION TRACKING
 // =================================================================
 let visitorName  = '';
 let visitorFirst = '';
 let visitorEmail = '';
+const sessionQuestions = [];   // tracks only prospect questions (not bot answers)
+let leadCreated = false;
 
 function isValidEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e); }
 
-async function submitLead(first, last, email) {
-    if (!MAKE_WEBHOOK_URL || MAKE_WEBHOOK_URL === 'YOUR_MAKE_WEBHOOK_URL_HERE') return;
+function webhookEnabled() {
+    return MAKE_WEBHOOK_URL && MAKE_WEBHOOK_URL !== 'YOUR_MAKE_WEBHOOK_URL_HERE';
+}
+
+// Called on form submit — creates the Lead
+async function submitLeadCreate(first, last, email) {
+    if (!webhookEnabled()) return;
     try {
         await fetch(MAKE_WEBHOOK_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
+                action:      'create',
                 first_name:  first,
                 last_name:   last,
                 full_name:   `${first} ${last}`,
                 email:       email,
-                source:      'Monetary Metals Chatbot',
+                lead_source: 'Gold Yield Chatbot',
                 timestamp:   new Date().toISOString(),
                 page_url:    window.location.href
             })
         });
+        leadCreated = true;
     } catch (e) {
-        console.warn('Webhook failed (non-blocking):', e);
+        console.warn('Lead create webhook failed (non-blocking):', e);
     }
 }
+
+// Called on page close — updates Lead with questions asked
+function submitLeadUpdate() {
+    if (!webhookEnabled() || !leadCreated || sessionQuestions.length === 0) return;
+    const payload = JSON.stringify({
+        action:     'update',
+        email:      visitorEmail,
+        full_name:  visitorName,
+        questions:  sessionQuestions,
+        question_count: sessionQuestions.length,
+        session_summary: sessionQuestions.map((q, i) => `${i+1}. ${q}`).join('\n'),
+        timestamp:  new Date().toISOString()
+    });
+    // Use sendBeacon so it fires reliably on page unload
+    if (navigator.sendBeacon) {
+        navigator.sendBeacon(MAKE_WEBHOOK_URL, new Blob([payload], { type: 'application/json' }));
+    } else {
+        // Fallback for browsers without sendBeacon
+        fetch(MAKE_WEBHOOK_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: payload, keepalive: true }).catch(() => {});
+    }
+}
+
+// Fire update on page close/tab close/navigate away
+window.addEventListener('pagehide', submitLeadUpdate);
+window.addEventListener('beforeunload', submitLeadUpdate);
 
 document.getElementById('startBtn').addEventListener('click', async () => {
     const first = document.getElementById('fieldFirst').value.trim();
@@ -301,7 +335,7 @@ document.getElementById('startBtn').addEventListener('click', async () => {
     visitorName  = `${first} ${last}`;
     visitorEmail = email;
 
-    await submitLead(first, last, email);
+    await submitLeadCreate(first, last, email);
 
     // Transition to chat
     const ws = document.getElementById('welcomeScreen');
@@ -2290,6 +2324,8 @@ function send(text) {
     if (!msg) return;
     addMsg(msg, true);
     if (!text) { inp.value = ''; inp.style.height = 'auto'; }
+    // Track prospect question (not bot answer)
+    sessionQuestions.push(msg);
     const typing = showTyping();
     setTimeout(() => {
         typing.remove();
