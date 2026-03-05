@@ -1057,6 +1057,1099 @@ The new ounces go into your Lease Yield Account (gold) or pool (silver) and are 
         fup: 'What else can I help you with?'
     },
 
+    // ── NEW INTENTS ──────────────────────────────────────────────
+
+    priceExposure: {
+        phrases: ['if gold price goes up','price of gold goes up','gold price rises','gold price increase','price appreciation','do i still get the price gain','price gain while on lease','what if gold price rises','still get upside','price upside','capital appreciation','if gold moons','gold goes to 5000','gold goes to 10000','what if gold doubles','price exposure','do i keep price exposure','am i still exposed to gold price'],
+        kw: ['appreciation','upside','gain','rally','rises','exposure','bull','price','appreciation'],
+        text: `<strong>Do I Keep Price Exposure While My Gold is on Lease?</strong><br><br>
+<div class="box gold">✅ <strong>Yes — absolutely.</strong> You retain full gold price exposure at all times, whether your metal is in a lease or sitting in the vault.</div>
+<strong>How It Works:</strong>
+<ul>
+  <li>Your interest is paid in <strong>additional gold ounces</strong> — not dollars</li>
+  <li>If gold rises from $4,000 to $5,000/oz, your ounces are worth 25% more</li>
+  <li>Your ounce count keeps growing <em>and</em> each ounce becomes more valuable</li>
+</ul>
+<strong>Example — Gold rises 25% over the year:</strong>
+<ul>
+  <li>Start: 100 oz gold @ $4,000 = $400,000</li>
+  <li>After 12 months at 3.5% lease: 103.5 oz</li>
+  <li>Gold now at $5,000/oz → 103.5 oz × $5,000 = <strong>$517,500</strong></li>
+  <li>vs. just holding: 100 oz × $5,000 = $500,000</li>
+  <li>Your lease <em>added</em> $17,500 on top of the price appreciation</li>
+</ul>
+<div class="box amber">⚠️ Of course, gold prices can also fall. The ounce yield protects you somewhat — but you bear price risk as with any gold holding.</div>`,
+        fup: 'Want to understand more about how returns in ounces work vs. dollars?',
+        qr: ['Why returns in ounces?','What are the lease returns?','How does compounding work?']
+    },
+
+    lockup: {
+        phrases: ['is there a lockup','is there a lock up','is my money locked','is my gold locked','locked up','locked in','can i get out early','early exit','can i leave anytime','can i redeem anytime','am i committed for the term','what is the term','how long is the commitment','can i get out of a lease','exit early','how long must i stay','can i cancel','cancel my lease','what is the lock-up period','is it flexible','can i pull out','liquidity window'],
+        kw: ['lockup','lock-up','locked','term','commit','commitment','flexible','exit','cancel','pull','redeem'],
+        text: `<strong>Lockup &amp; Liquidity — What You Need to Know</strong><br><br>
+<strong>For metal NOT currently on a lease:</strong>
+<ul>
+  <li>✅ Cash withdrawal: 1–2 weeks processing</li>
+  <li>✅ Physical metal delivery: 2–3 weeks to initiate shipment</li>
+  <li>No lockup — accessible with reasonable notice</li>
+</ul>
+<strong>For metal ON an active lease:</strong>
+<ul>
+  <li>Standard lease term: <strong>12 months</strong></li>
+  <li>Once committed, you wait for the anniversary date to opt out</li>
+  <li>Anniversary dates are <strong>staggered throughout the year</strong> — you typically have windows every few months</li>
+  <li>In practice: your portfolio is spread across multiple leases with different anniversary dates, so portions become available periodically</li>
+</ul>
+<div class="box amber">💡 <strong>Planning tip:</strong> Keep some physical gold outside Monetary Metals for truly immediate liquidity needs. MM is best suited for the "growth &amp; income" portion of your precious metals holdings, not emergency reserves.</div>
+<strong>Silver note:</strong> On best-efforts basis, MM may find a replacement investor — but this is not guaranteed.`,
+        fup: 'Have more questions about how the opt-out and lease renewal process works?',
+        qr: ['How does lease renewal work?','How do withdrawals work?','What are the lease terms?']
+    },
+
+    lesseeSells: {
+        phrases: ['can the lessee sell my gold','can they sell my gold','can they sell my silver','can the business sell my metal','what if the business sells the gold','can the jeweler sell my gold','can they sell it','what if lessee sells the metal','sell my leased gold','lessee allowed to sell','what stops them selling','how do you prevent selling','can the borrower sell','what prevents the lessee','what if they run off with it','what if they steal it','can they take my gold'],
+        kw: ['lessee','sell','sold','steal','take','run','prevent','stop'],
+        text: `<strong>Can a Lessee Sell Your Gold?</strong><br><br>
+<div class="box gold">🔒 <strong>No.</strong> A lessee cannot sell your gold. This is a fundamental feature of the true property lease structure.</div>
+<strong>Why It's Legally Impossible:</strong>
+<ul>
+  <li>Your metal is leased, not sold — the <strong>title never transfers</strong> to the lessee</li>
+  <li>The lessee cannot convey good title (you can't sell what you don't own)</li>
+  <li>Your metal is protected from the lessee's creditors in bankruptcy</li>
+  <li>This is equivalent to a car lease — Hertz can't sell your rental car</li>
+</ul>
+<strong>What a Lessee CAN Do:</strong>
+<ul>
+  <li>A jewelry store can display and wear-test gold jewelry</li>
+  <li>When a customer buys a piece, the jeweler must immediately replace that ounce</li>
+  <li>The ounce count must always stay ≥ 110% of the leased amount</li>
+</ul>
+<strong>Real-time Monitoring:</strong><br>
+Monetary Metals monitors lessee inventory via API and RFID technology. If counts drop, the team responds immediately before any lease terms are violated.`,
+        fup: 'Want to learn more about the 5-layer protection system?',
+        qr: ['How is my gold protected?','What is the 10% buffer?','Is my gold insured?']
+    },
+
+    lesseeTypes: {
+        phrases: ['what kind of companies lease','what types of companies','who leases the gold','what businesses lease','who borrows the gold','what companies use gold','gold borrowers','who are the lessees','what is a lessee','what industries use gold leases','who needs gold','why do companies need to lease gold','who are your clients on the other side','business clients','commercial clients','what sectors','what industries'],
+        kw: ['lessee','lessees','companies','businesses','industries','sectors','clients','borrowers','jeweler','jewelry','mining'],
+        text: `<strong>What Types of Companies Lease Gold &amp; Silver?</strong><br><br>
+Any legitimate business that <strong>needs physical precious metals to operate</strong> can qualify as a lessee. Examples include:<br><br>
+<strong>🏅 Jewelry Stores &amp; Manufacturers</strong>
+<ul>
+  <li>Need gold/silver as working inventory on display</li>
+  <li>Leasing avoids tying up capital in metal sitting in cases</li>
+  <li>Interest rate far cheaper than bank financing</li>
+</ul>
+<strong>⛏ Mining Companies</strong>
+<ul>
+  <li>Need working capital to fund operations before metal is extracted</li>
+  <li>Borrow gold to run the mine, repay from production</li>
+</ul>
+<strong>🏭 Refiners &amp; Fabricators</strong>
+<ul>
+  <li>Need physical feedstock to process into products</li>
+  <li>Lease inventory while orders are fulfilled</li>
+</ul>
+<strong>🔗 Other Precious Metals Businesses</strong>
+<ul>
+  <li>Coin dealers, bullion dealers, precious metals traders</li>
+  <li>Any business where physical gold/silver is a business input</li>
+</ul>
+<div class="box">All lessees go through extensive due diligence: financial analysis, background checks, site inspections, and ongoing real-time inventory monitoring throughout the lease.</div>`,
+        fup: 'Want to know how MM vets these companies before approving a lease?',
+        qr: ['How is my gold protected?','What are the risk safeguards?','What are the returns?']
+    },
+
+    leaseRenewal: {
+        phrases: ['what happens when lease ends','what happens at lease end','what happens at renewal','how does renewal work','lease renewal','does it automatically renew','does it auto renew','do i have to do anything at renewal','what do i do when lease expires','lease expiry','lease anniversary','anniversary date','what happens after 12 months','end of term','when lease is over','what happens to my gold when lease ends','opt out of renewal','how do i not renew','how do i stop renewing','when does my lease expire'],
+        kw: ['renewal','renew','renewal','anniversary','expiry','expire','term','end','auto'],
+        text: `<strong>Lease Renewal — How It Works</strong><br><br>
+<strong>Default Behavior:</strong> Leases automatically roll over into the next available opportunity unless you opt out. This keeps your gold working rather than sitting idle.<br><br>
+<strong>The Opt-Out Process:</strong>
+<ol>
+  <li>You receive advance notice (typically 1 week) before your lease's anniversary date</li>
+  <li>5 business days to review the incoming deal details</li>
+  <li>Take no action → your metal is automatically included in the new lease</li>
+  <li>Opt out → your metal returns to your pool (earning Lease Yield Account rate on gold)</li>
+</ol>
+<strong>What Happens to Your Ounces:</strong>
+<ul>
+  <li>Your original ounces <strong>plus all interest ounces earned</strong> are returned at lease end</li>
+  <li>If opting out, metal sits in your account earning up to 4% (gold) or 0% (silver)</li>
+  <li>If rolling over, you're seamlessly invested in the next lease with no gap</li>
+</ul>
+<div class="box amber">For specific questions about the exact renewal paperwork and process, please speak with a Relationship Manager — this is one of the flagged items we're confirming details on.<br>📞 <strong>(480) 867-2100</strong></div>`,
+        fup: 'Any other questions about how leases work or the opt-out process?',
+        qr: ['What is the lockup period?','How does the opt-out system work?','What happens to my gold?']
+    },
+
+    reviews: {
+        phrases: ['any reviews','any testimonials','what do clients say','client reviews','investor reviews','are there reviews','monetary metals reviews','what do people say about monetary metals','user reviews','online reviews','reddit reviews','trustpilot','bbb reviews','is there feedback','what do investors say','can i read reviews','third party reviews','are there testimonials','social proof'],
+        kw: ['review','reviews','testimonial','feedback','reputation','bbb','trustpilot','reddit','clients'],
+        text: `<strong>Reviews &amp; Track Record</strong><br><br>
+<strong>Third-Party Recognition:</strong>
+<ul>
+  <li>📋 <strong>BBB Listed</strong> — Better Business Bureau accredited listing</li>
+  <li>🏆 <strong>Inc. 5000 (2025)</strong> — Named one of America's fastest-growing private companies</li>
+  <li>🔒 <strong>SOC-2 Certified</strong> — Independent security and operational standards audit</li>
+</ul>
+<strong>Operational Track Record:</strong>
+<ul>
+  <li>Operating since 2016</li>
+  <li>2,000+ investors globally</li>
+  <li>70+ leases completed</li>
+  <li><strong>Zero defaults. Zero losses.</strong> In 8+ years of operation</li>
+</ul>
+<strong>Where to Find Reviews:</strong>
+<ul>
+  <li><a href="https://www.bbb.org" target="_blank">BBB.org</a> — search Monetary Metals</li>
+  <li><a href="https://www.reddit.com/r/Gold" target="_blank">Reddit r/Gold</a> and r/PreciousMetals — community discussions</li>
+  <li><a href="https://www.monetary-metals.com/funded-deals/" target="_blank">Funded deals page</a> — see every completed transaction</li>
+</ul>
+<div class="box gold">The most compelling "review" is arguably the track record itself: 8+ years, zero defaults, 75 funded deals across 5 continents.</div>`,
+        fup: 'Would you like to learn more about our company history or funded deals?',
+        qr: ['Tell me about funded deals','How is my gold protected?','Who runs Monetary Metals?']
+    },
+
+    buyDelivery: {
+        phrases: ['can i buy gold for delivery','buy physical gold','buy gold and have it delivered','can i buy gold from you','purchase gold from monetary metals','can i get gold delivered','physical delivery','buy gold for home delivery','buy coins from you','buy bars from you','purchase silver from you','gold coins for delivery','can i purchase bullion','how do i get physical metal','redeem for physical','take delivery of my gold','request physical delivery'],
+        kw: ['buy','purchase','delivery','deliver','physical','coins','bars','redeem','take delivery'],
+        text: `<strong>Buying Gold &amp; Physical Delivery</strong><br><br>
+<strong>Yes — you can acquire physical gold/silver in two ways:</strong><br><br>
+<strong>Option 1: Purchase gold pool, then redeem physically</strong>
+<ul>
+  <li>Fund your account via wire/ACH</li>
+  <li>We purchase metal on your behalf at current spreads</li>
+  <li>Request physical delivery at any time</li>
+  <li>Timeline: 2–3 weeks to initiate delivery</li>
+</ul>
+<strong>Option 2: Redeem existing pool holdings for physical</strong>
+<ul>
+  <li>Your pool can be exchanged for specific bars or coins</li>
+  <li>You pay market premium above spot + shipping</li>
+  <li>Example: 100 oz gold pool → 100 oz of gold bars (delivery at ~2.75% premium)</li>
+</ul>
+<strong>What You Receive:</strong>
+<ul>
+  <li>Standard bullion bars and coins from our vault partners</li>
+  <li>Shipped via insured overnight carrier (gold) or ground (silver)</li>
+</ul>
+<div class="box">If you simply want to <em>buy gold and hold it in the vault earning yield</em>, that's the most common use case — no delivery required.</div>`,
+        fup: 'Have questions about the funding process or what types of metal are accepted?',
+        qr: ['What coins and bars do you accept?','How do I fund my account?','How does physical delivery work?']
+    },
+
+    whyFree: {
+        phrases: ['why is storage free','how is storage free','what is the catch','whats the catch','why no storage fee','how can storage be free','why is there no fee','why zero fees','how do you make money if storage is free','what is the business model','how can you afford free storage','why no charge for storage','too good to be true free storage','free storage catch','hidden costs','are there really no fees'],
+        kw: ['free','catch','hidden','cost','model','afford','zero','no fee','business model'],
+        text: `<strong>Why Is Storage Free? (No Catch)</strong><br><br>
+<div class="box gold">The simple answer: <strong>we only make money when your gold makes money.</strong> Our interests are 100% aligned with yours.</div>
+<strong>How We Generate Revenue:</strong>
+<ul>
+  <li>Lessees pay us a rate for using the gold (e.g., 5.5% annually)</li>
+  <li>We pass most of that through to investors (e.g., 3–3.5%)</li>
+  <li>We keep the spread (e.g., 2–2.5%) — that covers our operating costs</li>
+</ul>
+<strong>Why This Aligns Interests Perfectly:</strong>
+<ul>
+  <li>If your gold isn't deployed in a lease → we earn nothing from it</li>
+  <li>We therefore have every incentive to find quality leases quickly</li>
+  <li>If we lost client gold, our business model collapses — so protecting it is existential for us</li>
+  <li>No storage fee = we can charge lessee rates that are competitive with bank financing</li>
+</ul>
+<strong>Compare to Traditional Vaults:</strong><br>
+Traditional vaults charge you 0.25–1% per year regardless of whether your gold earns anything. At Monetary Metals, your gold earns 3–4% AND pays $0 in storage — a ~4% annual swing.`,
+        fup: 'Any other questions about fees or how Monetary Metals makes money?',
+        qr: ['What are the fees?','How does Monetary Metals make money?','What are the returns?']
+    },
+
+    mmBankrupt: {
+        phrases: ['what if monetary metals goes bankrupt','what if mm goes bankrupt','what if monetary metals fails','what if the company goes under','what if mm closes','what if you go out of business','what if monetary metals collapses','what happens if mm goes bust','bankruptcy protection','company failure','financial failure','what if mm shuts down','if you were to fail','what happens to my gold if you fail','counterparty risk mm','mm default'],
+        kw: ['bankrupt','bankruptcy','fail','failure','collapse','bust','close','shut','counterparty'],
+        text: `<strong>What If Monetary Metals Goes Bankrupt?</strong><br><br>
+This is a great question and one every serious investor should ask.<br><br>
+<div class="box gold"><strong>Short answer:</strong> Your gold is legally yours — not Monetary Metals' asset. It cannot be seized by MM's creditors.</div>
+<strong>Legal Protections:</strong>
+<ul>
+  <li><strong>Allocated pool structure</strong> — your metal is held at the vault in your name (not MM's name)</li>
+  <li><strong>Bailment structure</strong> — the vault holds your gold as a custodian; it never appears on MM's balance sheet</li>
+  <li>In a bankruptcy proceeding, your gold is not available to MM's creditors</li>
+  <li>You would simply work with the vault directly to recover your metal</li>
+</ul>
+<strong>Deal Protections:</strong>
+<ul>
+  <li>Each deal is siloed in its own <strong>Delaware series LLC</strong></li>
+  <li>If one deal fails, it cannot contaminate other deals or your vault holdings</li>
+</ul>
+<strong>For Metal Currently on Lease:</strong>
+<ul>
+  <li>The legal agreements directly protect your title to leased metal</li>
+  <li>Lloyd's of London insurance provides additional recovery mechanism</li>
+</ul>
+<div class="box amber">⚠️ No structure eliminates all risk. We recommend reviewing the full risk disclosure with a Relationship Manager. But the legal architecture is specifically designed to protect you even in a worst-case scenario.</div>`,
+        fup: 'Would you like more detail on the legal structure or vault partner arrangements?',
+        qr: ['What is the legal structure?','Where is my gold stored?','How is my gold protected?']
+    },
+
+    riskOfDefault: {
+        phrases: ['what if a lessee defaults','what happens if lessee defaults','what if a company cant pay','what if borrower defaults','lessee default','what if the jewelry store cant pay','what if the mining company fails','lessee failure','what if they go bankrupt','what if the business fails','default scenario','what happens in a default','has there ever been a default','has anyone ever defaulted'],
+        kw: ['default','defaulted','fail','failure','bankrupt','cant pay','nonpayment','non-payment'],
+        text: `<strong>What Happens If a Lessee Defaults?</strong><br><br>
+<strong>Track Record First:</strong> In 8+ years and 70+ leases, Monetary Metals has had <strong>zero defaults and zero losses</strong>. This is not an accident — it's the result of multiple reinforcing protections.<br><br>
+<strong>5-Layer Protection System:</strong><br><br>
+<strong>1. Intensive Due Diligence (before the lease)</strong>
+<ul>
+  <li>Thorough financial analysis, site inspections, management background checks</li>
+  <li>Many deals are rejected — only the strongest qualify</li>
+</ul>
+<strong>2. Ongoing Monitoring (during the lease)</strong>
+<ul>
+  <li>Real-time inventory monitoring via API/RFID</li>
+  <li>10% overcollateralization buffer — must maintain 110% of leased ounces at all times</li>
+  <li>MM team responds before any issue becomes a default</li>
+</ul>
+<strong>3. Legal Safeguards</strong>
+<ul>
+  <li>True property lease — your metal can't be seized by lessee's creditors</li>
+  <li>Delaware series LLC — each deal is legally isolated</li>
+</ul>
+<strong>4. Insurance</strong>
+<ul>
+  <li>Lessee must maintain 110% insurance on leased metal</li>
+  <li>Monetary Metals holds supplemental Lloyd's of London policy (up to $20M per lessee)</li>
+</ul>
+<strong>5. Portfolio Diversification</strong>
+<ul>
+  <li>Maximum ~20% of your holdings in any single deal</li>
+  <li>Even a hypothetical single-deal loss would be partially covered</li>
+</ul>`,
+        fup: 'Want to understand more about how we select and monitor lessees?',
+        qr: ['What is the 10% buffer?','Is my gold insured?','What is the legal structure?']
+    },
+
+    priceGold: {
+        phrases: ['why invest in gold','why gold','is gold a good investment','should i buy gold','gold investment case','case for gold','why hold gold','why do people buy gold','what is the point of gold','why is gold valuable','what makes gold valuable','gold as an asset','investment thesis for gold','is gold still relevant','is gold still worth holding','gold performance','gold in portfolio','why does gold matter'],
+        kw: ['why gold','investment','case','thesis','valuable','value','asset','hold','relevant'],
+        text: `<strong>The Investment Case for Gold</strong><br><br>
+<em>Note: This is educational information, not investment advice. Please consult your financial advisor for personalized guidance.</em><br><br>
+<strong>Why Many Investors Hold Gold:</strong>
+<ul>
+  <li><strong>Store of Value:</strong> Gold has preserved purchasing power across 5,000+ years. An ounce of gold buys roughly the same amount today as it did in Roman times.</li>
+  <li><strong>Inflation Hedge:</strong> Gold tends to hold value when fiat currencies are debased through money printing.</li>
+  <li><strong>Portfolio Diversification:</strong> Gold has low correlation to stocks and bonds — it often rises when other assets fall.</li>
+  <li><strong>Crisis Insurance:</strong> Gold is the classic "safe haven" asset in financial crises, geopolitical turmoil, and currency collapses.</li>
+  <li><strong>Scarcity:</strong> ~190,000 tonnes above-ground globally — mining adds ~1.5% per year, constraining supply.</li>
+</ul>
+<strong>The Monetary Metals Difference:</strong><br>
+With MM, gold isn't just a passive store of value — it's an <em>income-generating</em> asset, growing your ounce count year over year while you retain full price exposure.`,
+        fup: 'Would you like to compare gold vs. other asset classes, or explore the yield program?',
+        qr: ['Gold vs Bitcoin','Gold vs stocks','Gold as inflation hedge','What returns can I earn?']
+    },
+
+    goldVsCrypto: {
+        phrases: ['gold vs bitcoin','gold vs crypto','gold vs cryptocurrency','bitcoin vs gold','crypto vs gold','should i buy gold or bitcoin','gold or bitcoin','is gold better than crypto','bitcoin better than gold','compare gold to bitcoin','gold compared to bitcoin','why gold over crypto','why not crypto','why not bitcoin','gold or ethereum','ethereum vs gold','gold vs digital assets'],
+        kw: ['bitcoin','crypto','cryptocurrency','btc','ethereum','digital','asset'],
+        text: `<strong>Gold vs. Bitcoin &amp; Cryptocurrency</strong><br><br>
+<em>Educational comparison — not investment advice.</em><br><br>
+<strong>Key Differences:</strong><br><br>
+<table style="width:100%;font-size:13px;border-collapse:collapse;">
+<tr style="background:#F0F7F4"><td style="padding:6px;font-weight:600">Feature</td><td style="padding:6px;font-weight:600">Gold</td><td style="padding:6px;font-weight:600">Bitcoin</td></tr>
+<tr><td style="padding:6px">Track record</td><td style="padding:6px">5,000+ years</td><td style="padding:6px">~15 years</td></tr>
+<tr style="background:#F9FAFB"><td style="padding:6px">Volatility</td><td style="padding:6px">Moderate</td><td style="padding:6px">Extreme (80%+ drawdowns)</td></tr>
+<tr><td style="padding:6px">Physical asset</td><td style="padding:6px">Yes — tangible</td><td style="padding:6px">No — digital code</td></tr>
+<tr style="background:#F9FAFB"><td style="padding:6px">Industrial use</td><td style="padding:6px">Yes (electronics, medicine)</td><td style="padding:6px">Limited</td></tr>
+<tr><td style="padding:6px">Yield at MM</td><td style="padding:6px">3–4% annually</td><td style="padding:6px">Not available at MM</td></tr>
+<tr style="background:#F9FAFB"><td style="padding:6px">Counterparty risk</td><td style="padding:6px">Low (physical title)</td><td style="padding:6px">Exchange/custody risk</td></tr>
+</table><br>
+<strong>Many sophisticated investors hold both</strong> — gold for stability and crisis protection, Bitcoin for speculative upside. The two serve different roles.`,
+        fup: 'Want to explore how gold fits into a diversified portfolio?',
+        qr: ['Gold vs stocks','Gold as inflation hedge','Why invest in gold?']
+    },
+
+    goldVsStocks: {
+        phrases: ['gold vs stocks','gold vs equities','stocks vs gold','equities vs gold','should i buy gold or stocks','gold vs s&p 500','gold vs s&p500','gold compared to stocks','stocks compared to gold','gold vs market','gold vs index fund','gold vs etf stocks','is gold better than stocks','how does gold compare to stocks','gold in stock market','gold versus stock market'],
+        kw: ['stocks','equities','s&p','index','market','shares','equity'],
+        text: `<strong>Gold vs. Stocks &amp; Equities</strong><br><br>
+<em>Educational comparison — not investment advice.</em><br><br>
+<strong>How They Differ:</strong>
+<ul>
+  <li><strong>Stocks</strong> represent ownership in a business — you benefit from corporate profits and growth, but also bear business and management risk</li>
+  <li><strong>Gold</strong> is a store of value and monetary asset — it doesn't produce earnings, but it preserves purchasing power and holds value in crises</li>
+</ul>
+<strong>Historical Observations:</strong>
+<ul>
+  <li>Gold tends to perform well when stocks suffer (low to negative correlation)</li>
+  <li>During the 2008 financial crisis: S&P 500 fell ~50%; gold rose ~25%</li>
+  <li>Gold has outperformed stocks in periods of high inflation</li>
+  <li>Stocks tend to outperform gold in sustained bull markets</li>
+</ul>
+<strong>The Monetary Metals Angle:</strong><br>
+Gold with yield (3–4% annually in ounces) changes the portfolio math significantly. Traditionally, gold's opportunity cost was zero yield. With MM, that disadvantage disappears.`,
+        fup: 'Want to discuss how gold fits within your broader portfolio strategy?',
+        qr: ['Gold vs Bitcoin','Gold as inflation hedge','What returns can I earn?']
+    },
+
+    goldVsRealEstate: {
+        phrases: ['gold vs real estate','real estate vs gold','gold compared to real estate','should i buy gold or property','gold or property','gold or housing','gold or land','compare gold to real estate','gold real estate comparison','is gold better than real estate'],
+        kw: ['real estate','property','housing','land','house','rental'],
+        text: `<strong>Gold vs. Real Estate</strong><br><br>
+<em>Educational comparison — not investment advice.</em><br><br>
+<strong>Key Differences:</strong>
+<ul>
+  <li><strong>Liquidity:</strong> Gold can be sold in days; real estate takes weeks to months</li>
+  <li><strong>Maintenance:</strong> Gold requires no upkeep; real estate requires ongoing management</li>
+  <li><strong>Divisibility:</strong> Gold is infinitely divisible; real estate is not</li>
+  <li><strong>Geographic risk:</strong> Real estate is local; gold is global</li>
+  <li><strong>Yield:</strong> Real estate can generate rental income; traditional gold cannot — <em>but with Monetary Metals, gold generates 3–4% yield in ounces annually</em></li>
+</ul>
+<strong>Many investors hold both</strong> as different elements of a diversified hard-asset portfolio. Gold provides liquidity and crisis protection that real estate cannot.`,
+        fup: 'Would you like to explore how gold fits into your overall portfolio?',
+        qr: ['Gold vs stocks','Why invest in gold?','What are the returns?']
+    },
+
+    physicalVsETF: {
+        phrases: ['physical gold vs etf','physical vs paper gold','gold etf vs physical','gld vs physical gold','iau vs physical gold','paper gold','paper vs physical','physical gold vs paper','why not just buy gld','why physical gold','should i buy etf or physical','etf or bullion','should i buy gld etf','gold etf comparison','physical gold advantages','why physical over etf'],
+        kw: ['etf','gld','iau','paper','physical','bullion','fund'],
+        text: `<strong>Physical Gold vs. Gold ETFs</strong><br><br>
+<strong>Gold ETFs (like GLD, IAU):</strong>
+<ul>
+  <li>✅ Easy to buy/sell like a stock</li>
+  <li>❌ Annual management fee (~0.40%/year)</li>
+  <li>❌ No direct ownership of physical metal</li>
+  <li>❌ No delivery option (for most retail ETFs)</li>
+  <li>❌ Counterparty risk with the fund custodian</li>
+  <li>❌ Zero yield — you pay to hold, not earn</li>
+</ul>
+<strong>Physical Gold at Monetary Metals:</strong>
+<ul>
+  <li>✅ Direct allocated title to physical metal</li>
+  <li>✅ Full delivery option at any time</li>
+  <li>✅ Zero storage fees</li>
+  <li>✅ Earns 3–4% yield annually in ounces</li>
+  <li>✅ Lloyd's of London insurance</li>
+  <li>⚠️ Less liquid than ETFs (1–2 week withdrawal)</li>
+  <li>⚠️ $30,000 minimum (vs. any amount for ETFs)</li>
+</ul>
+<div class="box gold">For larger holdings (10+ oz), physical gold at Monetary Metals typically outperforms ETFs on a total cost/return basis by 3–4% annually.</div>`,
+        fup: 'Any other questions about how Monetary Metals compares to alternatives?',
+        qr: ['Gold vs Bitcoin','What are the fees?','How is my gold protected?']
+    },
+
+    inflationHedge: {
+        phrases: ['gold as inflation hedge','gold vs inflation','does gold protect against inflation','inflation protection','gold and inflation','does gold go up with inflation','gold inflation hedge','is gold a hedge','currency debasement','gold against dollar inflation','purchasing power','preserve purchasing power','protect against dollar decline','dollar devaluation','gold vs dollar','fiat currency','money printing','quantitative easing','qe gold'],
+        kw: ['inflation','hedge','currency','debasement','purchasing power','dollar','fiat','printing','qe'],
+        text: `<strong>Gold as an Inflation &amp; Currency Hedge</strong><br><br>
+<strong>The Core Case:</strong><br>
+Gold has no coupon, no dividend — its value comes from its function as a monetary asset. When fiat currencies lose purchasing power through inflation or money printing, gold tends to hold its real value.<br><br>
+<strong>Historical Evidence:</strong>
+<ul>
+  <li>1971–1980: US ended gold standard → dollar weakened → gold rose from $35 to $850/oz</li>
+  <li>2008–2012: Fed launched QE → gold rose from $800 to $1,900/oz</li>
+  <li>2020–2022: COVID stimulus → gold rose to $2,000+/oz; inflation hit 9%</li>
+</ul>
+<strong>The Monetary Metals Multiplier:</strong><br>
+Traditional gold holders bear inflation protection but zero income. With Monetary Metals, you earn 3–4% additional ounces per year — so even if gold's dollar price stays flat, you're growing your real wealth in metal terms.<br><br>
+<div class="box gold">If gold = inflation protection, then gold + yield = inflation protection + real return.</div>`,
+        fup: 'Want to explore more about how returns in ounces work?',
+        qr: ['Why returns in ounces?','What are the returns?','Gold vs Bitcoin']
+    },
+
+    silverVsGold: {
+        phrases: ['silver vs gold','gold vs silver','should i buy silver or gold','silver or gold','compare silver to gold','silver compared to gold','which is better silver or gold','is silver better than gold','is gold better than silver','silver investment vs gold','silver better','gold better','which should i choose','invest in silver or gold','difference between silver and gold'],
+        kw: ['silver','gold','versus','compare','comparison','difference','choose','better'],
+        text: `<strong>Silver vs. Gold — Key Differences</strong><br><br>
+<strong>Gold:</strong>
+<ul>
+  <li>Primarily a monetary metal / store of value</li>
+  <li>Lower volatility than silver</li>
+  <li>Lease Yield Account: up to 4% while waiting for deployment</li>
+  <li>Minimum: 10 oz (~$40,000 at current prices)</li>
+  <li>Leases available; bonds available (accredited investors)</li>
+</ul>
+<strong>Silver:</strong>
+<ul>
+  <li>50%+ of demand is industrial (electronics, solar panels, etc.)</li>
+  <li>Higher volatility than gold — bigger swings up and down</li>
+  <li>Silver does <strong>not</strong> earn Lease Yield Account interest while waiting</li>
+  <li>Silver leases often <strong>3–4x oversubscribed</strong> — high demand, limited supply</li>
+  <li>Minimum: 1,000 oz (~$48,000 at current prices)</li>
+  <li>Ships ground (not overnight) when sending physical metal</li>
+</ul>
+<div class="box amber">💡 Many investors hold both: gold for monetary stability, silver for industrial growth potential and potentially higher price appreciation.</div>`,
+        fup: 'Want to know more about silver leases or how to get started?',
+        qr: ['How do silver leases work?','What is the minimum for silver?','What returns can I earn?']
+    },
+
+    coinTypes: {
+        phrases: ['what coins do you accept','what bars do you accept','what types of gold do you accept','what gold coins','accepted gold coins','accepted bars','gold eagle','maple leaf','philharmonic','krugerrand','american eagle','canadian maple','gold bar','silver eagle','acceptable bullion','what form of gold','what form of silver','what types of coins','types of bars','acceptable gold','which coins can i send','which bars can i send','do you accept american eagles','do you accept maple leafs','do you accept krugerrands','what bullion is accepted'],
+        kw: ['eagle','maple leaf','philharmonic','krugerrand','coins','bars','bullion','acceptable','accepted'],
+        text: `<strong>Accepted Gold &amp; Silver Types</strong><br><br>
+<strong>Generally Accepted — Gold:</strong>
+<ul>
+  <li>American Gold Eagles (all sizes)</li>
+  <li>Canadian Gold Maple Leafs</li>
+  <li>Vienna Philharmonics</li>
+  <li>South African Krugerrands</li>
+  <li>Australian Gold Kangaroos / Nuggets</li>
+  <li>PAMP Suisse bars (1 oz, 10 oz, 100g, kilo)</li>
+  <li>Valcambi bars, Perth Mint bars</li>
+  <li>Standard 400 oz Good Delivery bars (LBMA)</li>
+</ul>
+<strong>Generally Accepted — Silver:</strong>
+<ul>
+  <li>American Silver Eagles (typically above par)</li>
+  <li>Canadian Silver Maple Leafs (typically above par)</li>
+  <li>100 oz silver bars (most brands)</li>
+  <li>1,000 oz silver bars (most brands)</li>
+</ul>
+<strong>⚠️ NOT Accepted:</strong>
+<ul>
+  <li>OPM (Ohio Precious Metals) bars</li>
+  <li>Republic Metals bars</li>
+  <li>Novelty, numismatic, or collectible coins</li>
+</ul>
+<div class="box amber">For unusual items or to confirm before shipping, always check with a Relationship Manager first: 📞 <strong>(480) 867-2100</strong></div>`,
+        fup: 'Questions about shipping your metal or conversion rates?',
+        qr: ['How do I ship my gold?','What are the conversion rates?','How do I fund my account?']
+    },
+
+    damagedMetal: {
+        phrases: ['damaged coins','scratched coins','damaged bars','damaged metal','damaged gold','damaged silver','scratched gold','bent coins','what if my coins are scratched','what if my gold is damaged','damaged bullion','what if bars are dented','do you accept damaged','will you take damaged','condition of metal','what condition must coins be in','do the coins need to be perfect','imperfect coins','worn coins'],
+        kw: ['damaged','scratched','bent','worn','condition','imperfect','dented','rough'],
+        text: `<strong>Damaged or Imperfect Metal — What to Know</strong><br><br>
+<strong>Gold:</strong>
+<ul>
+  <li>Standard coins and bars typically convert at par (full ounce value)</li>
+  <li>Heavily damaged, altered, or non-standard items may be discounted</li>
+  <li>Deep scratches or physical damage to bars may affect acceptance</li>
+</ul>
+<strong>Silver:</strong>
+<ul>
+  <li>Silver bars (especially common 100 oz and 1,000 oz) may convert <em>below par</em> (negative bid) depending on condition and brand</li>
+  <li>Silver coins like American Eagles and Canadian Maple Leafs typically convert <em>above par</em> due to coin premium</li>
+  <li>Generic silver rounds may vary</li>
+</ul>
+<strong>Best Practice:</strong>
+<ul>
+  <li>Contact a Relationship Manager before shipping questionable metal</li>
+  <li>Send photos if uncertain about condition</li>
+  <li>When packing, handle coins with care to avoid additional damage</li>
+</ul>
+<div class="box amber">📞 For pre-shipment assessment of unusual or damaged metal: <strong>(480) 867-2100</strong></div>`,
+        fup: 'Questions about shipping procedures or acceptable metal types?',
+        qr: ['What coins do you accept?','How do I ship my gold?','What are conversion rates?']
+    },
+
+    transferVault: {
+        phrases: ['can i transfer from another vault','transfer from brinks','transfer from loomis','transfer my gold from storage','transfer existing storage','i have gold at a vault','i already have gold stored','move my gold to you','transfer from kitco','transfer from apmex','transfer from perth mint','transfer from gold money','goldmoney transfer','move existing gold','transfer my existing holdings','vault to vault transfer','transfer from my current vault','already have metal stored'],
+        kw: ['transfer','vault','move','existing','current','storage','goldmoney','kitco','apmex'],
+        text: `<strong>Transferring Gold From Another Vault</strong><br><br>
+If you already have gold or silver stored at another vault or custodian, you may be able to transfer it to Monetary Metals without the cost of physical shipment.<br><br>
+<strong>Possible Transfer Partners:</strong>
+<ul>
+  <li>Transfers from Brinks, Loomis, Delaware Depository, and other institutional vaults often possible</li>
+  <li>Vault-to-vault transfers are typically faster and cheaper than physical shipping</li>
+</ul>
+<strong>Process:</strong>
+<ol>
+  <li>Contact a Relationship Manager with your current vault and approximate holdings</li>
+  <li>They'll assess whether a direct transfer is feasible</li>
+  <li>If yes, coordinate logistics between both vaults</li>
+  <li>If no, arrange physical shipment (free overnight shipping for gold)</li>
+</ol>
+<div class="box amber">Each situation is different. Contact us first before initiating any transfer from your current custodian.<br>📞 <strong>(480) 867-2100</strong> &nbsp;|&nbsp; 📧 <a href="mailto:relationships@monetary-metals.com">relationships@monetary-metals.com</a></div>`,
+        fup: 'Any other questions about funding or transferring metal?',
+        qr: ['How do I fund my account?','How do I ship my gold?','How long does it take?']
+    },
+
+    partnerProgram: {
+        phrases: ['do you have a partner program','do you have a referral program','can i refer people','how does the referral program work','affiliate program','referral fee','can i introduce clients','partner with monetary metals','financial advisor partnership','advisor program','can i become a partner','introduce investors','bring clients to you','referral commission','how does referrals work','can my financial advisor work with you'],
+        kw: ['partner','referral','affiliate','introduce','commission','advisor','refer','program'],
+        text: `<strong>Partner &amp; Referral Programs</strong><br><br>
+Monetary Metals works with a range of partners including financial advisors, wealth managers, and business introducers who refer clients to the platform.<br><br>
+<strong>For details on:</strong>
+<ul>
+  <li>Referral fee structures</li>
+  <li>Financial advisor/RIA partnership arrangements</li>
+  <li>Business introduction programs</li>
+</ul>
+Please contact the Monetary Metals team directly — partner programs may vary and terms are discussed case by case.<br><br>
+<ul>
+  <li>📞 <strong>(480) 867-2100</strong></li>
+  <li>📧 <a href="mailto:relationships@monetary-metals.com">relationships@monetary-metals.com</a></li>
+  <li>📅 <a href="https://www.monetary-metals.com/contact-us/" target="_blank">Schedule a call →</a></li>
+</ul>`,
+        fup: 'Any other questions about working with Monetary Metals?'
+    },
+
+    goldFinancing: {
+        phrases: ['i need gold financing','my business needs gold','i need to borrow gold','gold lease for my business','i want to lease gold for my business','how does a business apply','applying as a lessee','become a lessee','how do i lease gold from you','gold financing for jewelry','gold lease for jeweler','apply for a gold lease','business application','i run a jewelry store','i own a mining company','i need gold working capital','gold working capital','borrow gold for my business','gold credit line','i need precious metals financing'],
+        kw: ['lessee','borrow','business','financing','apply','jewelry','mining','working capital','credit'],
+        text: `<strong>Gold Financing for Businesses</strong><br><br>
+If you run a business that needs physical gold or silver (jewelry, mining, refining, fabricating), Monetary Metals may be able to provide it through a gold lease — often at rates more competitive than bank financing.<br><br>
+<strong>How It Works for Lessees:</strong>
+<ul>
+  <li>You lease physical gold from Monetary Metals' investor pool</li>
+  <li>Use the metal in your business as inventory or working capital</li>
+  <li>Pay monthly interest in gold ounces</li>
+  <li>Return the original ounces at lease end</li>
+</ul>
+<strong>Advantages Over Bank Financing:</strong>
+<ul>
+  <li>Borrow gold, not dollars — no currency conversion risk</li>
+  <li>Rates typically competitive with or better than bank credit lines</li>
+  <li>The gold never appears on your balance sheet (off-balance-sheet financing)</li>
+</ul>
+<strong>Eligibility:</strong>
+<ul>
+  <li>Precious metals business with legitimate physical gold/silver needs</li>
+  <li>Passes due diligence: financial review, site inspection, management background check</li>
+</ul>
+<div class="box gold">📞 To start a conversation about financing your business: <strong>(480) 867-2100</strong><br>Or email: <a href="mailto:relationships@monetary-metals.com">relationships@monetary-metals.com</a></div>`,
+        fup: 'Have other questions about the lease program?'
+    },
+
+    ashtonStewart: {
+        phrases: ['who is ashton stewart','ashton stewart and co','ashton stewart co','what is ashton stewart','ashton stewart company','ashton stewart relationship','are you related to ashton stewart','is ashton stewart part of monetary metals','ashton stewart advisory'],
+        kw: ['ashton','stewart'],
+        text: `<strong>Ashton Stewart &amp; Co.</strong><br><br>
+I don't have enough verified information about Ashton Stewart &amp; Co. to give you a confident answer about their specific relationship with Monetary Metals.<br><br>
+<div class="box amber">⚠️ This is one of the items flagged for client review in our knowledge base. Please contact a Relationship Manager for an accurate and current answer:<br><br>
+📞 <strong>(480) 867-2100</strong><br>
+📧 <a href="mailto:relationships@monetary-metals.com">relationships@monetary-metals.com</a></div>`,
+        fup: 'Any other questions I can help with?'
+    },
+
+    mmEquity: {
+        phrases: ['can i invest in monetary metals company','invest in monetary metals stock','monetary metals equity','company stock','is monetary metals publicly traded','is mm publicly traded','how do i invest in the company','invest in mm itself','monetary metals shares','company equity','buy stock in monetary metals','is mm listed','monetary metals ipo','company investment','raise capital'],
+        kw: ['equity','stock','shares','company','invest in mm','publicly traded','ipo','listed'],
+        text: `<strong>Investing in Monetary Metals as a Company</strong><br><br>
+Monetary Metals is a <strong>private company</strong> — it is not publicly traded on any stock exchange.<br><br>
+<strong>What We Know:</strong>
+<ul>
+  <li>Monetary Metals raised <strong>$5.6M in capital</strong> in 2024 (private placement)</li>
+  <li>This was a meaningful milestone in the company's growth</li>
+  <li>The company is not currently listed on any public exchange</li>
+</ul>
+<strong>For information on:</strong>
+<ul>
+  <li>Future equity opportunities</li>
+  <li>Private placement details</li>
+  <li>Any upcoming capital events</li>
+</ul>
+Please contact the Monetary Metals team directly:<br>
+📞 <strong>(480) 867-2100</strong> &nbsp;|&nbsp; 📧 <a href="mailto:relationships@monetary-metals.com">relationships@monetary-metals.com</a><br><br>
+<div class="box amber">Note: Investing in MM's <em>gold/silver programs</em> (leases and bonds) is different from investing in MM <em>as a company</em>. This answer addresses the latter.</div>`,
+        fup: 'Would you like to learn more about our gold and silver investment programs instead?',
+        qr: ['How does the lease program work?','Tell me about gold bonds','What are the returns?']
+    },
+
+    oversubscription: {
+        phrases: ['what does oversubscribed mean','what is oversubscription','oversubscribed','silver oversubscribed','lease oversubscribed','what happens when it is oversubscribed','what if there is too much metal','waitlist for silver','silver is 3x oversubscribed','3x oversubscribed','4x oversubscribed','pro rata allocation oversubscription','supply exceeds demand','too much gold','too much silver','more investors than deals'],
+        kw: ['oversubscribed','oversubscription','waitlist','waiting','demand','supply','excess'],
+        text: `<strong>What Does "Oversubscribed" Mean?</strong><br><br>
+When Monetary Metals says a lease program is <strong>"oversubscribed"</strong>, it means <em>investor demand (metal available for lease) exceeds lessee demand (businesses wanting to lease metal)</em>.<br><br>
+<strong>Silver Example:</strong>
+<ul>
+  <li>Investors have offered 3,000 oz of silver for lease</li>
+  <li>Only 1,000 oz of active silver lease demand exists</li>
+  <li>The silver lease program is "3x oversubscribed"</li>
+</ul>
+<strong>What This Means for You:</strong>
+<ul>
+  <li>Silver leases are highly popular — you may have to wait longer to be deployed</li>
+  <li>While waiting, silver earns <strong>0% Lease Yield Account rate</strong> (unlike gold, which earns up to 4%)</li>
+  <li>Gold is generally easier to deploy quickly</li>
+</ul>
+<strong>The Positive Side:</strong><br>
+High investor interest in silver leases reflects strong confidence in the program. And high lessee demand for gold means gold gets deployed faster.<br><br>
+<div class="box">For current deployment timelines, speak with a Relationship Manager: 📞 <strong>(480) 867-2100</strong></div>`,
+        fup: 'Would you like to know more about the Lease Yield Account or silver vs. gold?',
+        qr: ['Silver vs Gold','Lease Yield Account','What metals do you support?']
+    },
+
+    leaseBuffer: {
+        phrases: ['10 percent buffer','10% buffer','overcollateralization','over collateralization','what is the buffer','how does the buffer work','1100 ounces','110 percent','110%','overcollateralized','what does 110 percent mean','collateral buffer','why 10 percent extra','inventory buffer','what is the safety buffer','buffer requirement','collateral requirement'],
+        kw: ['buffer','overcollateralization','110%','collateral','safety','margin'],
+        text: `<strong>The 10% Overcollateralization Buffer</strong><br><br>
+This is one of the key protections in every Monetary Metals lease.<br><br>
+<strong>How It Works:</strong>
+<div class="box gold">If a lessee borrows <strong>1,000 oz</strong> of gold, they must maintain <strong>at least 1,100 oz</strong> at all times — 10% more than the lease amount.</div>
+<strong>Why It Matters:</strong>
+<ul>
+  <li>It creates a cushion — even if there's shrinkage, breakage, or accounting delays, client ounces are still fully covered</li>
+  <li>A 10% drop in the lessee's inventory triggers immediate attention from MM's team — well before client ounces are at risk</li>
+  <li>For jewelry stores: accounts for items in transit, being repaired, or temporarily off-site</li>
+</ul>
+<strong>Real-Time Monitoring:</strong>
+<ul>
+  <li>Lessee inventory tracked via API integration and RFID tagging</li>
+  <li>MM team receives alerts if count approaches the 110% threshold</li>
+  <li>Early warning system — prevents problems before they start</li>
+</ul>
+<strong>Combined with Insurance:</strong><br>
+The buffer is <em>in addition to</em> the lessee's mandatory 110% insurance coverage and MM's Lloyd's of London supplemental policy.`,
+        fup: 'Want to learn more about the full 5-layer protection system?',
+        qr: ['How is my gold protected?','What if a lessee defaults?','Is my gold insured?']
+    },
+
+    conversionRate: {
+        phrases: ['what are the conversion rates','how are coins converted','how are bars converted','coin conversion','bar conversion','how do you value my coins','how do you convert my gold','what is the conversion rate','spot price conversion','how do you price my metal','how is my gold valued when i send it','what price do i get','par value','below par','above par','what does below par mean','what does above par mean','what is par'],
+        kw: ['conversion','convert','rate','par','value','price','spot','premium','discount'],
+        text: `<strong>Metal Conversion Rates</strong><br><br>
+When you send physical metal to Monetary Metals, it's converted into "MM Allocated Pool" units. Here's how conversion rates work:<br><br>
+<strong>Gold:</strong>
+<ul>
+  <li>Most standard gold coins and bars: convert at <strong>par</strong> (equal to spot value × oz weight)</li>
+  <li>Examples: Gold Eagles, Maple Leafs, PAMP bars, standard 400 oz Good Delivery bars</li>
+  <li>Heavily damaged or non-standard items: may convert below par or be rejected</li>
+</ul>
+<strong>Silver:</strong>
+<ul>
+  <li>Silver coins (Eagles, Maple Leafs): typically convert <strong>above par</strong> (coin premium retained)</li>
+  <li>Standard 100 oz / 1,000 oz bars: typically at or slightly below par (bars have no coin premium)</li>
+  <li>Generic silver rounds: varies by brand and condition</li>
+</ul>
+<strong>Trading Spreads (for buying/selling pool):</strong>
+<ul>
+  <li>Under $250K: 0.75% spread</li>
+  <li>$250K–$1M: 0.55% spread</li>
+  <li>Over $1M: 0.40% spread</li>
+</ul>
+<div class="box amber">For pre-shipment valuation of unusual items, contact us first: 📞 <strong>(480) 867-2100</strong></div>`,
+        fup: 'Questions about which coins/bars are accepted?',
+        qr: ['What coins do you accept?','How do I ship my gold?','What are the fees?']
+    },
+
+    priceLock: {
+        phrases: ['when is price locked in','when does the trade execute','when is my trade done','trade execution time','what time are trades done','same day trade','next day trade','12pm deadline','noon deadline','when does the price get locked','when does my purchase execute','trade timing','trading hours','when is my wire used to buy','when is my ach used to buy'],
+        kw: ['price','lock','trade','execute','timing','deadline','noon','12pm','same day','next day'],
+        text: `<strong>Trade Execution &amp; Price Lock-In</strong><br><br>
+<strong>The Basic Rule:</strong>
+<div class="box gold">Funds received by <strong>12:00 PM New York time</strong> → same-day trade execution<br>Funds received after 12:00 PM → next business day</div>
+<strong>What "Trade Execution" Means:</strong>
+<ul>
+  <li>MM purchases gold/silver for your account at the current spot price + applicable spread</li>
+  <li>The transaction is confirmed and your pool balance reflects the new ounces</li>
+  <li>You are fully "in" gold from that moment — any price movement after that point benefits/affects you</li>
+</ul>
+<strong>Why This Matters:</strong>
+<ul>
+  <li>If you're bullish on gold and want to catch a specific price, aim to have your wire arrive before 12pm NY</li>
+  <li>ACH takes 2–4 days to clear, so price lock happens at clearing, not initiation</li>
+  <li>Physical metal: price is locked when processing is complete (up to 2 weeks after arrival)</li>
+</ul>`,
+        fup: 'Any other questions about funding or trade execution?',
+        qr: ['How do I fund my account?','What are the spreads?','How long does funding take?']
+    },
+
+    fundedDeals: {
+        phrases: ['tell me about funded deals','show me funded deals','how many deals have you done','completed deals','past deals','deal history','what deals have you funded','transactions completed','deals across five continents','75 deals','funded transactions','see all deals','where can i see deals','deal track record','deal portfolio','show me deals you have done'],
+        kw: ['deals','funded','completed','transactions','history','portfolio','track record'],
+        text: `<strong>Monetary Metals — Funded Deals</strong><br><br>
+Monetary Metals publishes information on its funded transactions, providing full transparency into the program's track record.<br><br>
+<strong>By the Numbers (as of November 2025):</strong>
+<ul>
+  <li>75 funded deals completed</li>
+  <li>Spanning 5 continents</li>
+  <li>Covering jewelry stores, mining companies, refiners, fabricators, and more</li>
+  <li>Zero defaults across all completed transactions since 2016</li>
+</ul>
+<strong>Types of Transactions Include:</strong>
+<ul>
+  <li>Gold leases to jewelry retailers</li>
+  <li>Silver leases to precious metals fabricators</li>
+  <li>Gold and silver bonds for mining companies</li>
+  <li>Working capital leases for coin dealers and refiners</li>
+</ul>
+<div class="box gold">📊 <a href="https://www.monetary-metals.com/funded-deals/" target="_blank">View all funded deals on our website →</a></div>`,
+        fup: 'Would you like to know more about how deals are structured or how you participate?',
+        qr: ['How does lease allocation work?','What types of companies lease?','What are the returns?']
+    },
+
+    getStarted: {
+        phrases: ['i am ready to start','i want to start','how do i begin','let me start','sign me up','ready to invest','i want to invest','how do i invest','i am interested','i want to open an account','ready to open','lets get started','how do i get going','how do i proceed','next steps','what are the next steps','get started now','i want in','i want to join','ready to go','let\'s go','sign up now','open my account now'],
+        kw: ['ready','start','begin','invest','join','sign up','proceed','next steps'],
+        text: `<strong>Ready to Get Started? Here's Your Path</strong><br><br>
+<div class="box gold">🏅 Let's get your gold working for you!</div>
+<strong>Step 1 — Open Your Account</strong>
+<ul>
+  <li>Online application: 10–15 minutes</li>
+  <li>Approval: within 24 hours</li>
+  <li><a href="https://client.monetary-metals.com/sign-up" target="_blank">📋 Open Your Account Now →</a></li>
+</ul>
+<strong>Step 2 — Fund Your Account</strong>
+<ul>
+  <li>Option A: Ship physical metal (gold overnight free, silver ground)</li>
+  <li>Option B: Wire transfer (1–2 days)</li>
+  <li>Option C: ACH (2–4 days)</li>
+  <li>Minimum: 10 oz gold / 1,000 oz silver / $30,000 USD</li>
+</ul>
+<strong>Step 3 — Start Earning</strong>
+<ul>
+  <li>Gold begins earning Lease Yield Account rate immediately (up to 4%)</li>
+  <li>Your metal is allocated to leases as they become available</li>
+  <li>Interest paid monthly in ounces to your account</li>
+</ul>
+<strong>Have Questions First?</strong><br>
+Schedule a call with a Relationship Manager:<br>
+📞 <strong>(480) 867-2100</strong> &nbsp;|&nbsp; 📅 <a href="https://www.monetary-metals.com/contact-us/" target="_blank">Book a call →</a>`,
+        fup: 'Any specific questions before you start?',
+        qr: ['What is the minimum?','How do I fund my account?','What returns will I earn?','Talk to a Relationship Manager']
+    },
+
+    accountPortal: {
+        phrases: ['how does the online portal work','online account portal','what can i see in my account','account dashboard','how do i log in','where do i log in','account management','how do i check my balance','portal features','what does the portal show','online account features','how do i access my account','can i see my deals','can i see my interest','account app','mobile app','is there a mobile app','client portal','manage my account online'],
+        kw: ['portal','dashboard','login','account','balance','online','app','manage'],
+        text: `<strong>Your Online Account Portal</strong><br><br>
+Monetary Metals provides a secure online account portal at <a href="https://client.monetary-metals.com" target="_blank">client.monetary-metals.com</a> where you can manage your investment.<br><br>
+<strong>What You Can Do in the Portal:</strong>
+<ul>
+  <li>📊 View your current gold/silver balance (in ounces)</li>
+  <li>📈 Review your interest payment history</li>
+  <li>🔔 Receive and review new lease deal notifications</li>
+  <li>✅ Opt out of specific upcoming deals</li>
+  <li>💸 Initiate withdrawal requests</li>
+  <li>📄 Download tax documents (1099-INT / Form 1042)</li>
+  <li>📬 Update contact information and preferences</li>
+</ul>
+<div class="box amber">For specific portal login assistance or technical issues, contact our team:<br>📞 <strong>(480) 867-2100</strong> &nbsp;|&nbsp; 📧 <a href="mailto:relationships@monetary-metals.com">relationships@monetary-metals.com</a></div>`,
+        fup: 'Any other questions about managing your account?',
+        qr: ['How do I check my balance?','How do I withdraw?','How is interest paid?']
+    },
+
+    bondsVsLeases: {
+        phrases: ['bonds vs leases','leases vs bonds','difference between bonds and leases','what is the difference between a bond and a lease','bond or lease','lease or bond','which is better bonds or leases','which should i choose bond or lease','compare bonds to leases','how are bonds different from leases','bond vs lease','lease vs bond','explain the difference','bonds explained vs leases','which is right for me'],
+        kw: ['bond','bonds','lease','leases','difference','compare','versus','vs','better','choose'],
+        text: `<strong>Gold Bonds vs. Gold Leases — Direct Comparison</strong><br><br>
+<table style="width:100%;font-size:13px;border-collapse:collapse;border:1px solid #E5E7EB;">
+<tr style="background:#1B3628;color:#fff"><td style="padding:8px;font-weight:600">Feature</td><td style="padding:8px;font-weight:600">Leases</td><td style="padding:8px;font-weight:600">Bonds</td></tr>
+<tr style="background:#F0F7F4"><td style="padding:6px">Returns</td><td style="padding:6px">2–4% annually</td><td style="padding:6px">6–19% annually (avg ~11%)</td></tr>
+<tr><td style="padding:6px">Risk level</td><td style="padding:6px">Lower</td><td style="padding:6px">Higher</td></tr>
+<tr style="background:#F0F7F4"><td style="padding:6px">Collateral</td><td style="padding:6px">Physical gold always present</td><td style="padding:6px">Credit-based</td></tr>
+<tr><td style="padding:6px">Who qualifies</td><td style="padding:6px">Any investor (10 oz min)</td><td style="padding:6px">Accredited investors only</td></tr>
+<tr style="background:#F0F7F4"><td style="padding:6px">Terms</td><td style="padding:6px">12 months (rolling)</td><td style="padding:6px">2–5 years</td></tr>
+<tr><td style="padding:6px">Payment</td><td style="padding:6px">Monthly in ounces</td><td style="padding:6px">Monthly/quarterly in ounces</td></tr>
+<tr style="background:#F0F7F4"><td style="padding:6px">Physical backing</td><td style="padding:6px">Yes — always present</td><td style="padding:6px">Not required</td></tr>
+</table><br>
+<strong>Simple Summary:</strong>
+<ul>
+  <li><strong>Leases:</strong> Your gold physically backs the lease at all times. Lower yield but gold is always there.</li>
+  <li><strong>Bonds:</strong> You earn higher returns by lending your gold's value to companies growing/developing operations. Higher risk, higher reward. Accredited investors only.</li>
+</ul>
+<div class="box amber">This is not investment advice. Please consult a Relationship Manager to discuss which is appropriate for your situation.</div>`,
+        fup: 'Would you like details on either the lease or bond program specifically?',
+        qr: ['Tell me about gold bonds','How do leases work?','Am I an accredited investor?']
+    },
+
+    waitlist: {
+        phrases: ['is there a waitlist','is there a waiting list','waitlist for leases','waiting list for silver','am i on a waitlist','how long do i wait','how long before my gold is deployed','when will my gold be deployed','waiting to be deployed','how long until deployed','silver waitlist','gold waitlist','how long before i start earning','when do i start earning','is there a queue','how long in the queue','deployment timeline'],
+        kw: ['waitlist','waiting','wait','queue','deployed','deployment','timeline'],
+        text: `<strong>Waitlists &amp; Deployment Timelines</strong><br><br>
+<strong>Gold:</strong>
+<ul>
+  <li>Generally deployed into leases faster than silver</li>
+  <li>While waiting for a specific lease: earns up to 4% in the Lease Yield Account</li>
+  <li>Gold Lease Yield Account means there's no "dead time" — you earn from day one</li>
+</ul>
+<strong>Silver:</strong>
+<ul>
+  <li>Silver leases are often <strong>3–4x oversubscribed</strong> — demand exceeds supply</li>
+  <li>There may be a waiting period before silver is deployed into an active lease</li>
+  <li>Silver earns <strong>0%</strong> in the Lease Yield Account while waiting (unlike gold)</li>
+  <li>High lessee demand means silver is often deployed quickly when deals become available</li>
+</ul>
+<strong>Practical Tip:</strong><br>
+If deployment speed matters to you, gold is typically faster to deploy and earns yield while waiting. For current wait times, speak with a Relationship Manager.<br><br>
+📞 <strong>(480) 867-2100</strong>`,
+        fup: 'Any other questions about how the deployment process works?',
+        qr: ['What is the Lease Yield Account?','Silver vs Gold','How does lease allocation work?']
+    },
+
+    auditRights: {
+        phrases: ['can i audit my gold','can i verify my gold is there','how do i verify my gold','can i see my gold','audit rights','right to audit','can i physically inspect my gold','can i visit the vault','is there an audit','third party audit','independent audit','proof of reserves','can i see proof my gold is there','how do i know the gold is there','can i get audit report','do you publish audits'],
+        kw: ['audit','verify','proof','reserves','inspect','visit','independent','third party'],
+        text: `<strong>Verifying Your Gold — Audit &amp; Transparency</strong><br><br>
+<strong>Ways You Can Verify Your Metal Exists:</strong>
+<ul>
+  <li>📊 <strong>Online Portal:</strong> Real-time balance in ounces, updated as interest is credited each month</li>
+  <li>📦 <strong>Physical Delivery:</strong> You can request physical delivery of your metal at any time — the ultimate verification (2–3 week process)</li>
+  <li>📋 <strong>Third-Party Vault Audits:</strong> Our vault partners (Brinks, Loomis, Delaware Depository, etc.) conduct regular independent audits as part of their operations</li>
+  <li>🔒 <strong>SOC-2 Certification:</strong> Independent audit of MM's operational and security controls</li>
+</ul>
+<strong>Transparency:</strong>
+<ul>
+  <li>All 75 funded deals are publicly listed at <a href="https://www.monetary-metals.com/funded-deals/" target="_blank">monetary-metals.com/funded-deals</a></li>
+  <li>Lease performance and deal details are disclosed to investors</li>
+</ul>
+<div class="box amber">⚠️ Whether clients can request a specific personalized audit report showing their individual ounces is something we'd recommend confirming directly with your Relationship Manager:<br>📞 <strong>(480) 867-2100</strong></div>`,
+        fup: 'Would you like to know more about vault security or our transparency practices?',
+        qr: ['Where is my gold stored?','How transparent is Monetary Metals?','How is my gold protected?']
+    },
+
+    transparency: {
+        phrases: ['how transparent is monetary metals','is monetary metals transparent','transparency','can i see what you do','what information do you publish','what do you disclose','how do i know what is happening','is this company transparent','what can i see about the deals','deal transparency','open about your operations','how much do you disclose','what reporting do investors get','investor reporting','what information do clients get'],
+        kw: ['transparent','transparency','disclose','disclosure','report','reporting','open','publish'],
+        text: `<strong>Transparency at Monetary Metals</strong><br><br>
+<strong>What We Publish and Disclose:</strong>
+<ul>
+  <li>📊 All 75+ funded transactions are listed publicly at <a href="https://www.monetary-metals.com/funded-deals/" target="_blank">monetary-metals.com/funded-deals</a></li>
+  <li>🔒 SOC-2 Certification — independent security and operational audit</li>
+  <li>📋 Deal infosheets — before each lease, investors receive full deal details: company profile, rates, risk factors, insurance coverage</li>
+  <li>📈 Monthly statements — each investor sees their ounce balance and interest payments</li>
+  <li>🔎 Real-time inventory monitoring reported to investors through deal updates</li>
+</ul>
+<strong>Leadership Transparency:</strong>
+<ul>
+  <li>Named leadership team with verifiable professional backgrounds</li>
+  <li>Keith Weiner regularly publishes research on gold, economics, and the lease program</li>
+  <li>Company blog, podcasts, and newsletter (The Yield) provide ongoing insight</li>
+</ul>
+<div class="box">Monetary Metals' business model depends on investor trust — transparency isn't just ethical, it's existential for us.</div>`,
+        fup: 'Any specific transparency question I can help with?',
+        qr: ['Can I audit my gold?','Tell me about funded deals','Who runs Monetary Metals?']
+    },
+
+    returnsInOunces: {
+        phrases: ['why returns in ounces','why paid in ounces','why not paid in dollars','why ounces not dollars','what does it mean to earn ounces','why is yield in ounces','ounce based returns','gold denominated returns','why ounce yield matters','why does it matter that returns are in ounces','why not just pay cash','why pay in metal','ounce denominated','what is the point of ounce returns','growing your ounce count','ounce count grows'],
+        kw: ['ounces','ounce','denominated','dollars','cash','paid','currency','gold terms'],
+        text: `<strong>Why Returns Are Paid in Ounces — Not Dollars</strong><br><br>
+This is one of the most important features of the Monetary Metals program. It's not just cosmetic — it's philosophically significant.<br><br>
+<strong>The Problem With Dollar Returns on Gold:</strong>
+<ul>
+  <li>If you earn 3% in <em>dollars</em> on gold and gold's price falls 5%, you've lost 2% in real terms</li>
+  <li>Dollar-denominated returns on gold create a confusing mix of currency risk and gold price risk</li>
+</ul>
+<strong>The Power of Ounce Returns:</strong>
+<ul>
+  <li>Your ounce count grows regardless of what gold does in dollar terms</li>
+  <li>If you start with 100 oz and earn 3.5%, you have 103.5 oz — period</li>
+  <li>Whether gold is at $3,000 or $5,000, your 103.5 oz is your 103.5 oz</li>
+  <li>You're measuring your wealth in gold, not the currency you're trying to hedge against</li>
+</ul>
+<div class="box gold"><strong>The key insight:</strong> For investors who hold gold <em>because</em> they distrust fiat currency, earning returns in more fiat currency defeats the purpose. Earning returns in more gold is the philosophically consistent solution.</div>`,
+        fup: 'Want to explore how this works in practice over the long term?',
+        qr: ['Do I keep gold price exposure?','How does compounding work?','What are the returns?']
+    },
+
+    goldSilverRatio: {
+        phrases: ['gold silver ratio','what is the gold silver ratio','gold to silver ratio','how do you use the gold silver ratio','gsr','silver ratio','how does the ratio work','what is a good gold silver ratio','historic gold silver ratio','using the ratio to invest','should i buy silver when ratio is high','gold silver exchange ratio','what does the ratio mean'],
+        kw: ['ratio','gsr','gold-silver','silver-gold','exchange'],
+        text: `<strong>The Gold-Silver Ratio</strong><br><br>
+The gold-silver ratio (GSR) is simply the number of ounces of silver needed to buy one ounce of gold at current spot prices.<br><br>
+<strong>Current (approximate, November 2025):</strong>
+<div class="box gold">Gold: ~$4,000/oz ÷ Silver: ~$48/oz = <strong>~83:1 ratio</strong></div>
+<strong>Historical Context:</strong>
+<ul>
+  <li>Historical average: roughly 50–70:1</li>
+  <li>When ratio is high (80+): silver is relatively cheap vs. gold — some investors favor silver</li>
+  <li>When ratio is low (30-40): gold is relatively cheap vs. silver — some favor gold</li>
+  <li>The ratio has ranged from 15:1 (before modern era) to 120:1 (COVID crash 2020)</li>
+</ul>
+<strong>At Monetary Metals:</strong>
+<ul>
+  <li>You can hold both gold and silver — accounts support both</li>
+  <li>Gold minimum: 10 oz | Silver minimum: 1,000 oz</li>
+  <li>Different yield characteristics (gold earns Lease Yield Account; silver doesn't)</li>
+</ul>
+<div class="box amber">⚠️ This is educational — not investment advice. The GSR is one tool among many for precious metals analysis.</div>`,
+        fup: 'Would you like to compare gold and silver programs at Monetary Metals?',
+        qr: ['Silver vs Gold','What metals do you support?','What are the returns?']
+    },
+
+    newsletter: {
+        phrases: ['do you have a newsletter','the yield newsletter','monetary metals newsletter','what is the yield','newsletter signup','can i subscribe','subscribe to newsletter','gold news','precious metals newsletter','where can i get updates','follow monetary metals','stay updated','how do i get news from monetary metals','weekly updates','keith weiner newsletter'],
+        kw: ['newsletter','yield','subscribe','news','updates','follow'],
+        text: `<strong>The Yield Newsletter</strong><br><br>
+Monetary Metals publishes <strong><em>The Yield</em></strong> — a newsletter focused on gold, silver, economics, and the gold yield marketplace.<br><br>
+<strong>Content typically covers:</strong>
+<ul>
+  <li>Gold and silver market analysis from Keith Weiner (PhD Economist)</li>
+  <li>New lease and bond opportunities</li>
+  <li>Economic analysis from an Austrian economics perspective</li>
+  <li>Company news and program updates</li>
+  <li>Insights on the monetary case for gold</li>
+</ul>
+<strong>How to Subscribe:</strong><br>
+Visit <a href="https://www.monetary-metals.com" target="_blank">monetary-metals.com</a> to subscribe, or ask your Relationship Manager to add you to the list.<br><br>
+<strong>Additional Content:</strong>
+<ul>
+  <li>Podcast: Keith Weiner's Gold Outlook</li>
+  <li>Blog: <a href="https://www.monetary-metals.com/insights/" target="_blank">monetary-metals.com/insights</a></li>
+  <li>YouTube: Monetary Metals channel</li>
+</ul>`,
+        fup: 'Any other questions about Monetary Metals?',
+        qr: ['Who runs Monetary Metals?','Tell me about gold bonds','Learning resources']
+    },
+
+    goodDelivery: {
+        phrases: ['what is good delivery','lbma good delivery','lbma standard','london bullion market','good delivery bar','what is a good delivery bar','london good delivery','400 oz bar','400oz bar','do you accept good delivery bars','lbma bars','kilobar','kilo bar','are your vaults lbma','what is the lbma'],
+        kw: ['lbma','good delivery','400oz','london bullion','kilobar','standard'],
+        text: `<strong>Good Delivery &amp; LBMA Standards</strong><br><br>
+<strong>What is "Good Delivery"?</strong><br>
+"Good Delivery" refers to the London Bullion Market Association (LBMA) standard for gold and silver bars that are acceptable for settlement in London — the world's largest OTC gold market.<br><br>
+<strong>Good Delivery Gold Bar Specifications:</strong>
+<ul>
+  <li>Weight: 350–430 troy ounces (standard: ~400 oz)</li>
+  <li>Fineness: minimum 99.5% pure gold</li>
+  <li>Produced by LBMA-accredited refinery</li>
+  <li>Each bar stamped with refinery mark, serial number, year, weight, and fineness</li>
+</ul>
+<strong>At Monetary Metals:</strong>
+<ul>
+  <li>Standard 400 oz Good Delivery bars are accepted</li>
+  <li>These are the form in which much of the metal in our professional vault network is held</li>
+  <li>LBMA-standard ensures the bars are fungible, tradeable, and universally recognized</li>
+</ul>
+<strong>For Investors:</strong><br>
+You don't need to hold Good Delivery bars yourself. Your "MM Allocated Pool" represents an interest in the underlying metal, which is held in institutional form at the vaults.`,
+        fup: 'Any other questions about metal types or vault arrangements?',
+        qr: ['What coins do you accept?','Where is my gold stored?','What do I own?']
+    },
+
+    whyLowReturn: {
+        phrases: ['why only 3 percent','why only 4 percent','why only 3-4 percent','why so low','returns seem low','why not more than 4%','why not higher returns','why is it only 3%','why cant i earn more','why not 10 percent on gold','is 3% really worth it','seems like a low return','why not earn more','why is the yield low','why are gold lease rates low','why not 8%'],
+        kw: ['low','lower','only','3%','4%','why not more','small','modest'],
+        text: `<strong>Why Are Gold Lease Returns "Only" 3–4%?</strong><br><br>
+This is an important question — and the answer is actually a feature, not a bug.<br><br>
+<strong>The Real-Economy Constraint:</strong>
+<ul>
+  <li>Lease rates reflect what businesses can sustainably afford to pay</li>
+  <li>A jewelry store can afford to pay 4–6% per year for gold that's working as inventory</li>
+  <li>We pass most of that through to investors — keeping a ~2% spread</li>
+  <li>If rates were 15%, either the deals don't work for lessees, or the risk is much higher</li>
+</ul>
+<strong>Returns Are in Ounces — Not Dollars:</strong>
+<div class="box gold">3.5% in gold ounces on top of full price exposure is not the same as 3.5% in dollars sitting in a bank account. If gold doubles, your 3.5% ounce yield doubled in dollar terms too.</div>
+<strong>The Comparison That Matters:</strong>
+<ul>
+  <li>Holding gold in a vault: −0.25% to −1% per year (you pay fees)</li>
+  <li>Gold ETF: −0.40% per year in fees</li>
+  <li>Monetary Metals: +3–4% in ounces per year + zero fees = a 3.5–5% swing vs. alternatives</li>
+</ul>
+<strong>For Higher Returns:</strong><br>
+Gold/Silver Bonds offer 6–19% annually — but require accredited investor status and carry higher risk.`,
+        fup: 'Want to know more about our bond program for higher returns?',
+        qr: ['Tell me about gold bonds','Why returns in ounces?','Gold vs other investments']
+    },
+
+    whatHappensDefault: {
+        phrases: ['what happens if lessee cant pay','what happens in a default','default scenario','if a lease defaults','if a borrower defaults','what if a company goes under','what is the recovery process','how do you recover gold after default','bond default','what if bond issuer defaults','what happens to my ounces if there is a default','worst case default','recovery in default','how do you handle defaults'],
+        kw: ['default','defaults','recovery','recover','cant pay','nonpayment','worst case'],
+        text: `<strong>Default Scenarios — What Happens to Your Gold</strong><br><br>
+<strong>First: Track Record Context</strong><br>
+In 8+ years and 70+ completed leases: <strong>zero defaults, zero losses, zero late payments.</strong> This is the result of the layered system below.<br><br>
+<strong>For a Lease Default:</strong>
+<ol>
+  <li><strong>Early Warning:</strong> Real-time monitoring alerts MM if lessee inventory approaches 110% threshold — intervention before default occurs</li>
+  <li><strong>Recovery Attempt:</strong> MM works with the lessee to cure the issue — replace ounces, restructure, or source replacement inventory</li>
+  <li><strong>Insurance Claim:</strong> If recovery fails, Lloyd's of London "All Risks" policy (up to $20M/lessee) is activated to replace lost ounces</li>
+  <li><strong>Legal Action:</strong> Legal agreements protect investor title; lessee's creditors cannot claim your gold</li>
+</ol>
+<strong>For a Bond Default:</strong>
+<div class="box amber">⚠️ The specific legal process for bond defaults (recovery proceedings, bondholder rights, etc.) involves more complexity. We recommend asking a Relationship Manager for the current documentation on this process.<br>📞 <strong>(480) 867-2100</strong></div>`,
+        fup: 'Any other questions about risk management or protections?',
+        qr: ['What is the 5-layer protection?','Is my gold insured?','What is the 10% buffer?']
+    },
+
+    systemicRisk: {
+        phrases: ['what about systemic risk','financial crisis','bank run','banking crisis','global financial crisis','what if there is a crash','market crash','dollar collapse','currency collapse','economic collapse','systemic risk','what if banks fail','what if the financial system','hyperinflation','global recession','gold in a crisis','what if everything collapses','what if there is a depression','great depression','2008 type crisis','sovereign debt crisis'],
+        kw: ['systemic','crisis','crash','collapse','recession','depression','hyperinflation','banks','banking','dollar','dollar collapse'],
+        text: `<strong>Systemic Risk &amp; Financial Crises</strong><br><br>
+<strong>First: Why You're Already Thinking About This Right</strong><br>
+Holding gold is one of the most time-tested hedges against systemic financial risk. Gold has preserved value through every major crisis in history — bank failures, currency collapses, wars, and depressions.<br><br>
+<strong>Monetary Metals' Additional Protections:</strong>
+<ul>
+  <li><strong>Allocated structure:</strong> Your gold is yours — not a claim on MM or the vault's balance sheet. A banking crisis doesn't make it disappear.</li>
+  <li><strong>Vault diversity:</strong> Metal stored across multiple vault partners in multiple countries — geographic diversification</li>
+  <li><strong>Non-bank structure:</strong> MM is not a bank — it doesn't participate in fractional reserve lending or the interbank system</li>
+  <li><strong>No leverage:</strong> Your gold is never hypothecated or used as collateral for anything else</li>
+</ul>
+<strong>What a Crisis Could Affect:</strong>
+<ul>
+  <li>Lessee businesses — economic downturns can stress jewelry stores and mining companies (hence the 5-layer protection system)</li>
+  <li>Vault access logistics — in extreme scenarios, physical delivery could take longer</li>
+</ul>
+<div class="box gold">Gold held with Monetary Metals is arguably <em>safer</em> in a crisis than gold held in a bank, because you're not subject to bank bail-ins or deposit freezes.</div>`,
+        fup: 'Would you like to discuss the legal protections in more detail?',
+        qr: ['How is my gold protected?','What if Monetary Metals goes bankrupt?','What do I own legally?']
+    },
+
+    trustSignature: {
+        phrases: ['who signs trust documents','trust account signature','who needs to sign for a trust','trust account documentation','trustee signature','who is the signatory','if account is in a trust name','trust account signing requirements','who needs to sign the trust','signing authority for trust','trustee requirements'],
+        kw: ['trustee','trust','sign','signatory','signature','authority','documents'],
+        text: `<strong>Trust Account Signing Requirements</strong><br><br>
+For accounts held in the name of a trust, the signing requirements depend on the trust structure and the number of trustees.<br><br>
+<strong>General Guidance:</strong>
+<ul>
+  <li>The <strong>trustee(s)</strong> are generally the authorized signatories on trust accounts</li>
+  <li>For revocable living trusts: typically the grantor/trustee</li>
+  <li>For irrevocable trusts: the designated trustee(s) per the trust instrument</li>
+  <li>Co-trustees may require both/all to sign depending on trust terms</li>
+</ul>
+<div class="box amber">⚠️ The exact documentation requirements vary by trust type and structure. For specific guidance, please speak with a Relationship Manager who will review your trust documents and explain exactly what's needed:<br><br>
+📞 <strong>(480) 867-2100</strong><br>
+📧 <a href="mailto:relationships@monetary-metals.com">relationships@monetary-metals.com</a></div>`,
+        fup: 'Any other questions about account structure or getting started?',
+        qr: ['Trust and company accounts','How do I open an account?','Talk to a Relationship Manager']
+    },
+
+    wiseRevolut: {
+        phrases: ['can i use wise','can i use revolut','wise transfer','revolut transfer','how do international clients fund','how do i send usd from abroad','sending money from overseas','transferring from uk','transfer from europe','international wire','how do i wire internationally','foreign bank transfer','how do i send dollars from outside the us','international funding','overseas funding','transferwise','transfer wise'],
+        kw: ['wise','revolut','transferwise','international','overseas','usd','foreign','wire abroad'],
+        text: `<strong>Using Wise &amp; Revolut for International Funding</strong><br><br>
+<div class="box gold">✅ <strong>Yes — Wise and Revolut are recommended options for international investors.</strong></div>
+<strong>Why Wise &amp; Revolut Work Well:</strong>
+<ul>
+  <li>Both support USD transfers to US-based accounts</li>
+  <li>Significantly lower fees than traditional international bank wires</li>
+  <li>Faster transfers than SWIFT in many cases</li>
+  <li>Available in most countries worldwide</li>
+</ul>
+<strong>How It Works:</strong>
+<ol>
+  <li>Create a Wise or Revolut account (free sign-up)</li>
+  <li>Convert your local currency to USD</li>
+  <li>Send USD wire to Monetary Metals' US bank account</li>
+  <li>MM purchases gold on your behalf once funds clear (1–2 business days)</li>
+</ol>
+<strong>All purchases must be in USD.</strong> MM does not accept purchases in GBP, EUR, AUD, CAD, or other currencies directly.<br><br>
+<div class="box">For your specific country and the exact wire instructions: 📞 <strong>(480) 867-2100</strong> or 📧 <a href="mailto:relationships@monetary-metals.com">relationships@monetary-metals.com</a></div>`,
+        fup: 'Any other questions about international investing or funding?',
+        qr: ['I am an international investor','How do I fund my account?','How long does funding take?']
+    },
+
+    monthlyStatement: {
+        phrases: ['how do i check my balance','where can i see my balance','how do i see my statement','monthly statement','account statement','how is my account updated','how do i see my interest payments','how do i view my account','account history','interest history','how do i track my ounces','can i see my ounce count','how is my account tracked','portfolio statement','do i get a statement','how often is balance updated'],
+        kw: ['statement','balance','account','track','history','ounce','portfolio','updated'],
+        text: `<strong>Account Statements &amp; Balance Checking</strong><br><br>
+<strong>Online Portal (Primary Method):</strong>
+<ul>
+  <li>Login at <a href="https://client.monetary-metals.com" target="_blank">client.monetary-metals.com</a></li>
+  <li>View your real-time ounce balance for gold and silver</li>
+  <li>See your full interest payment history</li>
+  <li>Review all active lease allocations</li>
+  <li>Access deal documentation and infosheets</li>
+</ul>
+<strong>Monthly Updates:</strong>
+<ul>
+  <li>Interest payments are credited monthly — your balance updates automatically</li>
+  <li>You'll receive notification when monthly interest is credited</li>
+  <li>Annual 1099-INT (US) or Form 1042 (international) sent at year-end</li>
+</ul>
+<strong>Tax Documents:</strong>
+<ul>
+  <li>Annual tax forms available for download in the portal</li>
+  <li>Dollar value of ounce payments calculated at London PM fix on payment date</li>
+</ul>
+<div class="box amber">For questions about specific account activity: 📞 <strong>(480) 867-2100</strong> &nbsp;|&nbsp; 📧 <a href="mailto:relationships@monetary-metals.com">relationships@monetary-metals.com</a></div>`,
+        fup: 'Any other questions about your account or how interest works?',
+        qr: ['How is interest paid?','Tax implications','How does the portal work?']
+    },
+
+    // ── FALLBACK ─────────────────────────────────────────────────
+
     fallback: {
         text: `I want to make sure I give you accurate information — could you rephrase that, or pick from one of these topics?<br><br>
 Or connect directly with a Relationship Manager:<br>

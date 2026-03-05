@@ -1,0 +1,1672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Monetary Metals — Chatbot Q&A Workbook</title>
+<style>
+:root {
+  --green: #1B3628;
+  --green-mid: #2C5641;
+  --gold: #C9A227;
+  --cream: #F5F0E0;
+  --white: #FFFFFF;
+  --gray: #6B7280;
+  --text: #1C1C1C;
+  --green-light: #F0F7F4;
+  --amber-bg: #FFFBEB;
+  --amber-border: #F59E0B;
+  --red-bg: #FEF2F2;
+  --red-border: #EF4444;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--cream);
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.6;
+}
+.page-header {
+  background: var(--green);
+  color: white;
+  padding: 32px 40px;
+  display: flex; align-items: center; gap: 20px;
+}
+.page-header .logo {
+  width: 56px; height: 56px; background: var(--gold); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px; flex-shrink: 0;
+}
+.page-header h1 { font-size: 24px; font-weight: 700; }
+.page-header p { color: rgba(255,255,255,0.7); font-size: 13px; margin-top: 4px; }
+.header-actions { margin-left: auto; display: flex; gap: 10px; }
+.btn {
+  padding: 9px 18px; border-radius: 8px; font-size: 13px; font-weight: 600;
+  cursor: pointer; border: none; transition: all 0.2s;
+}
+.btn-gold { background: var(--gold); color: var(--green); }
+.btn-gold:hover { background: #b8901f; }
+.btn-outline { background: transparent; color: white; border: 1.5px solid rgba(255,255,255,0.4); }
+.btn-outline:hover { border-color: white; }
+
+.main { max-width: 1100px; margin: 0 auto; padding: 32px 24px; }
+
+/* Instructions box */
+.instructions {
+  background: white; border-radius: 12px; padding: 24px 28px;
+  border-left: 4px solid var(--gold); margin-bottom: 28px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+.instructions h2 { color: var(--green); font-size: 17px; margin-bottom: 12px; }
+.instructions ol { padding-left: 20px; }
+.instructions li { margin: 8px 0; }
+.instructions .update-cycle {
+  background: var(--green-light); border-radius: 8px; padding: 12px 16px;
+  margin-top: 14px; font-size: 13px;
+}
+
+/* Needs Review section */
+.needs-review {
+  background: white; border-radius: 12px; padding: 24px 28px;
+  border-left: 4px solid var(--amber-border); margin-bottom: 28px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+.needs-review h2 { color: #92400E; font-size: 17px; margin-bottom: 16px; }
+.review-item {
+  background: var(--amber-bg); border: 1px solid #FDE68A; border-radius: 8px;
+  padding: 12px 16px; margin: 8px 0; display: flex; align-items: flex-start; gap: 12px;
+}
+.review-badge {
+  background: var(--amber-border); color: white; border-radius: 4px;
+  padding: 2px 8px; font-size: 11px; font-weight: 700; white-space: nowrap; flex-shrink: 0;
+}
+.review-item p { font-size: 13px; }
+.review-item small { color: var(--gray); font-size: 12px; }
+
+/* Category sections */
+.category {
+  background: white; border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 16px; overflow: hidden;
+}
+.category-header {
+  background: var(--green); color: white;
+  padding: 14px 20px; cursor: pointer;
+  display: flex; align-items: center; justify-content: space-between;
+  user-select: none;
+}
+.category-header h3 { font-size: 15px; font-weight: 600; }
+.category-header .meta { font-size: 12px; color: rgba(255,255,255,0.6); margin-top: 2px; }
+.category-header .toggle { font-size: 18px; transition: transform 0.3s; }
+.category-header.collapsed .toggle { transform: rotate(-90deg); }
+.category-body { padding: 20px; }
+
+/* Q&A Cards */
+.qa-card {
+  border-radius: 10px; padding: 18px 20px; margin-bottom: 16px;
+  border-left: 4px solid;
+}
+.qa-card.confident { border-color: #16A34A; background: #F0FDF4; }
+.qa-card.amber { border-color: var(--amber-border); background: var(--amber-bg); }
+.qa-card.red { border-color: var(--red-border); background: var(--red-bg); }
+
+.card-badge {
+  display: inline-block; padding: 2px 10px; border-radius: 4px;
+  font-size: 11px; font-weight: 700; margin-bottom: 10px;
+}
+.confident .card-badge { background: #16A34A; color: white; }
+.amber .card-badge { background: var(--amber-border); color: white; }
+.red .card-badge { background: var(--red-border); color: white; }
+
+.intent-id { font-size: 11px; color: var(--gray); font-family: monospace; float: right; }
+
+.qa-card h4 { font-size: 14px; color: var(--green); margin-bottom: 8px; }
+
+.question-list { margin-bottom: 12px; }
+.question-list h5 { font-size: 12px; font-weight: 700; color: var(--gray); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+.question-list ul { list-style: none; padding: 0; }
+.question-list ul li {
+  padding: 4px 10px; background: white; border-radius: 5px; margin: 3px 0;
+  font-size: 13px; border: 1px solid #E5E7EB; color: var(--text);
+}
+.question-list ul li::before { content: "❓ "; font-size: 11px; }
+
+.answer-section h5 { font-size: 12px; font-weight: 700; color: var(--gray); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+.answer-box {
+  background: white; border: 1px solid #E5E7EB; border-radius: 8px;
+  padding: 14px 16px; font-size: 13.5px; line-height: 1.65;
+}
+.answer-box ul, .answer-box ol { margin: 6px 0 6px 18px; }
+.answer-box li { margin: 3px 0; }
+.answer-box p { margin: 5px 0; }
+.answer-box strong { font-weight: 600; }
+.answer-box em { color: var(--gray); }
+.answer-box .box { border-left: 3px solid var(--green-mid); background: var(--green-light); padding: 8px 12px; border-radius: 0 6px 6px 0; margin: 8px 0; }
+.answer-box .box.gold { background: #FDF8EC; border-left-color: var(--gold); }
+.answer-box .box.amber { background: var(--amber-bg); border-left-color: var(--amber-border); }
+.answer-box a { color: var(--green-mid); text-decoration: none; }
+.answer-box table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+.answer-box table td { padding: 5px 8px; border: 1px solid #E5E7EB; }
+
+.notes-section { margin-top: 12px; }
+.notes-section label { font-size: 12px; font-weight: 700; color: var(--gray); text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 5px; }
+.notes-section textarea {
+  width: 100%; min-height: 60px; padding: 9px 12px;
+  border: 1.5px solid #D1D5DB; border-radius: 6px;
+  font-family: inherit; font-size: 13px; resize: vertical;
+  background: white; transition: border-color 0.2s;
+}
+.notes-section textarea:focus { outline: none; border-color: var(--green-mid); }
+.notes-section textarea::placeholder { color: #9CA3AF; }
+
+/* Flagged section */
+.flagged-section {
+  background: white; border-radius: 12px; padding: 24px 28px;
+  border-left: 4px solid var(--amber-border); margin-bottom: 28px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+.flagged-section h2 { color: #92400E; font-size: 17px; margin-bottom: 16px; }
+.flagged-item {
+  border: 1.5px solid #FDE68A; border-radius: 8px; padding: 14px 18px; margin: 10px 0;
+  background: var(--amber-bg);
+}
+.flagged-item h4 { font-size: 14px; color: #92400E; margin-bottom: 6px; }
+.flagged-item p { font-size: 13px; color: var(--gray); }
+.flagged-item .flag-notes { margin-top: 10px; }
+.flagged-item .flag-notes label { font-size: 12px; font-weight: 700; color: var(--gray); display: block; margin-bottom: 4px; }
+.flagged-item .flag-notes textarea {
+  width: 100%; min-height: 55px; padding: 8px 12px;
+  border: 1.5px solid #FDE68A; border-radius: 6px;
+  font-family: inherit; font-size: 13px; resize: vertical;
+  background: white;
+}
+
+/* Print styles */
+@media print {
+  body { background: white; font-size: 12px; }
+  .page-header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .category-header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .card-badge { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .header-actions { display: none; }
+  .qa-card { break-inside: avoid; }
+  .category-body { display: block !important; }
+  .btn { display: none; }
+}
+@media (max-width: 600px) {
+  .page-header { padding: 20px; flex-wrap: wrap; }
+  .header-actions { margin-left: 0; width: 100%; }
+  .main { padding: 16px 12px; }
+  .category-body { padding: 12px; }
+}
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="logo">⚜</div>
+  <div>
+    <h1>Monetary Metals — Chatbot Q&A Workbook</h1>
+    <p>Review, verify, and annotate every chatbot answer before publishing. Last updated: November 2025.</p>
+  </div>
+  <div class="header-actions">
+    <button class="btn btn-outline" onclick="toggleAll(true)">Expand All</button>
+    <button class="btn btn-outline" onclick="toggleAll(false)">Collapse All</button>
+    <button class="btn btn-gold" onclick="window.print()">🖨️ Print / Save PDF</button>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- Monthly Instructions -->
+  <div class="instructions">
+    <h2>📋 How to Use This Workbook</h2>
+    <ol>
+      <li><strong>Read each Q&A card</strong> — review the example questions the chatbot handles and the answer it gives.</li>
+      <li><strong>Check color coding:</strong> 🟢 Green = confident answer &nbsp;|&nbsp; 🟡 Amber = needs your review &nbsp;|&nbsp; 🔴 Red = placeholder, you must provide the answer.</li>
+      <li><strong>Use the Notes field</strong> on each card to leave corrections, additions, or approval notes.</li>
+      <li><strong>Review the "Needs Your Input" section</strong> at the top for all flagged uncertain items.</li>
+      <li><strong>Return this document</strong> (or your notes) to your chatbot team so the KB can be updated.</li>
+    </ol>
+    <div class="update-cycle">
+      🔄 <strong>Suggested Update Cycle:</strong> Review this workbook monthly or whenever significant company changes occur (new rates, new vault partners, new offerings, regulatory changes). Each update should be reflected in a new chatbot deployment.
+    </div>
+  </div>
+
+  <!-- Needs Review Quick Access -->
+  <div class="needs-review">
+    <h2>⚠️ Needs Your Review — Quick Access List</h2>
+    <p style="margin-bottom:14px;color:#92400E;font-size:13px;">The following items require client verification before the chatbot answers with confidence. Jump to each card below, or see the full flagged section at the bottom of this document.</p>
+    <div class="review-item"><span class="review-badge">AMBER</span><div><p><strong>Bond default process</strong> — What exactly happens to bond investors if a borrower defaults?</p><small>Intent: whatHappensDefault</small></div></div>
+    <div class="review-item"><span class="review-badge">AMBER</span><div><p><strong>Regulatory status</strong> — Is MM a registered investment advisor, broker-dealer, or other?</p><small>Intent: company</small></div></div>
+    <div class="review-item"><span class="review-badge">AMBER</span><div><p><strong>Personal audit reports</strong> — Do clients receive physical audit reports showing their specific ounces?</p><small>Intent: auditRights</small></div></div>
+    <div class="review-item"><span class="review-badge">AMBER</span><div><p><strong>Lease renewal paperwork</strong> — What is the exact process and documentation for rolling a lease?</p><small>Intent: leaseRenewal</small></div></div>
+    <div class="review-item"><span class="review-badge">AMBER</span><div><p><strong>Geographic restrictions</strong> — Are there any US states where investing is restricted?</p><small>Intent: accountOpening</small></div></div>
+    <div class="review-item"><span class="review-badge">AMBER</span><div><p><strong>Non-accredited bond investing</strong> — Can non-accredited investors ever participate in bonds?</p><small>Intent: bonds</small></div></div>
+    <div class="review-item"><span class="review-badge">AMBER</span><div><p><strong>Minimum bond investment</strong> — What is the minimum amount for a bond investment?</p><small>Intent: bonds</small></div></div>
+    <div class="review-item"><span class="review-badge">AMBER</span><div><p><strong>Pro-rata allocation math</strong> — How exactly is the pro-rata allocation calculated?</p><small>Intent: optOut</small></div></div>
+    <div class="review-item"><span class="review-badge">AMBER</span><div><p><strong>Early withdrawal penalties</strong> — Are there any penalties for withdrawing during a lease term?</p><small>Intent: liquidity</small></div></div>
+    <div class="review-item"><span class="review-badge">AMBER</span><div><p><strong>Interest dispute process</strong> — What is the process if a client disputes their interest payment?</p><small>Intent: howInterestPaid</small></div></div>
+    <div class="review-item"><span class="review-badge">AMBER</span><div><p><strong>Payment currency reporting</strong> — What currency are lease payments denominated in for reporting purposes?</p><small>Intent: monthlyStatement</small></div></div>
+    <div class="review-item"><span class="review-badge">AMBER</span><div><p><strong>Capital guarantee</strong> — Does MM offer any form of capital guarantee?</p><small>Intent: risk</small></div></div>
+    <div class="review-item"><span class="review-badge">AMBER</span><div><p><strong>Ashton Stewart &amp; Co.</strong> — What is the exact relationship between MM and Ashton Stewart &amp; Co.?</p><small>Intent: ashtonStewart</small></div></div>
+    <div class="review-item"><span class="review-badge">AMBER</span><div><p><strong>Deal sourcing</strong> — How are lease deals sourced? Can clients suggest businesses?</p><small>Intent: lesseeTypes</small></div></div>
+    <div class="review-item"><span class="review-badge">AMBER</span><div><p><strong>Withdrawal suspension</strong> — Are there circumstances under which MM can suspend withdrawals?</p><small>Intent: liquidity</small></div></div>
+    <div class="review-item"><span class="review-badge">AMBER</span><div><p><strong>Non-lease vault insurance</strong> — What insurance company specifically covers non-lease vault storage?</p><small>Intent: insurance</small></div></div>
+  </div>
+
+  <!-- ── CATEGORY: FUNDAMENTALS ─────────────────────────────── -->
+  <div class="category" id="cat-fundamentals">
+    <div class="category-header" onclick="toggleCat('cat-fundamentals')">
+      <div><h3>🏅 Fundamentals — How It Works</h3><div class="meta">6 Q&A entries · businessModel, leaseProgram, metals, returns, howInterestPaid, compounding</div></div>
+      <span class="toggle">▾</span>
+    </div>
+    <div class="category-body">
+
+      <div class="qa-card confident">
+        <span class="card-badge">🟢 CONFIDENT</span><span class="intent-id">businessModel</span>
+        <h4>How does Monetary Metals work? / Business model overview</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>How does Monetary Metals work?</li>
+          <li>What is the Gold Yield Marketplace?</li>
+          <li>How can gold earn interest?</li>
+          <li>How do you generate interest on gold?</li>
+          <li>What is the basic idea?</li>
+          <li>Explain Monetary Metals</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer</h5><div class="answer-box">
+          <strong>Monetary Metals operates the Gold Yield Marketplace™</strong> — connecting metal owners who want yield with businesses that need physical gold/silver. You earn 3–4% annually on gold leases, paid in additional metal ounces. The lessee uses your gold as inventory (e.g., jewelry store); your ounce count never drops; the form may change but the count stays constant. Like renting an apartment — you retain ownership and collect "rent" in ounces.
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes / Corrections</label><textarea placeholder="Add your notes here..."></textarea></div>
+      </div>
+
+      <div class="qa-card confident">
+        <span class="card-badge">🟢 CONFIDENT</span><span class="intent-id">leaseProgram</span>
+        <h4>How does a true gold lease work? / What happens to my gold?</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>How does a gold lease work?</li>
+          <li>What is a true lease?</li>
+          <li>Walk me through the lease process</li>
+          <li>What does the jewelry store do with my gold?</li>
+          <li>What happens to my gold when it's on a lease?</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer</h5><div class="answer-box">
+          True property lease (like renting a car or apartment). Example: Jewelry store leases 1,000 oz → needs 1,100 oz present always (10% buffer). Gold becomes jewelry inventory. When a piece is sold, the ounce is immediately replaced. Your gold ounces are always physically present, tracked via RFID/API, insured at 110%, in secure institutional vaults.
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes / Corrections</label><textarea placeholder="Add your notes here..."></textarea></div>
+      </div>
+
+      <div class="qa-card confident">
+        <span class="card-badge">🟢 CONFIDENT</span><span class="intent-id">metals</span>
+        <h4>What metals do you support? / Can I use platinum?</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>What metals do you accept?</li>
+          <li>Do you offer platinum?</li>
+          <li>Can I invest in palladium?</li>
+          <li>Is it just gold and silver?</li>
+          <li>What about other precious metals?</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer</h5><div class="answer-box">
+          Gold and silver only. No platinum, palladium, rhodium, or other metals. Gold: leases (2–4%), Lease Yield Account (up to 4%), Bonds (6–19% accredited). Silver: leases available (often 3–4x oversubscribed), no Lease Yield Account interest while waiting, Bonds available (accredited).
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes / Corrections</label><textarea placeholder="Add your notes here..."></textarea></div>
+      </div>
+
+      <div class="qa-card confident">
+        <span class="card-badge">🟢 CONFIDENT</span><span class="intent-id">returns</span>
+        <h4>What returns/yield can I expect?</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>What yield can I expect?</li>
+          <li>What are the current rates?</li>
+          <li>What is the average return?</li>
+          <li>How much will I earn?</li>
+          <li>What is the APY?</li>
+          <li>What have past returns been?</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer</h5><div class="answer-box">
+          Gold/Silver Leases: 2–4% annually (avg 3–4%), paid monthly in metal ounces. Lease Yield Account (while waiting): up to 4% on gold, 0% on silver. Gold/Silver Bonds (accredited only): 6–19% annually, avg ~11%. Example: 100 oz @ 3.5% → 103.5 oz after year 1. vs. traditional vault: −0.25 to −1%/year. vs. ETF: ~−0.40%/year.
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes / Corrections</label><textarea placeholder="Add your notes here..."></textarea></div>
+      </div>
+
+      <div class="qa-card confident">
+        <span class="card-badge">🟢 CONFIDENT</span><span class="intent-id">howInterestPaid</span>
+        <h4>How is interest paid? When do I receive ounces?</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>When is interest paid?</li>
+          <li>How do I receive the ounces?</li>
+          <li>Monthly interest?</li>
+          <li>How does payment work?</li>
+          <li>Where do the ounces go?</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer (flagged item note)</h5><div class="answer-box">
+          Interest paid monthly in physical metal ounces, credited to your account. Valued at London PM fix price on payment date. Metal divisible to 1/1,000,000th oz. New ounces eligible for future leases (compounding).
+          <div class="box amber">⚠️ FLAGGED: The process if a client disputes an interest payment is not detailed in the chatbot. Route to RM.</div>
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes / Corrections</label><textarea placeholder="Please describe the dispute process if known..."></textarea></div>
+      </div>
+
+      <div class="qa-card confident">
+        <span class="card-badge">🟢 CONFIDENT</span><span class="intent-id">compounding</span>
+        <h4>Does it compound? How does compound growth work?</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>Does interest compound?</li>
+          <li>Are ounces reinvested?</li>
+          <li>How does compounding work?</li>
+          <li>What is the power of compounding?</li>
+          <li>Long-term growth?</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer</h5><div class="answer-box">
+          Yes — natural compound growth in ounces. Monthly interest ounces credited → automatically eligible for future leases → more ounces → more interest. Example: 100 oz @ 3.5% → 141 oz after 10 years → ~199 oz after 20 years. If gold's dollar price also rises, wealth grows on two fronts.
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes / Corrections</label><textarea placeholder="Add your notes here..."></textarea></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── CATEGORY: RISK & PROTECTION ──────────────────────────── -->
+  <div class="category" id="cat-risk">
+    <div class="category-header" onclick="toggleCat('cat-risk')">
+      <div><h3>🔒 Risk &amp; Protection</h3><div class="meta">8 Q&A entries · risk, insurance, mmBankrupt, riskOfDefault, whatHappensDefault, systemicRisk, leaseBuffer, misconceptions</div></div>
+      <span class="toggle">▾</span>
+    </div>
+    <div class="category-body">
+
+      <div class="qa-card confident">
+        <span class="card-badge">🟢 CONFIDENT</span><span class="intent-id">risk</span>
+        <h4>Is it safe? What are the risks? How is my gold protected?</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>Is this safe?</li>
+          <li>What are the risks?</li>
+          <li>Can I lose my gold?</li>
+          <li>How do you protect my gold?</li>
+          <li>What safeguards exist?</li>
+          <li>What's the downside?</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer</h5><div class="answer-box">
+          5-Layer Protection: 1) Extensive due diligence (background checks, site inspections, financial analysis). 2) Legal safeguards (Delaware series LLC, gold never on lessee's balance sheet). 3) Operational controls (RFID tracking, 10% buffer). 4) Lloyd's of London insurance (up to $20M/lessee). 5) Portfolio diversification (max ~20% in any single deal). Track record: 70+ leases, zero defaults, zero losses since 2016.
+          <div class="box amber">⚠️ FLAGGED: Does MM offer any form of capital guarantee? Current answer: No explicit guarantee is offered. Please confirm.</div>
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes / Corrections</label><textarea placeholder="Please confirm: does MM offer any form of capital guarantee?"></textarea></div>
+      </div>
+
+      <div class="qa-card confident">
+        <span class="card-badge">🟢 CONFIDENT</span><span class="intent-id">insurance</span>
+        <h4>Is my gold insured? Lloyd's of London?</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>Is the gold insured?</li>
+          <li>What insurance coverage exists?</li>
+          <li>What if the vault is robbed?</li>
+          <li>What about theft?</li>
+          <li>Is it FDIC insured?</li>
+          <li>Lloyd's of London?</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer</h5><div class="answer-box">
+          NOT FDIC/SIPC insured (those cover bank deposits/brokerage accounts). While in vault: institutional vault insurance from Brinks/Loomis/etc. While on lease: lessee must maintain 110% insurance + MM holds supplemental Lloyd's of London "All Risks" policy (up to $20M/lessee) covering theft, fraud, mysterious disappearance.
+          <div class="box amber">⚠️ FLAGGED: What insurance company specifically covers the non-lease vault storage (when metal is sitting in vault, not on a lease)? Please specify.</div>
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes / Corrections</label><textarea placeholder="Please specify vault storage insurance provider(s)..."></textarea></div>
+      </div>
+
+      <div class="qa-card confident">
+        <span class="card-badge">🟢 CONFIDENT</span><span class="intent-id">mmBankrupt</span>
+        <h4>What if Monetary Metals goes bankrupt?</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>What if Monetary Metals fails?</li>
+          <li>What if you go bankrupt?</li>
+          <li>What if you close down?</li>
+          <li>Counterparty risk with MM?</li>
+          <li>What if MM goes under?</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer</h5><div class="answer-box">
+          Your gold is legally yours — not MM's asset. Allocated structure: held at vault in your name, not MM's balance sheet. Bailment structure: vault holds gold as custodian only. In MM bankruptcy, your gold is not available to MM's creditors — you'd work with vault directly. Each deal in separate Delaware series LLC, siloing risk. For leased metal: legal agreements protect title + Lloyd's insurance available.
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes / Corrections</label><textarea placeholder="Add your notes here..."></textarea></div>
+      </div>
+
+      <div class="qa-card confident">
+        <span class="card-badge">🟢 CONFIDENT</span><span class="intent-id">riskOfDefault</span>
+        <h4>What if a lessee defaults? What protections exist?</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>What if a lessee defaults?</li>
+          <li>What if the company can't pay?</li>
+          <li>Has there ever been a default?</li>
+          <li>Lessee failure scenario?</li>
+          <li>What if the jewelry store goes bankrupt?</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer</h5><div class="answer-box">
+          Zero defaults in 8+ years. 5-layer protection: (1) Intensive due diligence → only quality lessees approved. (2) Real-time monitoring + 10% buffer → early warning before default occurs. (3) True property lease → gold protected from lessee's creditors. (4) Lloyd's of London supplemental insurance (up to $20M). (5) Portfolio diversification (max ~20% per deal).
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes / Corrections</label><textarea placeholder="Add your notes here..."></textarea></div>
+      </div>
+
+      <div class="qa-card amber">
+        <span class="card-badge">🟡 NEEDS REVIEW</span><span class="intent-id">whatHappensDefault</span>
+        <h4>What exactly happens in a bond default? Recovery process?</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>What happens if a lessee can't pay?</li>
+          <li>What's the default recovery process?</li>
+          <li>What if a bond borrower defaults?</li>
+          <li>Worst case default scenario?</li>
+          <li>How do you recover gold after default?</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer (partial — bond default process uncertain)</h5><div class="answer-box">
+          Lease default: Early warning → Recovery attempt → Lloyd's insurance claim → Legal action. <strong>Bond default process: routed to Relationship Manager</strong> — specific legal process not fully documented in chatbot.
+          <div class="box amber">⚠️ What exactly happens to bond investors if a bond borrower defaults? Please provide the specific legal process, bondholder rights, and recovery mechanism.</div>
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes — PLEASE FILL IN bond default process</label><textarea placeholder="Please describe: 1) What triggers bond default? 2) What is the recovery process? 3) What rights do bondholders have? 4) Has any bond ever defaulted?"></textarea></div>
+      </div>
+
+      <div class="qa-card confident">
+        <span class="card-badge">🟢 CONFIDENT</span><span class="intent-id">systemicRisk</span>
+        <h4>What about systemic risk? Financial crisis? Bank runs?</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>What about a financial crisis?</li>
+          <li>What if banks fail?</li>
+          <li>What about hyperinflation?</li>
+          <li>Dollar collapse scenario?</li>
+          <li>What if everything collapses?</li>
+          <li>Market crash scenario?</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer</h5><div class="answer-box">
+          Gold is the classic systemic risk hedge. MM adds: allocated structure (your gold not on MM's balance sheet), vault diversity (multiple vault partners globally), non-bank structure (no fractional reserve lending), no leverage (gold never hypothecated). A banking crisis doesn't affect allocated gold title. MM arguably safer than gold in a bank during crisis.
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes / Corrections</label><textarea placeholder="Add your notes here..."></textarea></div>
+      </div>
+
+      <div class="qa-card confident">
+        <span class="card-badge">🟢 CONFIDENT</span><span class="intent-id">leaseBuffer</span>
+        <h4>What is the 10% overcollateralization buffer?</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>What is the 10% buffer?</li>
+          <li>What does 110% mean?</li>
+          <li>Overcollateralization explained</li>
+          <li>Why must lessees hold extra gold?</li>
+          <li>What is the safety buffer?</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer</h5><div class="answer-box">
+          1,000 oz lease → lessee must maintain ≥1,100 oz at all times. Monitored via API/RFID in real-time. 10% drop triggers immediate MM response — before client ounces are at risk. In addition to lessee's mandatory 110% insurance coverage and MM's Lloyd's supplemental policy.
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes / Corrections</label><textarea placeholder="Add your notes here..."></textarea></div>
+      </div>
+
+      <div class="qa-card confident">
+        <span class="card-badge">🟢 CONFIDENT</span><span class="intent-id">misconceptions</span>
+        <h4>Is this a scam? Sounds too good to be true?</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>Is this a scam?</li>
+          <li>Is this a Ponzi scheme?</li>
+          <li>Will you steal my gold?</li>
+          <li>Sounds too good to be true</li>
+          <li>Is this like a bank?</li>
+          <li>I'm skeptical</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer</h5><div class="answer-box">
+          Gold never gets sold for cash — always physically present. Not a bank (you're a lessor, not an unsecured creditor). Returns (3–4%) are modest and reflect real business economics — not Ponzi-level promises. 8+ years, 70+ leases, zero defaults. SOC-2 certified, Inc. 5000, BBB listed.
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes / Corrections</label><textarea placeholder="Add your notes here..."></textarea></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── CATEGORY: ACCOUNTS & GETTING STARTED ─────────────── -->
+  <div class="category" id="cat-accounts">
+    <div class="category-header" onclick="toggleCat('cat-accounts')">
+      <div><h3>🚀 Accounts &amp; Getting Started</h3><div class="meta">10 Q&A entries · accountOpening, minimums, funding, timelines, getStarted, international, ira, jointAccount, trustCorpAccount, trustSignature</div></div>
+      <span class="toggle">▾</span>
+    </div>
+    <div class="category-body">
+
+      <div class="qa-card confident">
+        <span class="card-badge">🟢 CONFIDENT</span><span class="intent-id">accountOpening</span>
+        <h4>How do I open an account? What is required?</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>How do I open an account?</li>
+          <li>How do I get started?</li>
+          <li>What documents do I need?</li>
+          <li>How do I sign up?</li>
+          <li>What is required to open?</li>
+          <li>Application process?</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer</h5><div class="answer-box">
+          Online application: 10–15 minutes. Approval: within 24 hours. Need: Government-issued photo ID, proof of address (non-US), W-9 (US) or W-8BEN (international). No income requirements for leases. Accredited investor status only needed for bonds. International clients welcome.
+          <div class="box amber">⚠️ FLAGGED: Are there any US states where investing is restricted? Please confirm.</div>
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes — PLEASE FILL IN: any state restrictions?</label><textarea placeholder="Are there any US states where residents cannot invest? e.g., NY, TX, etc.?"></textarea></div>
+      </div>
+
+      <div class="qa-card confident">
+        <span class="card-badge">🟢 CONFIDENT</span><span class="intent-id">minimums</span>
+        <h4>What is the minimum investment?</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>What is the minimum?</li>
+          <li>How much do I need to start?</li>
+          <li>How little can I invest?</li>
+          <li>Minimum ounces?</li>
+          <li>Can I start with $30,000?</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer</h5><div class="answer-box">
+          Any one of: 10 oz gold (~$40,000 at $4,000/oz) OR 1,000 oz silver (~$48,000 at $48/oz) OR $30,000 USD (MM purchases metal on your behalf). No income requirements for leases. Accredited investor status only for bonds.
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes / Corrections</label><textarea placeholder="Add your notes here..."></textarea></div>
+      </div>
+
+      <div class="qa-card confident">
+        <span class="card-badge">🟢 CONFIDENT</span><span class="intent-id">funding</span>
+        <h4>How do I fund my account? Shipping, wire, ACH?</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>How do I fund my account?</li>
+          <li>Can I ship my gold?</li>
+          <li>How do I wire money?</li>
+          <li>How do I send in my coins?</li>
+          <li>ACH transfer?</li>
+          <li>Can I use my existing gold?</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer</h5><div class="answer-box">
+          3 options: (1) Ship physical metal — gold: free overnight + insurance; silver: free ground (2–5 days); processing up to 2 weeks after arrival. (2) Wire transfer: 1–2 days. (3) ACH: 2–4 days. Spreads: 0.75% under $250K, 0.55% $250K–$1M, 0.40% over $1M. Packing: double-box, video-record. Some bars not accepted (OPM, Republic Metals).
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes / Corrections</label><textarea placeholder="Add your notes here..."></textarea></div>
+      </div>
+
+      <div class="qa-card confident">
+        <span class="card-badge">🟢 CONFIDENT</span><span class="intent-id">timelines</span>
+        <h4>How long does everything take? Key timelines?</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>How long to open an account?</li>
+          <li>How long does funding take?</li>
+          <li>How fast can I start earning?</li>
+          <li>What are the processing times?</li>
+          <li>How long to withdraw?</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer</h5><div class="answer-box">
+          Account opening: 10–15 min online, approved within 24 hours. Wire: 1–2 business days. ACH: 2–4 business days. Shipped gold: overnight + up to 2 weeks processing. Trade execution: before 12pm NY = same day; after 12pm = next business day. Cash withdrawal: 1–2 weeks. Physical delivery: 2–3 weeks to initiate.
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes / Corrections</label><textarea placeholder="Add your notes here..."></textarea></div>
+      </div>
+
+      <div class="qa-card confident">
+        <span class="card-badge">🟢 CONFIDENT</span><span class="intent-id">getStarted</span>
+        <h4>I'm ready to start — what are the next steps?</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>I want to invest</li>
+          <li>Sign me up</li>
+          <li>Let's get started</li>
+          <li>What are the next steps?</li>
+          <li>How do I proceed?</li>
+          <li>Ready to open my account</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer</h5><div class="answer-box">
+          Step 1: Open online at client.monetary-metals.com/sign-up (10–15 min, approved 24hrs). Step 2: Fund via metal shipment, wire, or ACH. Step 3: Gold starts earning Lease Yield Account rate immediately (up to 4%); allocated to leases as available. Quick replies to RM for questions.
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes / Corrections</label><textarea placeholder="Add your notes here..."></textarea></div>
+      </div>
+
+      <div class="qa-card confident">
+        <span class="card-badge">🟢 CONFIDENT</span><span class="intent-id">international</span>
+        <h4>I'm not American — can I invest?</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>I'm from the UK — can I invest?</li>
+          <li>I'm Canadian — can I join?</li>
+          <li>Can international investors participate?</li>
+          <li>I live in Australia</li>
+          <li>Do you accept non-US clients?</li>
+          <li>I'm in Europe</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer</h5><div class="answer-box">
+          Yes — clients from nearly every country welcome. Form 1042 filed on behalf of international investors (no US tax return required). Use Wise or Revolut to send USD. All purchases in USD. Brinks vaults globally (London, Zurich, Singapore, Sydney, etc.) — metal can be held near you.
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes / Corrections</label><textarea placeholder="Are there any countries that are excluded? Any specific restrictions?"></textarea></div>
+      </div>
+
+      <div class="qa-card confident">
+        <span class="card-badge">🟢 CONFIDENT</span><span class="intent-id">ira</span>
+        <h4>Can I use an IRA / 401k / retirement account?</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>Can I use my IRA?</li>
+          <li>Is this IRA-eligible?</li>
+          <li>Self-directed IRA?</li>
+          <li>401k investment?</li>
+          <li>Roth IRA?</li>
+          <li>Tax-advantaged account?</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer</h5><div class="answer-box">
+          ❌ No — not compatible with IRA, 401k, Roth IRA, or any tax-advantaged account. ✅ Can invest through: personal name, Trust, LLC, Corporation, joint account.
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes / Corrections</label><textarea placeholder="Add your notes here..."></textarea></div>
+      </div>
+
+      <div class="qa-card confident">
+        <span class="card-badge">🟢 CONFIDENT</span><span class="intent-id">jointAccount</span>
+        <h4>Can my spouse and I open a joint account?</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>Joint account with my spouse?</li>
+          <li>Can my wife and I invest together?</li>
+          <li>Married couple account?</li>
+          <li>Two names on the account?</li>
+          <li>Account with my partner?</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer</h5><div class="answer-box">
+          Yes — joint account ownership available for married couples/partners. For setup details, contact a Relationship Manager. Note: cash withdrawal bank account owner generally needs to match MM account owner — consider when structuring.
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes / Corrections</label><textarea placeholder="Add your notes here..."></textarea></div>
+      </div>
+
+      <div class="qa-card confident">
+        <span class="card-badge">🟢 CONFIDENT</span><span class="intent-id">trustCorpAccount</span>
+        <h4>Can I invest through a Trust or LLC?</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>Can I use a trust?</li>
+          <li>LLC account?</li>
+          <li>Corporate account?</li>
+          <li>Account in my trust's name?</li>
+          <li>Family trust?</li>
+          <li>Business account?</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer</h5><div class="answer-box">
+          Yes — accounts can be opened in the name of a Trust, LLC, or Corporation. Additional documentation required. Recommend speaking with Relationship Manager for smooth setup: (480) 867-2100.
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes / Corrections</label><textarea placeholder="Add your notes here..."></textarea></div>
+      </div>
+
+      <div class="qa-card amber">
+        <span class="card-badge">🟡 NEEDS REVIEW</span><span class="intent-id">trustSignature</span>
+        <h4>Who needs to sign trust account documents?</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>Who signs trust documents?</li>
+          <li>Trust account signature requirements?</li>
+          <li>Trustee signature?</li>
+          <li>Who is the signatory for a trust?</li>
+          <li>Co-trustee requirements?</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer (routed to RM — verify)</h5><div class="answer-box">
+          General guidance: Trustee(s) are authorized signatories. Revocable living trust: typically grantor/trustee. Irrevocable trust: designated trustee per trust instrument. Co-trustees may require both to sign.
+          <div class="box amber">⚠️ Specific documentation requirements vary. Routed to Relationship Manager for exact requirements. Please confirm this general guidance is accurate.</div>
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes — Please verify trust signature requirements</label><textarea placeholder="Please confirm: what are the exact signature requirements for trust accounts?"></textarea></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── CATEGORY: FEES, TAXES, WITHDRAWALS ────────────────── -->
+  <div class="category" id="cat-fees">
+    <div class="category-header" onclick="toggleCat('cat-fees')">
+      <div><h3>💰 Fees, Taxes &amp; Withdrawals</h3><div class="meta">6 Q&A entries · fees, whyFree, tax, liquidity, monthlyStatement, priceLock</div></div>
+      <span class="toggle">▾</span>
+    </div>
+    <div class="category-body">
+
+      <div class="qa-card confident">
+        <span class="card-badge">🟢 CONFIDENT</span><span class="intent-id">fees</span>
+        <h4>What are the fees? What does it cost?</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>What are the fees?</li>
+          <li>Is storage free?</li>
+          <li>What is the spread?</li>
+          <li>Are there hidden fees?</li>
+          <li>How does MM make money?</li>
+          <li>What does it cost to hold gold?</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer</h5><div class="answer-box">
+          Storage: $0/year. Trading spreads (one-time at purchase/sale): 0.75% under $250K, 0.55% $250K–$1M, 0.40% over $1M. Revenue: spread between lessee rate (e.g. 5.5%) and investor rate (e.g. 3%) = ~2.5% to MM for sourcing, structuring, managing. Real comparison: traditional vault = $90–350/year fees vs. MM = $0 + earn ~3–4%.
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes / Corrections</label><textarea placeholder="Add your notes here..."></textarea></div>
+      </div>
+
+      <div class="qa-card confident">
+        <span class="card-badge">🟢 CONFIDENT</span><span class="intent-id">whyFree</span>
+        <h4>Why is storage free? What's the catch?</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>Why is storage free?</li>
+          <li>How can storage be free?</li>
+          <li>What's the catch?</li>
+          <li>Are there hidden costs?</li>
+          <li>How do you afford free storage?</li>
+          <li>Zero fee — really?</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer</h5><div class="answer-box">
+          MM only makes money when your gold makes money — fully aligned interests. Revenue = spread between lessee rate and investor rate. If gold not deployed → no revenue for MM → incentive to find quality leases quickly. If MM lost client gold → business model collapses → existential to protect it. No storage fee allows competitive lessee rates vs. bank financing.
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes / Corrections</label><textarea placeholder="Add your notes here..."></textarea></div>
+      </div>
+
+      <div class="qa-card confident">
+        <span class="card-badge">🟢 CONFIDENT</span><span class="intent-id">tax</span>
+        <h4>What are the tax implications?</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>How is it taxed?</li>
+          <li>Is the interest ordinary income?</li>
+          <li>Do I get a 1099?</li>
+          <li>Capital gains or ordinary income?</li>
+          <li>International tax?</li>
+          <li>Tax reporting?</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer</h5><div class="answer-box">
+          US investors: ordinary income (not capital gains). Monthly metal valued at London PM fix on payment date. Annual 1099-INT issued. International: Form 1042 filed by MM, no US tax return required. Consult your own tax advisor for specifics.
+          <div class="box amber">⚠️ FLAGGED: What currency are lease payments denominated in for reporting? Are ounces reported in USD or in ounce quantities? Please confirm for 1099-INT reporting purposes.</div>
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes — Please clarify payment currency reporting</label><textarea placeholder="How is the 1099-INT amount calculated? Is it reported in USD only? Are ounce quantities also shown?"></textarea></div>
+      </div>
+
+      <div class="qa-card amber">
+        <span class="card-badge">🟡 NEEDS REVIEW</span><span class="intent-id">liquidity</span>
+        <h4>Liquidity &amp; Withdrawals — How do I get my gold back?</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>Can I withdraw?</li>
+          <li>How liquid is this?</li>
+          <li>Am I locked in?</li>
+          <li>How do I cash out?</li>
+          <li>How do I get my gold back?</li>
+          <li>Is there a lockup?</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer</h5><div class="answer-box">
+          Metal NOT on lease: cash withdrawal 1–2 weeks; physical delivery 2–3 weeks. Metal ON lease: standard 12-month term; wait for anniversary date to opt out; staggered dates = periodic liquidity windows. Silver: replacement investor on best-efforts basis.
+          <div class="box amber">⚠️ FLAGGED: (1) Are there any penalties for withdrawing during an active lease? (2) Are there circumstances under which MM can suspend withdrawals? Please confirm both.</div>
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes — PLEASE FILL IN: withdrawal penalties and suspension scenarios</label><textarea placeholder="(1) Are there penalties for early withdrawal from a lease? (2) Can MM suspend withdrawals? Under what circumstances?"></textarea></div>
+      </div>
+
+      <div class="qa-card confident">
+        <span class="card-badge">🟢 CONFIDENT</span><span class="intent-id">monthlyStatement</span>
+        <h4>How do I check my balance? Monthly statements?</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>How do I check my balance?</li>
+          <li>Do I get monthly statements?</li>
+          <li>How do I track my ounces?</li>
+          <li>Account statement?</li>
+          <li>How often is balance updated?</li>
+          <li>Tax documents?</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer</h5><div class="answer-box">
+          Online portal: client.monetary-metals.com. Real-time ounce balance, interest payment history, active lease allocations, deal documentation, tax downloads. Monthly interest credited → balance updates automatically. Annual 1099-INT or Form 1042 at year-end.
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes / Corrections</label><textarea placeholder="Add your notes here..."></textarea></div>
+      </div>
+
+      <div class="qa-card confident">
+        <span class="card-badge">🟢 CONFIDENT</span><span class="intent-id">priceLock</span>
+        <h4>When is the price locked in for my trade?</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>When does my trade execute?</li>
+          <li>When is the price locked in?</li>
+          <li>Same-day trade?</li>
+          <li>What is the 12pm deadline?</li>
+          <li>When does my wire get used to buy?</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer</h5><div class="answer-box">
+          Funds received by 12pm NY time → same-day trade. After 12pm → next business day. ACH clears 2–4 days (price locks at clearing). Physical metal: price locks when processing complete (up to 2 weeks after arrival).
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes / Corrections</label><textarea placeholder="Add your notes here..."></textarea></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── CATEGORY: LEASE MANAGEMENT ───────────────────────── -->
+  <div class="category" id="cat-lease">
+    <div class="category-header" onclick="toggleCat('cat-lease')">
+      <div><h3>📋 Lease Management</h3><div class="meta">9 Q&A entries · lockup, leaseRenewal, optOut, leaseYield, waitlist, lesseeSells, lesseeTypes, priceExposure, fundedDeals</div></div>
+      <span class="toggle">▾</span>
+    </div>
+    <div class="category-body">
+
+      <div class="qa-card confident">
+        <span class="card-badge">🟢 CONFIDENT</span><span class="intent-id">lockup</span>
+        <h4>Is there a lockup period? Can I get out early?</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>Is there a lockup?</li><li>Am I locked in?</li><li>Can I get out early?</li>
+          <li>How long is the commitment?</li><li>Can I cancel?</li><li>Is it flexible?</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer</h5><div class="answer-box">
+          Metal NOT on lease: accessible in 1–2 weeks (cash) or 2–3 weeks (physical). Metal ON lease: standard 12-month term; wait for anniversary date. Dates staggered → periodic liquidity throughout year. Multiple leases = multiple windows.
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes / Corrections</label><textarea placeholder="Add your notes here..."></textarea></div>
+      </div>
+
+      <div class="qa-card amber">
+        <span class="card-badge">🟡 NEEDS REVIEW</span><span class="intent-id">leaseRenewal</span>
+        <h4>What happens when a lease ends? Renewal process?</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>How does renewal work?</li><li>Does it auto-renew?</li><li>What happens at lease end?</li>
+          <li>Anniversary date?</li><li>How do I opt out of renewal?</li><li>What happens after 12 months?</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer</h5><div class="answer-box">
+          Default: leases automatically roll into next opportunity. Opt-out: ~1 week advance notice, 5 business days to review, take no action = included, opt out = metal returns to pool. Your ounces + all interest returned at lease end.
+          <div class="box amber">⚠️ FLAGGED: What is the exact process and paperwork for rolling a lease at renewal? Please provide specific documentation requirements.</div>
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes — Please describe exact renewal documentation process</label><textarea placeholder="What specific steps and paperwork are required at lease renewal? What happens if a client doesn't respond to the notice?"></textarea></div>
+      </div>
+
+      <div class="qa-card confident">
+        <span class="card-badge">🟢 CONFIDENT</span><span class="intent-id">optOut</span>
+        <h4>How does the opt-out / allocation system work?</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>How does allocation work?</li><li>Can I choose my leases?</li><li>Can I reject a lease?</li>
+          <li>Opt-out process?</li><li>How is my gold spread across deals?</li>
+          <li>Pro-rata allocation?</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer</h5><div class="answer-box">
+          New deal announced → 1 week notice → 5 business days to review infosheet → take no action = included (pro-rata) → opt out = excluded. Max ~20% of holdings per deal. New clients spread across existing leases too. More leases participated → higher Lease Yield Account rate.
+          <div class="box amber">⚠️ FLAGGED: How exactly is pro-rata allocation calculated? Please provide the formula or process.</div>
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes — Please provide pro-rata allocation formula</label><textarea placeholder="How is pro-rata allocation calculated? e.g., (your oz / total offered oz) × deal size = your allocation?"></textarea></div>
+      </div>
+
+      <div class="qa-card confident">
+        <span class="card-badge">🟢 CONFIDENT</span><span class="intent-id">leaseYield</span>
+        <h4>What is the Lease Yield Account? Earning while waiting?</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>Lease Yield Account?</li><li>Do I earn while waiting?</li><li>What happens to idle gold?</li>
+          <li>Earn before lease deployment?</li><li>Gold not yet in a lease?</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer</h5><div class="answer-box">
+          Gold earns up to 4% in Lease Yield Account while waiting for deployment. Silver: 0%. Rate scales with participation level (opt into 100% of available leases = 100% of rate; opt into 50% = 50% of rate). Gold productive from day one.
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes / Corrections</label><textarea placeholder="Add your notes here..."></textarea></div>
+      </div>
+
+      <div class="qa-card confident">
+        <span class="card-badge">🟢 CONFIDENT</span><span class="intent-id">waitlist</span>
+        <h4>Is there a waitlist for leases? How long to be deployed?</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>Is there a waitlist?</li><li>How long before my gold is deployed?</li>
+          <li>Silver waitlist?</li><li>When do I start earning?</li><li>Is there a queue?</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer</h5><div class="answer-box">
+          Gold: generally deployed faster; earns up to 4% Lease Yield Account while waiting — no dead time. Silver: often 3–4x oversubscribed; may wait for deals; earns 0% while waiting. For current deployment timelines: speak with Relationship Manager.
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes / Corrections</label><textarea placeholder="What are current typical deployment timelines for gold and silver?"></textarea></div>
+      </div>
+
+      <div class="qa-card confident">
+        <span class="card-badge">🟢 CONFIDENT</span><span class="intent-id">lesseeSells</span>
+        <h4>Can the lessee sell my gold?</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>Can they sell my gold?</li><li>What stops them from stealing it?</li>
+          <li>Can the business sell the metal?</li><li>What if they run off with it?</li>
+          <li>Can the jeweler sell my gold?</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer</h5><div class="answer-box">
+          No — lessee cannot sell your gold (title never transfers). Like a car lease — Hertz can't sell your rental car. Jewelry store can display/wear-test but must immediately replace any sold ounce. Ounce count ≥ 110% always monitored via API/RFID.
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes / Corrections</label><textarea placeholder="Add your notes here..."></textarea></div>
+      </div>
+
+      <div class="qa-card confident">
+        <span class="card-badge">🟢 CONFIDENT</span><span class="intent-id">lesseeTypes</span>
+        <h4>What kinds of companies lease gold/silver?</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>Who are the lessees?</li><li>What companies borrow gold?</li>
+          <li>What industries use gold leases?</li><li>Why do companies need to lease gold?</li>
+          <li>Who are your commercial clients?</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer</h5><div class="answer-box">
+          Jewelry stores &amp; manufacturers (need inventory), mining companies (working capital), refiners &amp; fabricators (feedstock), coin dealers &amp; bullion dealers. All go through extensive due diligence: financial analysis, background checks, site inspections, ongoing monitoring.
+          <div class="box amber">⚠️ FLAGGED: How are lease deals sourced? Can clients ever suggest businesses they know?</div>
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes — Please describe deal sourcing process</label><textarea placeholder="How are lessees found/sourced? Can investors refer businesses? Is there a public application for lessees?"></textarea></div>
+      </div>
+
+      <div class="qa-card confident">
+        <span class="card-badge">🟢 CONFIDENT</span><span class="intent-id">priceExposure</span>
+        <h4>Do I still get gold price gains while on a lease?</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>If gold price goes up, do I benefit?</li><li>Do I keep price exposure?</li>
+          <li>What if gold doubles while on lease?</li><li>Price appreciation while leased?</li>
+          <li>Am I still exposed to gold price?</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer</h5><div class="answer-box">
+          Yes — full price exposure retained. Returns in ounces: 100 oz @ 3.5% → 103.5 oz. If gold rises from $4,000 to $5,000, 103.5 oz × $5,000 = $517,500 vs. just holding $500,000 — lease added $17,500. Gold can also fall — ounce yield provides some protection but price risk remains.
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes / Corrections</label><textarea placeholder="Add your notes here..."></textarea></div>
+      </div>
+
+      <div class="qa-card confident">
+        <span class="card-badge">🟢 CONFIDENT</span><span class="intent-id">fundedDeals</span>
+        <h4>Tell me about funded deals / track record</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>How many deals have you done?</li><li>Tell me about funded deals</li>
+          <li>Completed transactions?</li><li>Deal history?</li><li>Where can I see all deals?</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer</h5><div class="answer-box">
+          75 funded deals across 5 continents. Types: gold/silver leases (jewelry, mining, fabricating), bonds (mining development). Zero defaults across all completed transactions since 2016. All published at monetary-metals.com/funded-deals.
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes / Corrections</label><textarea placeholder="Any specific deals you'd like highlighted or any corrections to the count?"></textarea></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── CATEGORY: VAULTS & STORAGE ───────────────────────── -->
+  <div class="category" id="cat-vaults">
+    <div class="category-header" onclick="toggleCat('cat-vaults')">
+      <div><h3>🏦 Vaults, Storage &amp; Metal Types</h3><div class="meta">8 Q&A entries · vaults, pool, auditRights, transparency, buyDelivery, transferVault, coinTypes, damagedMetal, conversionRate, goodDelivery</div></div>
+      <span class="toggle">▾</span>
+    </div>
+    <div class="category-body">
+
+      <div class="qa-card confident">
+        <span class="card-badge">🟢 CONFIDENT</span><span class="intent-id">vaults</span>
+        <h4>Where is my gold stored? Which vaults?</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>Where is my gold stored?</li><li>Which vault?</li><li>Can I visit the vault?</li>
+          <li>Who are the vault partners?</li><li>Is it in Brinks?</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer</h5><div class="answer-box">
+          Class III institutional vaults. Partners: Brinks (SLC, NY, LV, LA, Toronto, London, Zurich, Singapore, Sydney, Frankfurt, HK), Loomis (Zurich, NY, Singapore), CNT (Boston), Delaware Depository/FideliTrade, IDS (DE &amp; Dallas), SWP (Cayman), Upstate Coin &amp; Gold (Denver). All: 24-hr monitoring, full insurance, regular third-party audits.
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes / Corrections</label><textarea placeholder="Any vault partners to add or update?"></textarea></div>
+      </div>
+
+      <div class="qa-card confident">
+        <span class="card-badge">🟢 CONFIDENT</span><span class="intent-id">pool</span>
+        <h4>What exactly do I own? Allocated pool explained</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>What do I actually own?</li><li>Is it real gold?</li><li>What is the allocated pool?</li>
+          <li>Allocated vs unallocated?</li><li>Is there fractional lending?</li><li>Do I have title?</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer</h5><div class="answer-box">
+          MM Allocated Pool = undivided interest in specific physical metal at vault. Allocated (not unallocated) — you have title. Bailment structure — 100% physically present. Never on vault's balance sheet. Never hypothecated or leveraged. 1:1 physical backing. No fractional lending. If vault fails, your metal belongs to you — not their creditors.
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes / Corrections</label><textarea placeholder="Add your notes here..."></textarea></div>
+      </div>
+
+      <div class="qa-card amber">
+        <span class="card-badge">🟡 NEEDS REVIEW</span><span class="intent-id">auditRights</span>
+        <h4>Can I audit my gold? Verify it's actually there?</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>Can I audit my gold?</li><li>Can I verify it exists?</li><li>Is there an audit report?</li>
+          <li>Third-party audit?</li><li>Proof of reserves?</li><li>Can I visit the vault?</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer (partial — personal audit report uncertain)</h5><div class="answer-box">
+          Verification options: online portal (real-time balance), physical delivery (ultimate verification), third-party vault audits by vault partners, SOC-2 certification, all funded deals publicly listed.
+          <div class="box amber">⚠️ FLAGGED: Do clients receive personalized audit reports showing their specific ounces? Can a client request an independent audit of their holdings? Please confirm.</div>
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes — Please confirm audit report availability</label><textarea placeholder="Can clients request/receive a personalized audit report? Is there a formal audit process for individual accounts?"></textarea></div>
+      </div>
+
+      <div class="qa-card confident">
+        <span class="card-badge">🟢 CONFIDENT</span><span class="intent-id">transparency</span>
+        <h4>How transparent is Monetary Metals?</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>How transparent is MM?</li><li>What do you disclose?</li>
+          <li>What reporting do investors get?</li><li>Are you open about operations?</li>
+          <li>What information can I see?</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer</h5><div class="answer-box">
+          All 75+ funded deals publicly listed at monetary-metals.com/funded-deals. SOC-2 certified. Deal infosheets before each lease (company profile, rates, risk, insurance). Monthly statements (ounce balance + interest payments). Real-time inventory monitoring. Named leadership with verifiable backgrounds. Blog, podcast, newsletter (The Yield).
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes / Corrections</label><textarea placeholder="Add your notes here..."></textarea></div>
+      </div>
+
+      <div class="qa-card confident">
+        <span class="card-badge">🟢 CONFIDENT</span><span class="intent-id">buyDelivery</span>
+        <h4>Can I buy gold for physical delivery from MM?</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>Can I buy gold from you?</li><li>Can I get physical delivery?</li>
+          <li>How do I take delivery?</li><li>Can I redeem for physical?</li>
+          <li>Buy gold to have at home?</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer</h5><div class="answer-box">
+          Yes — two ways: (1) Fund account, purchase pool, then request physical delivery (2–3 weeks). (2) Redeem existing pool for specific bars/coins at market premium above spot + shipping. Both shipped via insured overnight carrier (gold) or ground (silver).
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes / Corrections</label><textarea placeholder="Add your notes here..."></textarea></div>
+      </div>
+
+      <div class="qa-card confident">
+        <span class="card-badge">🟢 CONFIDENT</span><span class="intent-id">transferVault</span>
+        <h4>Can I transfer from another vault?</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>I already have gold at a vault — can I transfer?</li>
+          <li>Move my gold to you?</li><li>Transfer from Brinks?</li>
+          <li>I have gold at GoldMoney?</li><li>Vault-to-vault transfer?</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer</h5><div class="answer-box">
+          Often possible — contact RM with current vault and approximate holdings. Transfers from Brinks, Loomis, Delaware Depository etc. often feasible. Vault-to-vault typically faster/cheaper than shipping. If transfer not possible, free overnight shipping for gold available.
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes / Corrections</label><textarea placeholder="Which vaults can you transfer from? Any specific exclusions?"></textarea></div>
+      </div>
+
+      <div class="qa-card confident">
+        <span class="card-badge">🟢 CONFIDENT</span><span class="intent-id">coinTypes</span>
+        <h4>What coins and bars do you accept?</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>What gold coins do you accept?</li><li>Do you accept American Eagles?</li>
+          <li>Do you take maple leafs?</li><li>Are Krugerrands accepted?</li>
+          <li>What bars do you accept?</li><li>What bullion is acceptable?</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer</h5><div class="answer-box">
+          Gold: American Eagles, Canadian Maple Leafs, Philharmonics, Krugerrands, Australian Kangaroos, PAMP Suisse bars, Valcambi bars, Perth Mint bars, 400 oz Good Delivery bars. Silver: American Eagles (above par), Canadian Maple Leafs (above par), 100 oz and 1,000 oz bars (most brands). NOT accepted: OPM (Ohio Precious Metals) bars, Republic Metals bars, novelty/numismatic coins.
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes / Corrections</label><textarea placeholder="Are there any additional coin/bar types to add or remove from the accepted list?"></textarea></div>
+      </div>
+
+      <div class="qa-card confident">
+        <span class="card-badge">🟢 CONFIDENT</span><span class="intent-id">damagedMetal</span>
+        <h4>What if my coins or bars are damaged?</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>Damaged coins?</li><li>Scratched gold?</li><li>Bent coins accepted?</li>
+          <li>Do coins need to be perfect?</li><li>What about worn coins?</li>
+          <li>Damaged bars?</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer</h5><div class="answer-box">
+          Gold: typically converts at par; heavily damaged may be discounted or rejected. Silver bars: may convert below par (negative bid). Silver coins (Eagles, Maple Leafs): typically above par due to coin premium. Generics vary. Recommend contacting RM before shipping questionable items. Video-record packing for insurance.
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes / Corrections</label><textarea placeholder="Add your notes here..."></textarea></div>
+      </div>
+
+      <div class="qa-card confident">
+        <span class="card-badge">🟢 CONFIDENT</span><span class="intent-id">conversionRate</span>
+        <h4>What are the coin/bar conversion rates?</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>How are my coins valued?</li><li>What conversion rate do I get?</li>
+          <li>What does "below par" mean?</li><li>What does "above par" mean?</li>
+          <li>How is my gold priced when I send it?</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer</h5><div class="answer-box">
+          Gold: standard coins/bars → at par (spot value × oz weight). Silver coins (Eagles, Maple Leafs) → above par (coin premium retained). Standard 100/1,000 oz silver bars → at or slightly below par. Generic rounds → varies. Trading spreads: 0.75% under $250K, 0.55% $250K–$1M, 0.40% over $1M. Confirm with RM for unusual items.
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes / Corrections</label><textarea placeholder="Add your notes here..."></textarea></div>
+      </div>
+
+      <div class="qa-card confident">
+        <span class="card-badge">🟢 CONFIDENT</span><span class="intent-id">goodDelivery</span>
+        <h4>What is Good Delivery / LBMA standard?</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>What is Good Delivery?</li><li>LBMA standard?</li><li>What is a 400 oz bar?</li>
+          <li>Are your vaults LBMA?</li><li>Good delivery bar?</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer</h5><div class="answer-box">
+          Good Delivery = LBMA standard for bars acceptable for London settlement. Gold: 350–430 oz (typically ~400 oz), ≥99.5% pure, LBMA-accredited refinery stamp, serial number, year, weight, fineness. MM accepts 400 oz Good Delivery bars. Investors don't need to hold them personally — pool represents interest in underlying institutional metal.
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes / Corrections</label><textarea placeholder="Add your notes here..."></textarea></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── CATEGORY: COMPARISONS ─────────────────────────────── -->
+  <div class="category" id="cat-compare">
+    <div class="category-header" onclick="toggleCat('cat-compare')">
+      <div><h3>⚖️ Comparisons &amp; Investment Case</h3><div class="meta">10 Q&A entries · competitive, priceGold, goldVsCrypto, goldVsStocks, goldVsRealEstate, physicalVsETF, inflationHedge, silverVsGold, silverSpecific, returnsInOunces, goldSilverRatio, whyLowReturn</div></div>
+      <span class="toggle">▾</span>
+    </div>
+    <div class="category-body">
+
+      <div class="qa-card confident">
+        <span class="card-badge">🟢 CONFIDENT</span><span class="intent-id">competitive</span>
+        <h4>How is MM different from the alternatives?</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>Why choose MM over traditional storage?</li><li>MM vs gold ETF?</li>
+          <li>MM vs mining stocks?</li><li>What makes you different?</li><li>Why not just buy GLD?</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer</h5><div class="answer-box">
+          vs. Traditional vault: pay 0.25–1%/yr vs. MM = $0 + earn 3–4%. vs. ETFs: MM = direct title, delivery option, yield, $0 fees vs. ~0.40% fee, no yield, no delivery, counterparty risk. vs. Mining stocks: MM = direct gold exposure + steady ounce growth vs. high volatility + operational risk. vs. Bank leasing: MM = true property lease (title retained) vs. banks sell gold (creating counterparty risk).
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes / Corrections</label><textarea placeholder="Add your notes here..."></textarea></div>
+      </div>
+
+      <div class="qa-card confident">
+        <span class="card-badge">🟢 CONFIDENT</span><span class="intent-id">priceGold</span>
+        <h4>Why invest in gold? The investment case for gold</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>Why invest in gold?</li><li>Is gold a good investment?</li>
+          <li>Why does gold matter?</li><li>What makes gold valuable?</li>
+          <li>Investment thesis for gold?</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer</h5><div class="answer-box">
+          Store of value (5,000+ years), inflation hedge (holds purchasing power when fiat debased), portfolio diversification (low correlation to stocks/bonds), crisis insurance (safe haven in turmoil), scarcity (~190,000 tonnes above ground, ~1.5% annual mining addition). MM adds: gold as income-generating asset (not just passive store of value).
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes / Corrections</label><textarea placeholder="Add your notes here..."></textarea></div>
+      </div>
+
+      <div class="qa-card confident">
+        <span class="card-badge">🟢 CONFIDENT</span><span class="intent-id">goldVsCrypto</span>
+        <h4>Gold vs Bitcoin/Cryptocurrency</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>Gold vs Bitcoin?</li><li>Should I buy gold or crypto?</li>
+          <li>Why gold over Bitcoin?</li><li>Gold or Ethereum?</li><li>Is Bitcoin better than gold?</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer</h5><div class="answer-box">
+          Gold: 5,000+ year track record, moderate volatility, physical/tangible, industrial use, 3–4% yield at MM. Bitcoin: ~15 year track record, extreme volatility (80%+ drawdowns), digital only, limited industrial use, no yield at MM. Many sophisticated investors hold both for different roles. Educational only — not investment advice.
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes / Corrections</label><textarea placeholder="Add your notes here..."></textarea></div>
+      </div>
+
+      <div class="qa-card confident">
+        <span class="card-badge">🟢 CONFIDENT</span><span class="intent-id">goldVsStocks</span>
+        <h4>Gold vs Stocks/Equities</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>Gold vs stocks?</li><li>Gold vs the S&P 500?</li><li>Is gold better than stocks?</li>
+          <li>Gold vs equities?</li><li>Gold vs index fund?</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer</h5><div class="answer-box">
+          Stocks = ownership in businesses (earnings/growth/business risk). Gold = store of value/monetary asset (no earnings but preserves purchasing power, crisis protection). Low to negative correlation: 2008 — S&P fell ~50%, gold rose ~25%. Gold with MM yield changes portfolio math: eliminates opportunity cost of zero yield. Educational only — not investment advice.
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes / Corrections</label><textarea placeholder="Add your notes here..."></textarea></div>
+      </div>
+
+      <div class="qa-card confident">
+        <span class="card-badge">🟢 CONFIDENT</span><span class="intent-id">physicalVsETF</span>
+        <h4>Physical Gold vs Gold ETFs (GLD, IAU)</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>Physical gold vs ETF?</li><li>Why not just buy GLD?</li>
+          <li>Paper gold vs physical?</li><li>Should I buy GLD or physical?</li>
+          <li>Physical gold advantages?</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer</h5><div class="answer-box">
+          ETFs: easy to buy/sell, but ~0.40%/yr fee, no direct ownership, no delivery (most), counterparty risk, zero yield. MM physical: direct allocated title, full delivery option, zero fees, 3–4% yield, Lloyd's insurance. Trade-off: MM is less liquid (1–2 week withdrawal) and has $30K minimum vs. any ETF amount. For holdings over 10 oz, MM typically outperforms ETFs by 3–4% annually on total cost/return basis.
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes / Corrections</label><textarea placeholder="Add your notes here..."></textarea></div>
+      </div>
+
+      <div class="qa-card confident">
+        <span class="card-badge">🟢 CONFIDENT</span><span class="intent-id">inflationHedge</span>
+        <h4>Gold as inflation / currency hedge</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>Does gold protect against inflation?</li><li>Gold as inflation hedge?</li>
+          <li>Gold vs currency debasement?</li><li>Purchasing power preservation?</li>
+          <li>Gold and money printing?</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer</h5><div class="answer-box">
+          Gold preserves purchasing power when fiat currencies debased. Historical: 1971–1980 (gold standard ended) → gold $35→$850. 2008–2012 (QE) → gold $800→$1,900. 2020–2022 (COVID stimulus) → gold $2,000+. MM adds: gold + yield = inflation protection + real return in ounces.
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes / Corrections</label><textarea placeholder="Add your notes here..."></textarea></div>
+      </div>
+
+      <div class="qa-card confident">
+        <span class="card-badge">🟢 CONFIDENT</span><span class="intent-id">silverVsGold</span>
+        <h4>Silver vs Gold — Which is better?</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>Should I buy silver or gold?</li><li>Silver or gold at MM?</li>
+          <li>Which is better, silver or gold?</li><li>Differences between silver and gold at MM?</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer</h5><div class="answer-box">
+          Gold: primarily monetary/store of value, lower volatility, Lease Yield Account up to 4% while waiting, 10 oz minimum. Silver: 50%+ industrial demand (electronics/solar), higher volatility, silver leases 3–4x oversubscribed (high demand), 0% while waiting, 1,000 oz minimum, ships ground. Many hold both — gold for monetary stability, silver for industrial growth potential.
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes / Corrections</label><textarea placeholder="Add your notes here..."></textarea></div>
+      </div>
+
+      <div class="qa-card confident">
+        <span class="card-badge">🟢 CONFIDENT</span><span class="intent-id">returnsInOunces</span>
+        <h4>Why are returns paid in ounces, not dollars?</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>Why ounces and not dollars?</li><li>What does it mean to earn ounces?</li>
+          <li>Why not just pay cash?</li><li>Why is yield in ounces?</li>
+          <li>Why does ounce denomination matter?</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer</h5><div class="answer-box">
+          Dollar returns on gold = confusing mix of currency and gold price risk. Ounce returns: your count grows regardless of dollar price. 100 oz → 103.5 oz always, whether gold is $3,000 or $5,000. Key insight: investors hold gold because they distrust fiat currency — earning more fiat currency defeats the purpose. Earning more gold is philosophically consistent.
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes / Corrections</label><textarea placeholder="Add your notes here..."></textarea></div>
+      </div>
+
+      <div class="qa-card confident">
+        <span class="card-badge">🟢 CONFIDENT</span><span class="intent-id">goldSilverRatio</span>
+        <h4>What is the gold-silver ratio?</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>What is the gold-silver ratio?</li><li>GSR?</li>
+          <li>How do I use the ratio?</li><li>Should I buy silver when ratio is high?</li>
+          <li>Historic gold-silver ratio?</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer</h5><div class="answer-box">
+          GSR = oz of silver needed to buy 1 oz gold. November 2025: ~$4,000 ÷ $48 = ~83:1. Historical average: ~50–70:1. High ratio (80+): silver relatively cheap vs. gold. Low ratio (30–40): gold relatively cheap. Range: 15:1 historically to 120:1 (COVID 2020). Educational only — not investment advice.
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes / Corrections</label><textarea placeholder="Add your notes here..."></textarea></div>
+      </div>
+
+      <div class="qa-card confident">
+        <span class="card-badge">🟢 CONFIDENT</span><span class="intent-id">whyLowReturn</span>
+        <h4>Why only 3–4%? Why not higher returns?</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>Why only 3-4%?</li><li>Returns seem low</li><li>Why not 10%?</li>
+          <li>Is 3% really worth it?</li><li>Why can't I earn more?</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer</h5><div class="answer-box">
+          Rates reflect what businesses can sustainably afford. Higher rates = either deals don't work for lessees or much higher risk. 3.5% in gold ounces + full price exposure ≠ 3.5% in dollars at a bank. Total annual swing vs. alternatives: ~4% (vs. paying 0.5% storage) = meaningful compound advantage. For higher returns: bonds (6–19%, accredited investors, higher risk).
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes / Corrections</label><textarea placeholder="Add your notes here..."></textarea></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── CATEGORY: BONDS & ADVANCED ───────────────────────── -->
+  <div class="category" id="cat-bonds">
+    <div class="category-header" onclick="toggleCat('cat-bonds')">
+      <div><h3>📈 Bonds, Advanced &amp; Special Programs</h3><div class="meta">7 Q&A entries · bonds, bondsVsLeases, mmEquity, oversubscription, partnerProgram, goldFinancing, ashtonStewart</div></div>
+      <span class="toggle">▾</span>
+    </div>
+    <div class="category-body">
+
+      <div class="qa-card amber">
+        <span class="card-badge">🟡 NEEDS REVIEW</span><span class="intent-id">bonds</span>
+        <h4>Gold &amp; Silver Bonds — How do they work?</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>Tell me about bonds</li><li>What are gold bonds?</li><li>Am I an accredited investor?</li>
+          <li>How do I qualify as accredited?</li><li>Bond program details?</li><li>Higher yield options?</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer (partial — min investment and non-accredited edge cases uncertain)</h5><div class="answer-box">
+          Accredited investors only: $200K individual income / $300K household income, OR $1M+ net worth ex primary residence. Returns: 6–19% annually (avg ~11%). Terms: typically 2–5 years. Higher return, higher risk (credit-based, not always physically backed).
+          <div class="box amber">⚠️ FLAGGED: (1) What is the minimum bond investment amount? (2) Can non-accredited investors invest in bonds under any circumstances?</div>
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes — PLEASE FILL IN bond minimums and non-accredited eligibility</label><textarea placeholder="(1) What is the minimum investment for a bond? (2) Are there any circumstances where non-accredited investors can participate in bonds?"></textarea></div>
+      </div>
+
+      <div class="qa-card confident">
+        <span class="card-badge">🟢 CONFIDENT</span><span class="intent-id">bondsVsLeases</span>
+        <h4>Bonds vs Leases — which is better?</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>Bonds vs leases comparison?</li><li>Which is better, bond or lease?</li>
+          <li>How are bonds different from leases?</li><li>Should I choose bond or lease?</li>
+          <li>Direct comparison: bonds vs leases</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer</h5><div class="answer-box">
+          Leases: 2–4%/yr, lower risk, physical gold always present, all investors, 12-month rolling terms. Bonds: 6–19%/yr (avg ~11%), higher risk (credit-based), accredited only, 2–5 year terms. Simple summary: Leases = gold physically backs the deal always. Bonds = earn higher returns on gold that may be deployed in operations (higher risk, higher reward). Not investment advice — consult RM.
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes / Corrections</label><textarea placeholder="Add your notes here..."></textarea></div>
+      </div>
+
+      <div class="qa-card confident">
+        <span class="card-badge">🟢 CONFIDENT</span><span class="intent-id">mmEquity</span>
+        <h4>Can I invest in Monetary Metals as a company?</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>Can I invest in MM's company stock?</li><li>Is MM publicly traded?</li>
+          <li>Buy shares in Monetary Metals?</li><li>MM equity?</li><li>MM IPO?</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer</h5><div class="answer-box">
+          MM is a private company — not publicly traded. Raised $5.6M in capital in 2024 (private placement). For future equity opportunities: contact RM directly. Note: investing in MM's gold/silver programs ≠ investing in MM as a company.
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes / Corrections</label><textarea placeholder="Is there any current or planned equity offering? Any investor relations contact?"></textarea></div>
+      </div>
+
+      <div class="qa-card confident">
+        <span class="card-badge">🟢 CONFIDENT</span><span class="intent-id">oversubscription</span>
+        <h4>What does "oversubscribed" mean?</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>What does oversubscribed mean?</li><li>Silver is 3x oversubscribed?</li>
+          <li>What if there is too much investor metal?</li><li>Waitlist explained?</li>
+          <li>More metal than deals?</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer</h5><div class="answer-box">
+          Oversubscribed = investor metal supply &gt; lessee demand. Example: 3,000 oz silver offered for lease, only 1,000 oz of active lessee demand = "3x oversubscribed." Silver leases often 3–4x oversubscribed. While waiting: gold earns up to 4%, silver earns 0%. High investor interest reflects confidence; high lessee demand for gold means gold deploys faster.
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes / Corrections</label><textarea placeholder="What is the current oversubscription status for gold and silver?"></textarea></div>
+      </div>
+
+      <div class="qa-card confident">
+        <span class="card-badge">🟢 CONFIDENT</span><span class="intent-id">partnerProgram</span>
+        <h4>Do you have a partner / referral program?</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>Do you have a referral program?</li><li>Can I refer people?</li>
+          <li>Affiliate program?</li><li>Financial advisor partnership?</li>
+          <li>Can I introduce clients?</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer</h5><div class="answer-box">
+          MM works with financial advisors, wealth managers, and business introducers. Partner program details, referral structures, and advisor arrangements discussed case by case. Contact RM for details: (480) 867-2100.
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes — Please provide partner program details for chatbot</label><textarea placeholder="What are the referral/partner fee structures? Is there a formal advisor program? Can this be added to the chatbot?"></textarea></div>
+      </div>
+
+      <div class="qa-card confident">
+        <span class="card-badge">🟢 CONFIDENT</span><span class="intent-id">goldFinancing</span>
+        <h4>I'm a business — how do I lease gold from MM?</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>My business needs gold financing</li><li>How do I apply as a lessee?</li>
+          <li>I run a jewelry store — can I lease gold?</li><li>Gold financing for my company?</li>
+          <li>Gold working capital?</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer</h5><div class="answer-box">
+          Businesses needing physical gold/silver can apply as lessees. Advantages: borrow gold (not dollars), competitive rates vs. bank financing, off-balance-sheet. Eligibility: precious metals business + passes due diligence (financial review, site inspection, background check). Contact: (480) 867-2100 or relationships@monetary-metals.com.
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes / Corrections</label><textarea placeholder="Add your notes here..."></textarea></div>
+      </div>
+
+      <div class="qa-card amber">
+        <span class="card-badge">🟡 NEEDS REVIEW</span><span class="intent-id">ashtonStewart</span>
+        <h4>Who is Ashton Stewart &amp; Co.?</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>Who is Ashton Stewart?</li><li>What is Ashton Stewart &amp; Co.?</li>
+          <li>Is Ashton Stewart related to MM?</li>
+          <li>Ashton Stewart advisory?</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer (UNCERTAIN — routed to RM)</h5><div class="answer-box">
+          <div class="box amber">⚠️ FLAGGED: What is the exact relationship between Monetary Metals and Ashton Stewart &amp; Co.? The chatbot currently routes this question directly to a Relationship Manager. Please provide an accurate answer so the chatbot can respond confidently.</div>
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes — PLEASE FILL IN Ashton Stewart relationship</label><textarea placeholder="Who is Ashton Stewart &amp; Co.? What is their relationship to Monetary Metals? Are they a separate entity, a partner, a subsidiary?"></textarea></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── CATEGORY: COMPANY & RESOURCES ────────────────────── -->
+  <div class="category" id="cat-company">
+    <div class="category-header" onclick="toggleCat('cat-company')">
+      <div><h3>🏢 Company, Team &amp; Resources</h3><div class="meta">7 Q&A entries · company, reviews, resources, newsletter, fundedDeals (repeated), spotPrice, portfolio</div></div>
+      <span class="toggle">▾</span>
+    </div>
+    <div class="category-body">
+
+      <div class="qa-card confident">
+        <span class="card-badge">🟢 CONFIDENT</span><span class="intent-id">company</span>
+        <h4>Who is Monetary Metals? Company background & team</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>Who is Monetary Metals?</li><li>Who runs MM?</li><li>Is MM legitimate?</li>
+          <li>Tell me about the leadership team</li><li>Who is Keith Weiner?</li>
+          <li>Company credentials?</li><li>Is MM regulated?</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer</h5><div class="answer-box">
+          Keith Weiner: PhD Economist, sold Diamondware to Nortel 2008, President Gold Standard Institute USA. Jeff Deist: General Counsel, former Chief of Staff to Ron Paul, former President Mises Institute. Miranda Werstiuk: Head of Origination, 30+ years mining finance. Operating since 2016, 2,000+ investors, 100,000+ oz managed, 75 funded deals, SOC-2, Inc. 5000 (2025), $5.6M capital raise (2024). First gold bonds in US since 1933; first silver bond in 200+ years.
+          <div class="box amber">⚠️ FLAGGED: What is MM's exact regulatory status? Registered investment advisor? Broker-dealer? Please provide for the chatbot.</div>
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes — PLEASE FILL IN regulatory status</label><textarea placeholder="What is Monetary Metals' exact regulatory status? RIA? Broker-dealer? None of the above? Is this disclosed in the investor documents?"></textarea></div>
+      </div>
+
+      <div class="qa-card confident">
+        <span class="card-badge">🟢 CONFIDENT</span><span class="intent-id">reviews</span>
+        <h4>Are there reviews / testimonials?</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>Any reviews?</li><li>What do clients say?</li><li>Trustpilot reviews?</li>
+          <li>BBB reviews?</li><li>Reddit reviews?</li><li>What is the reputation?</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer</h5><div class="answer-box">
+          BBB listed. Inc. 5000 (2025). SOC-2 certified. Operating since 2016, zero defaults. Find reviews: BBB.org (search Monetary Metals), Reddit r/Gold, r/PreciousMetals. The track record itself: 8+ years, 75 funded deals, zero defaults, 2,000+ investors globally.
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes / Corrections</label><textarea placeholder="Any specific review platforms or testimonials to add?"></textarea></div>
+      </div>
+
+      <div class="qa-card confident">
+        <span class="card-badge">🟢 CONFIDENT</span><span class="intent-id">resources</span>
+        <h4>Learning resources, white papers, and guides</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>Any educational resources?</li><li>Do you have a white paper?</li>
+          <li>Any videos?</li><li>Where can I learn more?</li><li>FAQ?</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer</h5><div class="answer-box">
+          Links provided: True Gold Lease Program page, The New Way to Hold Gold report, Case for Gold Yield white paper, How We Protect Client Metal, True Gold Leasing video, Taxing Gold and Silver Yield article, Full FAQ, Funded Deals page.
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes / Corrections</label><textarea placeholder="Any new resources, videos, or guides to add to the chatbot?"></textarea></div>
+      </div>
+
+      <div class="qa-card confident">
+        <span class="card-badge">🟢 CONFIDENT</span><span class="intent-id">newsletter</span>
+        <h4>Do you have a newsletter?</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>Do you have a newsletter?</li><li>The Yield newsletter?</li>
+          <li>How do I subscribe?</li><li>How do I follow MM?</li><li>Gold news from MM?</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer</h5><div class="answer-box">
+          "The Yield" newsletter — gold/silver market analysis from Keith Weiner, new deal opportunities, Austrian economics perspective, company news. Subscribe at monetary-metals.com. Also: podcast (Keith Weiner Gold Outlook), blog (monetary-metals.com/insights), YouTube channel.
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes / Corrections</label><textarea placeholder="Any new publication channels to add?"></textarea></div>
+      </div>
+
+      <div class="qa-card confident">
+        <span class="card-badge">🟢 CONFIDENT</span><span class="intent-id">spotPrice</span>
+        <h4>What is the current gold/silver price?</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>What is the current gold price?</li><li>Gold spot price?</li>
+          <li>Silver price today?</li><li>How much is an ounce of gold?</li>
+          <li>Current metal prices?</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer</h5><div class="answer-box">
+          Approximate (November 2025): Gold ~$4,000/oz, Silver ~$48/oz. For live prices: Kitco.com or World Gold Council. Returns measured in ounces — ounce count grows regardless of dollar price of gold.
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes — UPDATE SPOT PRICES MONTHLY</label><textarea placeholder="Current gold spot price: $___/oz. Current silver spot price: $___/oz. Date updated: ___"></textarea></div>
+      </div>
+
+      <div class="qa-card confident">
+        <span class="card-badge">🟢 CONFIDENT</span><span class="intent-id">portfolio</span>
+        <h4>How does MM fit in my portfolio? Allocation strategy?</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>How much should I allocate?</li><li>Portfolio strategy?</li>
+          <li>What percentage in gold?</li><li>Where does MM fit in my portfolio?</li>
+          <li>Is this good for diversification?</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer</h5><div class="answer-box">
+          No specific investment advice given. Context: clients typically use MM for the "yield-generating" portion of existing PM holdings, keeping some physical at home for emergency access. Zero storage fee + yield makes larger gold allocations more mathematically attractive. White paper: "The Case for Gold Yield in an Investment Portfolio" available at monetary-metals.com/gold-yield/.
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes / Corrections</label><textarea placeholder="Add your notes here..."></textarea></div>
+      </div>
+
+      <div class="qa-card confident">
+        <span class="card-badge">🟢 CONFIDENT</span><span class="intent-id">rm</span>
+        <h4>How do I speak to a Relationship Manager?</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>Can I speak to someone?</li><li>Contact details?</li><li>How do I reach MM?</li>
+          <li>Book a call?</li><li>Speak with an advisor?</li><li>Phone number?</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer</h5><div class="answer-box">
+          📞 (480) 867-2100 | 📅 Schedule via Calendly at monetary-metals.com/contact-us/ | 📧 relationships@monetary-metals.com. RMs help with: complex account structures, specific lease/bond opportunities, international accounts, large transactions ($1M+), anything not covered in chatbot.
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes / Corrections</label><textarea placeholder="Phone, email, or Calendly link to update?"></textarea></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── CATEGORY: INTERNATIONAL & MISC ───────────────────── -->
+  <div class="category" id="cat-misc">
+    <div class="category-header" onclick="toggleCat('cat-misc')">
+      <div><h3>🌍 International, Misc &amp; Additional</h3><div class="meta">5 Q&A entries · wiseRevolut, silverSpecific, largeInvestment, estate, accountPortal</div></div>
+      <span class="toggle">▾</span>
+    </div>
+    <div class="category-body">
+
+      <div class="qa-card confident">
+        <span class="card-badge">🟢 CONFIDENT</span><span class="intent-id">wiseRevolut</span>
+        <h4>Can I use Wise or Revolut to fund my account?</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>Can I use Wise?</li><li>Revolut transfer?</li><li>How do international clients fund?</li>
+          <li>How do I send USD from abroad?</li><li>International wire to MM?</li>
+          <li>TransferWise?</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer</h5><div class="answer-box">
+          Yes — Wise and Revolut recommended for international investors. Both support USD transfers to US accounts with much lower fees than traditional SWIFT wires. Steps: create Wise/Revolut account → convert to USD → send USD wire to MM's US bank. All purchases must be in USD.
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes / Corrections</label><textarea placeholder="Any specific Wise/Revolut account details to add to the chatbot?"></textarea></div>
+      </div>
+
+      <div class="qa-card confident">
+        <span class="card-badge">🟢 CONFIDENT</span><span class="intent-id">silverSpecific</span>
+        <h4>Tell me more about silver at Monetary Metals</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>Silver lease details?</li><li>How is silver different from gold at MM?</li>
+          <li>Silver minimum?</li><li>Silver oversubscribed?</li>
+          <li>Silver bonds?</li><li>How does silver work?</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer</h5><div class="answer-box">
+          Silver leases: available, often 3–4x oversubscribed (high demand). Returns: same range as gold (2–4%/yr). Silver does NOT earn
+
+ Lease Yield Account interest while waiting (0%). Ships ground (not overnight). Minimum: 1,000 oz silver. Silver bonds available for accredited investors (6-19%).
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes / Corrections</label><textarea placeholder="Add your notes here..."></textarea></div>
+      </div>
+
+      <div class="qa-card confident">
+        <span class="card-badge">🟢 CONFIDENT</span><span class="intent-id">largeInvestment</span>
+        <h4>I want to invest $1M+ — large investment details</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>I want to invest over a million</li><li>Large investment?</li>
+          <li>High net worth investor?</li><li>Family office?</li><li>Institutional investor?</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer</h5><div class="answer-box">
+          Large investors get: 0.40% spread (vs. 0.75% standard), greater pro-rata allocation, full bond access, dedicated RM support. For $1M+ investments: strongly recommend direct conversation first. (480) 867-2100 | relationships@monetary-metals.com.
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes / Corrections</label><textarea placeholder="Add your notes here..."></textarea></div>
+      </div>
+
+      <div class="qa-card confident">
+        <span class="card-badge">🟢 CONFIDENT</span><span class="intent-id">estate</span>
+        <h4>Estate planning &amp; beneficiaries — what happens when I die?</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>What happens to my account when I die?</li><li>Can I name a beneficiary?</li>
+          <li>Estate planning?</li><li>Inheritance of gold?</li><li>Leave gold to my children?</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer</h5><div class="answer-box">
+          MM account is an asset transferable to heirs. For beneficiary designations, account transfer processes: contact RM. Recommend consulting estate attorney to include PM holdings in estate plan properly.
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes / Corrections</label><textarea placeholder="Add your notes here..."></textarea></div>
+      </div>
+
+      <div class="qa-card confident">
+        <span class="card-badge">🟢 CONFIDENT</span><span class="intent-id">accountPortal</span>
+        <h4>How does the online account portal work?</h4>
+        <div class="question-list"><h5>Sample Questions Handled</h5><ul>
+          <li>How does the portal work?</li><li>How do I log in?</li>
+          <li>What can I see in my account?</li><li>Is there a mobile app?</li>
+          <li>How do I manage my account online?</li>
+        </ul></div>
+        <div class="answer-section"><h5>Bot Answer</h5><div class="answer-box">
+          client.monetary-metals.com: view ounce balance, interest payment history, deal notifications, opt-out of deals, initiate withdrawals, download tax documents (1099-INT / Form 1042), update contact information.
+        </div></div>
+        <div class="notes-section"><label>📝 Client Notes / Corrections</label><textarea placeholder="Any specific portal features to highlight or update?"></textarea></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── FLAGGED QUESTIONS SECTION ───────────────────────── -->
+  <div class="flagged-section" id="flagged-top">
+    <h2>🚨 Questions I Couldn't Confidently Answer — Client Input Required</h2>
+    <p style="margin-bottom:18px;color:#92400E;font-size:13px;">The following 16 questions appear in the chatbot but are routed to a Relationship Manager because the chatbot builder could not find verified answers. Please review each and provide the correct answer in the notes field. These will be incorporated into the next chatbot update.</p>
+
+    <div class="flagged-item">
+      <h4>1. What happens to bond investors if a bond borrower defaults?</h4>
+      <p>The specific legal process for bond defaults — bondholder rights, recovery mechanism, priority of claims — is not documented in the current chatbot. The chatbot routes this to RM.</p>
+      <div class="flag-notes"><label>✍️ Your Answer</label><textarea placeholder="Please describe: What triggers bond default? What happens next? What rights do bondholders have? Has any bond ever defaulted?"></textarea></div>
+    </div>
+
+    <div class="flagged-item">
+      <h4>2. What is Monetary Metals' exact regulatory status?</h4>
+      <p>Is MM a registered investment advisor (RIA)? A broker-dealer? An unregulated company? This affects how the chatbot should describe MM in the "Is it legitimate?" question.</p>
+      <div class="flag-notes"><label>✍️ Your Answer</label><textarea placeholder="Regulatory status: e.g., 'not an RIA or broker-dealer, operates as a non-bank financial institution under...'"></textarea></div>
+    </div>
+
+    <div class="flagged-item">
+      <h4>3. Do clients receive personal audit reports showing their specific ounces?</h4>
+      <p>Can a client request a document showing "John Smith holds 47.832 oz of gold as of [date]"? Or is it only visible in the portal? Is there a formal audit process for individual accounts?</p>
+      <div class="flag-notes"><label>✍️ Your Answer</label><textarea placeholder="Can clients request personal audit reports? What format? How often?"></textarea></div>
+    </div>
+
+    <div class="flagged-item">
+      <h4>4. What is the exact process for rolling a lease at renewal?</h4>
+      <p>The chatbot says leases auto-roll unless you opt out, and you get ~1 week notice. But what is the exact paperwork/documentation at renewal? What happens if a client doesn't respond?</p>
+      <div class="flag-notes"><label>✍️ Your Answer</label><textarea placeholder="Step-by-step renewal process: What notice do clients receive? What are they asked to sign? What is the default if no response?"></textarea></div>
+    </div>
+
+    <div class="flagged-item">
+      <h4>5. Are there any geographic restrictions on which US states can invest?</h4>
+      <p>Some financial companies cannot accept investors from certain US states (e.g., NY, TX) due to state securities laws. Does MM have any such restrictions?</p>
+      <div class="flag-notes"><label>✍️ Your Answer</label><textarea placeholder="Restricted states (if any): ___. Note: ___"></textarea></div>
+    </div>
+
+    <div class="flagged-item">
+      <h4>6. Can non-accredited investors invest in bonds under any circumstance?</h4>
+      <p>The chatbot says bonds require accredited investor status. Are there any exceptions? Any Rule 506(b) scenarios with a limited number of non-accredited investors?</p>
+      <div class="flag-notes"><label>✍️ Your Answer</label><textarea placeholder="Can non-accredited investors ever participate in bonds? Any exceptions?"></textarea></div>
+    </div>
+
+    <div class="flagged-item">
+      <h4>7. What is the minimum bond investment amount?</h4>
+      <p>The chatbot specifies $30,000 minimum for leases but does not specify a minimum for bonds. What is it?</p>
+      <div class="flag-notes"><label>✍️ Your Answer</label><textarea placeholder="Minimum bond investment: $___"></textarea></div>
+    </div>
+
+    <div class="flagged-item">
+      <h4>8. How exactly does the pro-rata allocation calculation work?</h4>
+      <p>The chatbot explains the concept but not the formula. Is it: (client oz on offer ÷ total oz on offer) × deal size = client allocation?</p>
+      <div class="flag-notes"><label>✍️ Your Answer</label><textarea placeholder="Pro-rata formula: ___. Example: ___"></textarea></div>
+    </div>
+
+    <div class="flagged-item">
+      <h4>9. Are there any penalties for withdrawing during a lease?</h4>
+      <p>If a client wants out of a lease before the 12-month anniversary, is there a penalty? Or is it simply not possible until the anniversary date?</p>
+      <div class="flag-notes"><label>✍️ Your Answer</label><textarea placeholder="Penalty (if any): ___. Process: ___"></textarea></div>
+    </div>
+
+    <div class="flagged-item">
+      <h4>10. What is the process if a client disputes their interest payment?</h4>
+      <p>If a client believes they were underpaid interest, what is the formal dispute process? Who do they contact and what is the resolution timeline?</p>
+      <div class="flag-notes"><label>✍️ Your Answer</label><textarea placeholder="Dispute process: ___. Contact: ___. Timeline: ___"></textarea></div>
+    </div>
+
+    <div class="flagged-item">
+      <h4>11. What currency are lease payments denominated in for reporting?</h4>
+      <p>The 1099-INT reports dollar amounts. Are the monthly payments stated as ounces, as USD, or both? How is the dollar amount on the 1099-INT calculated exactly?</p>
+      <div class="flag-notes"><label>✍️ Your Answer</label><textarea placeholder="1099-INT shows: ___. Dollar amount calculated as: (oz received) × (London PM Fix on payment date) = USD. Confirmed? Yes/No"></textarea></div>
+    </div>
+
+    <div class="flagged-item">
+      <h4>12. Does MM offer any form of capital guarantee?</h4>
+      <p>Does Monetary Metals explicitly guarantee return of principal? Or is it explicitly not guaranteed? This is important for investor disclosures.</p>
+      <div class="flag-notes"><label>✍️ Your Answer</label><textarea placeholder="Capital guarantee: ___. Language used in investor agreements: ___"></textarea></div>
+    </div>
+
+    <div class="flagged-item">
+      <h4>13. What is the exact relationship between MM and Ashton Stewart &amp; Co.?</h4>
+      <p>The chatbot currently routes all "Ashton Stewart" questions to a RM because the relationship is not documented. Please clarify so the chatbot can answer accurately.</p>
+      <div class="flag-notes"><label>✍️ Your Answer</label><textarea placeholder="Ashton Stewart &amp; Co. is: ___. Relationship to MM: ___"></textarea></div>
+    </div>
+
+    <div class="flagged-item">
+      <h4>14. How are lease deals sourced? Can clients ever suggest businesses?</h4>
+      <p>The chatbot doesn't explain how MM finds lessees. Does MM proactively source, or do lessees apply? Can investors refer potential lessees?</p>
+      <div class="flag-notes"><label>✍️ Your Answer</label><textarea placeholder="Sourcing process: ___. Can investors refer lessees? Yes/No. Process: ___"></textarea></div>
+    </div>
+
+    <div class="flagged-item">
+      <h4>15. Are there circumstances under which MM can suspend withdrawals?</h4>
+      <p>In a market stress scenario, can MM delay or suspend withdrawals? Are there any contractual provisions that allow this?</p>
+      <div class="flag-notes"><label>✍️ Your Answer</label><textarea placeholder="Withdrawal suspension: possible / not possible. Circumstances (if any): ___. Contractual provisions: ___"></textarea></div>
+    </div>
+
+    <div class="flagged-item">
+      <h4>16. What insurance company specifically covers non-lease vault storage?</h4>
+      <p>The chatbot explains Lloyd's covers metal on lease. What about metal just sitting in the vault (not on a lease)? Which specific insurer covers it?</p>
+      <div class="flag-notes"><label>✍️ Your Answer</label><textarea placeholder="Vault storage insurance provider (non-lease): ___. Coverage amount: ___. Policy type: ___"></textarea></div>
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <div style="text-align:center;padding:32px 0;color:#9CA3AF;font-size:12px;border-top:1px solid #E5E7EB;margin-top:32px;">
+    <p><strong style="color:#1B3628;">Monetary Metals Gold Yield Marketplace™</strong></p>
+    <p style="margin-top:4px;">This workbook is for internal review only. Last generated: November 2025.</p>
+    <p style="margin-top:4px;">📞 (480) 867-2100 &nbsp;|&nbsp; 📧 relationships@monetary-metals.com &nbsp;|&nbsp; 🌐 monetary-metals.com</p>
+  </div>
+
+</div>
+
+<script>
+function toggleCat(id) {
+  const cat = document.getElementById(id);
+  const header = cat.querySelector('.category-header');
+  const body = cat.querySelector('.category-body');
+  const isCollapsed = header.classList.contains('collapsed');
+  if (isCollapsed) {
+    header.classList.remove('collapsed');
+    body.style.display = '';
+  } else {
+    header.classList.add('collapsed');
+    body.style.display = 'none';
+  }
+}
+
+function toggleAll(expand) {
+  document.querySelectorAll('.category').forEach(cat => {
+    const header = cat.querySelector('.category-header');
+    const body = cat.querySelector('.category-body');
+    if (expand) {
+      header.classList.remove('collapsed');
+      body.style.display = '';
+    } else {
+      header.classList.add('collapsed');
+      body.style.display = 'none';
+    }
+  });
+}
+</script>
+</body>
+</html>
