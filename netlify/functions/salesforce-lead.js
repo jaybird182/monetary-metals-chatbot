@@ -1,6 +1,4 @@
 const TOKEN_ENDPOINT = 'https://test.salesforce.com/services/oauth2/token';
-const LEAD_SOURCE = 'MM Chatbot';
-const COMPANY_NAME = 'Monetary Metals Chatbot';
 
 function response(statusCode, body) {
   return {
@@ -13,28 +11,6 @@ function response(statusCode, body) {
     },
     body: JSON.stringify(body)
   };
-}
-
-function escapeSoql(value) {
-  return String(value || '')
-    .replace(/\\/g, '\\\\')
-    .replace(/'/g, "\\'");
-}
-
-function formatTranscriptSection({ timestamp, sessionEvent, transcript, questionCount }) {
-  if (!transcript || !transcript.trim()) return '';
-
-  const label = sessionEvent === 'session_end' ? 'Session End Transcript' : 'Form Submit Transcript';
-  return [
-    `[${timestamp}] ${label}`,
-    `Question Count: ${questionCount || 0}`,
-    transcript.trim()
-  ].join('\n');
-}
-
-function appendDescription(existingDescription, transcriptSection) {
-  if (!transcriptSection) return existingDescription || '';
-  return existingDescription ? `${existingDescription}\n\n${transcriptSection}` : transcriptSection;
 }
 
 async function getAccessToken() {
@@ -118,6 +94,22 @@ async function updateLead(instanceUrl, accessToken, leadId, payload) {
   }
 }
 
+function formatTranscriptSection({ timestamp, sessionEvent, transcript, questionCount }) {
+  if (!transcript || !transcript.trim()) return '';
+
+  const label = sessionEvent === 'session_end' ? 'Session End Transcript' : 'Form Submit Transcript';
+  return [
+    `[${timestamp}] ${label}`,
+    `Question Count: ${questionCount || 0}`,
+    transcript.trim()
+  ].join('\n');
+}
+
+function appendDescription(existingDescription, transcriptSection) {
+  if (!transcriptSection) return existingDescription || '';
+  return existingDescription ? `${existingDescription}\n\n${transcriptSection}` : transcriptSection;
+}
+
 exports.handler = async (event) => {
   if (event.httpMethod === 'OPTIONS') {
     return response(200, { ok: true });
@@ -151,7 +143,7 @@ exports.handler = async (event) => {
     const instanceUrl = process.env.SALESFORCE_INSTANCE_URL || auth.instance_url;
     const accessToken = auth.access_token;
 
-    const query = `SELECT Id, Email, Description FROM Lead WHERE Email = '${escapeSoql(email)}' LIMIT 1`;
+    const query = `SELECT Id, Email, Description FROM Lead WHERE Email = '${email.replace(/'/g, "\\'")}' LIMIT 1`;
     const result = await salesforceQuery(instanceUrl, accessToken, query);
 
     const transcriptSection = formatTranscriptSection({
@@ -161,21 +153,22 @@ exports.handler = async (event) => {
       questionCount: questions.length || questionCount
     });
 
-    const payload = {
+    const basePayload = {
       FirstName: firstName,
       LastName: lastName,
       Email: email,
-      Company: COMPANY_NAME,
-      LeadSource: LEAD_SOURCE
+      Company: 'Monetary Metals Chatbot',
+      LeadSource: 'MM Chatbot'
     };
 
     if (result.totalSize > 0 && result.records?.[0]?.Id) {
       const lead = result.records[0];
       const leadId = lead.Id;
-      await updateLead(instanceUrl, accessToken, leadId, {
-        ...payload,
-        ...(transcriptSection ? { Description: appendDescription(lead.Description, transcriptSection) } : {})
-      });
+      const payload = transcriptSection
+        ? { ...basePayload, Description: appendDescription(lead.Description, transcriptSection) }
+        : basePayload;
+
+      await updateLead(instanceUrl, accessToken, leadId, payload);
       return response(200, {
         ok: true,
         action: 'updated',
@@ -185,10 +178,11 @@ exports.handler = async (event) => {
       });
     }
 
-    const created = await createLead(instanceUrl, accessToken, {
-      ...payload,
-      ...(transcriptSection ? { Description: transcriptSection } : {})
-    });
+    const createdPayload = transcriptSection
+      ? { ...basePayload, Description: transcriptSection }
+      : basePayload;
+
+    const created = await createLead(instanceUrl, accessToken, createdPayload);
     return response(200, {
       ok: true,
       action: 'created',
