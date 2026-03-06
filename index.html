@@ -252,9 +252,11 @@ const SALESFORCE_LEAD_ENDPOINT = '/.netlify/functions/salesforce-lead';
 // =================================================================
 let visitorName  = '';
 let visitorFirst = '';
+let visitorLast  = '';
 let visitorEmail = '';
 const sessionQuestions = [];   // tracks only prospect questions (not bot answers)
 let leadCreated = false;
+let sessionTranscriptSaved = false;
 
 function isValidEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e); }
 
@@ -262,27 +264,97 @@ function webhookEnabled() {
     return !!SALESFORCE_LEAD_ENDPOINT;
 }
 
+function getQuestionsTranscript() {
+    if (!sessionQuestions.length) return '';
+    return sessionQuestions.map(q => `- ${q}`).join('\n');
+}
+
+async function sendLeadPayload({ firstName, lastName, email, sessionEvent = 'form_submit', useBeacon = false } = {}) {
+    if (!webhookEnabled() || !firstName || !lastName || !email) return false;
+
+    const payload = {
+        firstName,
+        lastName,
+        email,
+        sessionEvent,
+        pageUrl: window.location.href,
+        timestamp: new Date().toISOString(),
+        questions: [...sessionQuestions],
+        questionCount: sessionQuestions.length,
+        transcript: getQuestionsTranscript()
+    };
+
+    if (useBeacon && navigator.sendBeacon) {
+        const blob = new Blob([JSON.stringify(payload)], { type: 'application/json' });
+        return navigator.sendBeacon(SALESFORCE_LEAD_ENDPOINT, blob);
+    }
+
+    const res = await fetch(SALESFORCE_LEAD_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+        keepalive: sessionEvent === 'session_end'
+    });
+
+    if (!res.ok) {
+        throw new Error(`Lead endpoint returned ${res.status}`);
+    }
+
+    return true;
+}
+
 // Called on form submit — creates or updates the Salesforce Lead
 async function submitLeadCreate(first, last, email) {
     if (!webhookEnabled()) return;
     try {
-        const res = await fetch(SALESFORCE_LEAD_ENDPOINT, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                firstName: first,
-                lastName: last,
-                email
-            })
+        const ok = await sendLeadPayload({
+            firstName: first,
+            lastName: last,
+            email,
+            sessionEvent: 'form_submit'
         });
 
-        if (!res.ok) {
-            throw new Error(`Lead endpoint returned ${res.status}`);
+        if (ok) {
+            leadCreated = true;
         }
-
-        leadCreated = true;
     } catch (e) {
         console.warn('Lead create/update failed (non-blocking):', e);
+    }
+}
+
+function submitSessionEnd() {
+    if (sessionTranscriptSaved || !leadCreated || !visitorFirst || !visitorLast || !visitorEmail) return;
+    sessionTranscriptSaved = true;
+
+    try {
+        const beaconAccepted = sendLeadPayload({
+            firstName: visitorFirst,
+            lastName: visitorLast,
+            email: visitorEmail,
+            sessionEvent: 'session_end',
+            useBeacon: true
+        });
+
+        if (!beaconAccepted) {
+            fetch(SALESFORCE_LEAD_ENDPOINT, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    firstName: visitorFirst,
+                    lastName: visitorLast,
+                    email: visitorEmail,
+                    sessionEvent: 'session_end',
+                    pageUrl: window.location.href,
+                    timestamp: new Date().toISOString(),
+                    questions: [...sessionQuestions],
+                    questionCount: sessionQuestions.length,
+                    transcript: getQuestionsTranscript()
+                }),
+                keepalive: true
+            }).catch(err => console.warn('Session-end transcript save failed (non-blocking):', err));
+        }
+    } catch (e) {
+        console.warn('Session-end transcript save failed (non-blocking):', e);
     }
 }
 
@@ -307,6 +379,7 @@ document.getElementById('startBtn').addEventListener('click', async () => {
     document.getElementById('startBtn').disabled = true;
 
     visitorFirst = first;
+    visitorLast  = last;
     visitorName  = `${first} ${last}`;
     visitorEmail = email;
 
@@ -2301,6 +2374,12 @@ function send(text) {
     if (!text) { inp.value = ''; inp.style.height = 'auto'; }
     // Track prospect question (not bot answer)
     sessionQuestions.push(msg);
+
+window.addEventListener('pagehide', submitSessionEnd);
+window.addEventListener('beforeunload', submitSessionEnd);
+document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden') submitSessionEnd();
+});
     const typing = showTyping();
     setTimeout(() => {
         typing.remove();

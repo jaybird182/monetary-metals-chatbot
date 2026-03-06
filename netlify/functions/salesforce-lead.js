@@ -1,4 +1,6 @@
 const TOKEN_ENDPOINT = 'https://test.salesforce.com/services/oauth2/token';
+const LEAD_SOURCE = 'MM Chatbot';
+const COMPANY_NAME = 'Monetary Metals Chatbot';
 
 function response(statusCode, body) {
   return {
@@ -11,6 +13,28 @@ function response(statusCode, body) {
     },
     body: JSON.stringify(body)
   };
+}
+
+function escapeSoql(value) {
+  return String(value || '')
+    .replace(/\\/g, '\\\\')
+    .replace(/'/g, "\\'");
+}
+
+function formatTranscriptSection({ timestamp, sessionEvent, transcript, questionCount }) {
+  if (!transcript || !transcript.trim()) return '';
+
+  const label = sessionEvent === 'session_end' ? 'Session End Transcript' : 'Form Submit Transcript';
+  return [
+    `[${timestamp}] ${label}`,
+    `Question Count: ${questionCount || 0}`,
+    transcript.trim()
+  ].join('\n');
+}
+
+function appendDescription(existingDescription, transcriptSection) {
+  if (!transcriptSection) return existingDescription || '';
+  return existingDescription ? `${existingDescription}\n\n${transcriptSection}` : transcriptSection;
 }
 
 async function getAccessToken() {
@@ -108,6 +132,16 @@ exports.handler = async (event) => {
     const firstName = (body.firstName || '').trim();
     const lastName = (body.lastName || '').trim();
     const email = (body.email || '').trim().toLowerCase();
+    const sessionEvent = (body.sessionEvent || 'form_submit').trim();
+    const questions = Array.isArray(body.questions)
+      ? body.questions.map((q) => String(q || '').trim()).filter(Boolean)
+      : [];
+    const providedQuestionCount = Number(body.questionCount);
+    const questionCount = Number.isFinite(providedQuestionCount) ? providedQuestionCount : questions.length;
+    const transcript = typeof body.transcript === 'string' && body.transcript.trim()
+      ? body.transcript.trim()
+      : questions.map((q) => `- ${q}`).join('\n');
+    const timestamp = (body.timestamp || new Date().toISOString()).trim();
 
     if (!firstName || !lastName || !email) {
       return response(400, { error: 'firstName, lastName, and email are required' });
@@ -117,25 +151,51 @@ exports.handler = async (event) => {
     const instanceUrl = process.env.SALESFORCE_INSTANCE_URL || auth.instance_url;
     const accessToken = auth.access_token;
 
-    const query = `SELECT Id, Email FROM Lead WHERE Email = '${email.replace(/'/g, "\\'")}' LIMIT 1`;
+    const query = `SELECT Id, Email, Description FROM Lead WHERE Email = '${escapeSoql(email)}' LIMIT 1`;
     const result = await salesforceQuery(instanceUrl, accessToken, query);
+
+    const transcriptSection = formatTranscriptSection({
+      timestamp,
+      sessionEvent,
+      transcript,
+      questionCount: questions.length || questionCount
+    });
 
     const payload = {
       FirstName: firstName,
       LastName: lastName,
       Email: email,
-      Company: 'Monetary Metals Chatbot',
-      LeadSource: 'MM Chatbot'
+      Company: COMPANY_NAME,
+      LeadSource: LEAD_SOURCE
     };
 
     if (result.totalSize > 0 && result.records?.[0]?.Id) {
-      const leadId = result.records[0].Id;
-      await updateLead(instanceUrl, accessToken, leadId, payload);
-      return response(200, { ok: true, action: 'updated', leadId });
+      const lead = result.records[0];
+      const leadId = lead.Id;
+      await updateLead(instanceUrl, accessToken, leadId, {
+        ...payload,
+        ...(transcriptSection ? { Description: appendDescription(lead.Description, transcriptSection) } : {})
+      });
+      return response(200, {
+        ok: true,
+        action: 'updated',
+        leadId,
+        transcriptAppended: !!transcriptSection,
+        sessionEvent
+      });
     }
 
-    const created = await createLead(instanceUrl, accessToken, payload);
-    return response(200, { ok: true, action: 'created', leadId: created.id });
+    const created = await createLead(instanceUrl, accessToken, {
+      ...payload,
+      ...(transcriptSection ? { Description: transcriptSection } : {})
+    });
+    return response(200, {
+      ok: true,
+      action: 'created',
+      leadId: created.id,
+      transcriptAppended: !!transcriptSection,
+      sessionEvent
+    });
   } catch (error) {
     console.error('salesforce-lead error', error);
     return response(500, { error: error.message || 'Internal server error' });
