@@ -13,6 +13,10 @@ function response(statusCode, body) {
   };
 }
 
+function cleanSecret(value) {
+  return typeof value === 'string' ? value.trim() : '';
+}
+
 async function getAccessToken() {
   const {
     SALESFORCE_CLIENT_ID,
@@ -22,12 +26,29 @@ async function getAccessToken() {
     SALESFORCE_SECURITY_TOKEN
   } = process.env;
 
+  const clientId = cleanSecret(SALESFORCE_CLIENT_ID);
+  const clientSecret = cleanSecret(SALESFORCE_CLIENT_SECRET);
+  const username = cleanSecret(SALESFORCE_USERNAME);
+  const password = cleanSecret(SALESFORCE_PASSWORD);
+  const securityToken = cleanSecret(SALESFORCE_SECURITY_TOKEN);
+
+  const missing = [];
+  if (!clientId) missing.push('SALESFORCE_CLIENT_ID');
+  if (!clientSecret) missing.push('SALESFORCE_CLIENT_SECRET');
+  if (!username) missing.push('SALESFORCE_USERNAME');
+  if (!password) missing.push('SALESFORCE_PASSWORD');
+  if (!securityToken) missing.push('SALESFORCE_SECURITY_TOKEN');
+
+  if (missing.length) {
+    throw new Error(`Missing Salesforce env vars: ${missing.join(', ')}`);
+  }
+
   const params = new URLSearchParams({
     grant_type: 'password',
-    client_id: SALESFORCE_CLIENT_ID || '',
-    client_secret: SALESFORCE_CLIENT_SECRET || '',
-    username: SALESFORCE_USERNAME || '',
-    password: `${SALESFORCE_PASSWORD || ''}${SALESFORCE_SECURITY_TOKEN || ''}`
+    client_id: clientId,
+    client_secret: clientSecret,
+    username,
+    password: `${password}${securityToken}`
   });
 
   const res = await fetch(TOKEN_ENDPOINT, {
@@ -39,7 +60,8 @@ async function getAccessToken() {
   const data = await res.json();
 
   if (!res.ok || !data.access_token || !data.instance_url) {
-    throw new Error(`Salesforce auth failed: ${data.error_description || data.error || res.status}`);
+    const detail = data.error_description || data.error || res.status;
+    throw new Error(`Salesforce auth failed: ${detail}`);
   }
 
   return data;
